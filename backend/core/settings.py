@@ -1,22 +1,29 @@
 from pathlib import Path
-from decouple import config
+from decouple import Config, RepositoryEnv
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+DOTENV_FILE_PATH = os.path.join(BASE_DIR, 'dotenv_files', '.env')
+
+env_config = Config(RepositoryEnv(DOTENV_FILE_PATH))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = env_config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = env_config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    h.strip() for h in env_config('ALLOWED_HOSTS', '').split(',')
+    if h.strip()
+]
 
 
 # Application definition
@@ -73,12 +80,12 @@ if DEBUG:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': config('DB_ENGINE'),
-            'NAME': config('DB_NAME'),
-            'USER': config('DB_USER'),
-            'PASSWORD': config('DB_PASSWORD'),
-            'HOST': config('DB_HOST'),
-            'PORT': config('DB_PORT')
+            'ENGINE': env_config('DB_ENGINE'),
+            'NAME': env_config('POSTGRES_DB'),
+            'USER': env_config('POSTGRES_USER'),
+            'PASSWORD': env_config('POSTGRES_PASSWORD'),
+            'HOST': env_config('POSTGRES_HOST'),
+            'PORT': env_config('POSTGRES_PORT')
         }
     }
 
