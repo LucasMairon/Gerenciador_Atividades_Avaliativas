@@ -4,7 +4,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / 'data' / 'web'
+DATA_DIR = Path('/data/web')
 
 DOTENV_FILE_PATH = os.path.join(BASE_DIR, 'dotenv_files', '.env')
 
