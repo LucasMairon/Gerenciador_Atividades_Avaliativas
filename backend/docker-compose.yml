@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    ports:
+        - 8000:8000
+    volumes:
+        - .:/app
+        - static_data:/data/web/static
+        - media_data:/data/web/media
+    env_file:
+        - ./dotenv_files/.env
+    depends_on:
+        - psql
+
+  psql:
+    container_name: psql
+    image: postgres:16-alpine
+    volumes:
+        - psql_data:/var/lib/postgresql/data/
+    env_file:
+        - ./dotenv_files/.env
+
+volumes:
+    psql_data:
+    static_data:
+    media_data:
