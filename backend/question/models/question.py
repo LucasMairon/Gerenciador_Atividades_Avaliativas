@@ -50,11 +50,12 @@ class Question(models.Model):
     subject = models.TextField(
         verbose_name=_('Subject')
     )
-    use_count = models.IntegerField(
+    use_count = models.PositiveIntegerField(
         _('Use count'),
         default=0
     )
     type = models.CharField(
+        _('Type'),
         max_length=1,
         choices=TYPE_CHOICES
     )
@@ -72,6 +73,7 @@ class Question(models.Model):
     )
     discipline = models.ForeignKey(
         Discipline,
+        verbose_name=_('Discipline'),
         on_delete=models.PROTECT,
         related_name='questions'
     )
