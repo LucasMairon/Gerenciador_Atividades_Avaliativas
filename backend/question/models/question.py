@@ -32,7 +32,7 @@ class Question(models.Model):
         User,
         verbose_name=_('Owner'),
         on_delete=models.CASCADE,
-        related_name='questions'
+        related_name='%(class)s_questions'
     )
     difficulty_level = models.CharField(
         verbose_name=_('Difficulty level'),
@@ -75,7 +75,7 @@ class Question(models.Model):
         Discipline,
         verbose_name=_('Discipline'),
         on_delete=models.PROTECT,
-        related_name='questions'
+        related_name='%(class)s_questions'
     )
 
     class Meta:
