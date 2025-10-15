@@ -1,15 +1,22 @@
 from django import forms
-from .models import ObjectiveQuestion
+from .models import ObjectiveQuestion, Question
 
 
-class ObjectiveQuestionForm(forms.ModelForm):
+class QuestionForm(forms.ModelForm):
     class Meta:
-        model = ObjectiveQuestion
+        model = Question
         fields = [
             'statement',
             'difficulty_level',
             'visibility',
             'discipline',
             'subject',
+        ]
+
+
+class ObjectiveQuestionForm(QuestionForm):
+    class Meta:
+        model = ObjectiveQuestion
+        fields = [
             'objective',
         ]
