@@ -1,7 +1,7 @@
 from django import forms
-from .models import ObjectiveQuestion, Question, SubjectiveQuestion
 from alternative.forms import AlternativeForm
 from alternative.models import Alternative
+from .models import ObjectiveQuestion, Question, SubjectiveQuestion
 
 
 class QuestionForm(forms.ModelForm):
