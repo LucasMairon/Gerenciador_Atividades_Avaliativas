@@ -1,5 +1,7 @@
 from django import forms
 from .models import ObjectiveQuestion, Question, SubjectiveQuestion
+from alternative.forms import AlternativeForm
+from alternative.models import Alternative
 
 
 class QuestionForm(forms.ModelForm):
@@ -20,6 +22,17 @@ class ObjectiveQuestionForm(QuestionForm):
         fields = [
             'objective',
         ]
+
+
+QuestionAlternativesFormSet = forms.inlineformset_factory(
+    parent_model=ObjectiveQuestion,
+    model=Alternative,
+    form=AlternativeForm,
+    extra=0,
+    max_num=5,
+    min_num=4,
+    can_delete=False,
+)
 
 
 class SubjectiveQuestionForm(QuestionForm):
