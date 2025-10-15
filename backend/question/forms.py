@@ -1,5 +1,5 @@
 from django import forms
-from .models import ObjectiveQuestion, Question
+from .models import ObjectiveQuestion, Question, SubjectiveQuestion
 
 
 class QuestionForm(forms.ModelForm):
@@ -19,4 +19,13 @@ class ObjectiveQuestionForm(QuestionForm):
         model = ObjectiveQuestion
         fields = [
             'objective',
+        ]
+
+
+class SubjectiveQuestionForm(QuestionForm):
+    class Meta:
+        model = SubjectiveQuestion
+        fields = [
+            'expected_answer',
+            'key_answers',
         ]
