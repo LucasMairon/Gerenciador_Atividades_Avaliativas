@@ -19,9 +19,7 @@ class QuestionForm(forms.ModelForm):
 class ObjectiveQuestionForm(QuestionForm):
     class Meta:
         model = ObjectiveQuestion
-        fields = [
-            'objective',
-        ]
+        fields = QuestionForm.Meta.fields + ['objective',]
 
 
 QuestionAlternativesFormSet = forms.inlineformset_factory(
@@ -38,7 +36,7 @@ QuestionAlternativesFormSet = forms.inlineformset_factory(
 class SubjectiveQuestionForm(QuestionForm):
     class Meta:
         model = SubjectiveQuestion
-        fields = [
+        fields = QuestionForm.Meta.fields + [
             'expected_answer',
             'key_answers',
         ]
