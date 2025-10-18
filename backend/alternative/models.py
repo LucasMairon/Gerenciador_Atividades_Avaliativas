@@ -22,7 +22,7 @@ class Alternative(models.Model):
     question = models.ForeignKey(
         ObjectiveQuestion,
         on_delete=models.CASCADE,
-        related_name=_('Alternatives')
+        related_name='alternatives'
     )
 
     def __str__(self):
