@@ -63,7 +63,7 @@ class Question(models.Model):
         verbose_name=_('Is active'),
         default=True
     )
-    created_at = models.DateField(
+    created_at = models.DateTimeField(
         verbose_name=_('Created at'),
         auto_now_add=True
     )
@@ -81,4 +81,3 @@ class Question(models.Model):
     class Meta:
         verbose_name = 'Questão'
         verbose_name_plural = 'Questões'
-        abstract = True
