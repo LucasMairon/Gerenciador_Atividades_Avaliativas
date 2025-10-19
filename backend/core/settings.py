@@ -38,13 +38,17 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
+THRID_PARTY_APPS = [
+    'django_filters',
+]
+
 LOCAL_APPS = [
     'alternative',
     'discipline',
     'question',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THRID_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
