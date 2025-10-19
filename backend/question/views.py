@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.db import transaction
@@ -25,21 +26,21 @@ class QuestionCreateView(CreateView):
 
     def form_valid(self, form):
         with transaction.atomic():
-            self.question = form.save(commit=False)
-            self.question.owner = self.request.user
+            self.object = form.save(commit=False)
+            self.object.owner = self.request.user
             if self.kwargs.get('type') == 'objective':
-                self.question.type = 'O'
+                self.object.type = 'O'
 
                 alternatives = QuestionAlternativesFormSet(self.request.POST)
                 if alternatives.is_valid():
-                    self.question.save()
-                    alternatives.instance = self.question
+                    self.object.save()
+                    alternatives.instance = self.object
                     alternatives.save()
                 else:
                     return self.form_invalid(form)
 
             else:
-                self.question.type = 'S'
-                self.question.save()
+                self.object.type = 'S'
+                self.object.save()
 
-        return self.get_success_url()
+        return redirect(self.get_success_url())
