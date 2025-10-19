@@ -2,8 +2,12 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.db import transaction
+from django.db.models import Q
+from django_filters.views import FilterView
+from .models import Question
 from .forms import QuestionAlternativesFormSet
 from .utils import get_question_form_class
+from .filters import QuestionFilterSet
 
 
 class QuestionCreateView(CreateView):
@@ -44,3 +48,16 @@ class QuestionCreateView(CreateView):
                 self.object.save()
 
         return redirect(self.get_success_url())
+
+
+class QuestionListView(FilterView):
+    template_name = 'question/list.html'
+    context_object_name = 'questions'
+    filterset_class = QuestionFilterSet
+    paginate_by = 6
+
+    def get_queryset(self):
+        user = self.request.user
+        questions = Question.objects.filter(
+            Q(visibility=True) | Q(owner=user)).order_by('-created_at')
+        return questions
