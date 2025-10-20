@@ -1,0 +1,56 @@
+$primary-blue: #35467b;
+$light-text: #ffffff;
+$border-color-subtle: rgba($light-text, 0.4);
+
+$primary: $primary-blue;
+$enable-shadows: true;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+.main-navbar {
+  background-color: $primary !important;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  #navbar-logo {
+    height: 35px;
+  }
+
+  .navbar-nav .nav-link {
+    color: $light-text;
+    margin: 0 0.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: $border-radius;
+    transition: $transition-base;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: $white;
+      background-color: rgba($white, 0.1);
+    }
+
+    &.active {
+      background-color: $white;
+      color: $primary;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  .dropdown-toggle {
+    border: 1px solid $border-color-subtle;
+    border-radius: $border-radius;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    color: $white !important;
+    line-height: normal;
+
+    &:hover {
+      border-color: $white;
+      background-color: rgba($white, 0.1);
+    }
+  }
+}
