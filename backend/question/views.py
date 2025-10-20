@@ -16,12 +16,15 @@ class QuestionCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        question_type = self.kwargs.get('type')
 
-        if self.kwargs.get('type') == 'objective':
+        if question_type == 'objective':
             alternatives = QuestionAlternativesFormSet()
             if self.request.GET.get('extra_alternative'):
                 alternatives.extra = 1
             context['alternatives'] = alternatives
+
+        context['question_type'] = question_type
 
         return context
 
