@@ -5,14 +5,14 @@ from discipline.models import Discipline
 import uuid
 
 DIFFICULTY_CHOICES = [
-    ('E', 'Easy'),
-    ('M', 'Medium'),
-    ('D', 'Difficult')
+    ('E', _('Easy')),
+    ('M', _('Medium')),
+    ('D', _('Difficult'))
 ]
 
 VISIBILITY_CHOICES = [
-    (True, 'Public'),
-    (False, 'Private')
+    (True, _('Public')),
+    (False, _('Private'))
 ]
 
 TYPE_CHOICES = [
