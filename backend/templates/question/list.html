@@ -12,7 +12,12 @@
         <button type="submit">buscar</button>
     </form>
     {% for question in questions %}
-        <p>{{question.statement}}</p>
+        {% if question.type == 'S' %}
+            <a href="{% url "question:update" type='subjective' pk=question.id %}">{{question.statement}}</a>
+        {% elif question.type == 'O' %}
+            <a href="{% url "question:update" type='objective' pk=question.id %}">{{question.statement}}</a>
+
+        {% endif %}
     {% endfor %}
 
     {% include "partials/pagination.html" %}
