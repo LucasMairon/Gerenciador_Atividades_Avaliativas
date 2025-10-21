@@ -1,10 +1,11 @@
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView
 from django.db import transaction
 from django.db.models import Q
 from django_filters.views import FilterView
-from .models import Question
+
+from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
 from .utils import get_question_form_class
 from .filters import QuestionFilterSet
@@ -64,3 +65,30 @@ class QuestionListView(FilterView):
         questions = Question.objects.filter(
             Q(visibility=True) | Q(owner=user)).order_by('-created_at')
         return questions
+
+
+class QuestionUpdateView(UpdateView):
+    template_name = 'question/update.html'
+    context_object_name = 'question'
+    http_method_names = ['get', 'patch', 'post']
+    success_url = reverse_lazy('question:list')
+
+    def get_form_class(self):
+        return get_question_form_class(self.kwargs)
+
+    def get_object(self, queryset=None):
+        question_type = self.kwargs.get('type')
+        if question_type == 'objective':
+            model = ObjectiveQuestion
+        elif question_type == 'subjective':
+            model = SubjectiveQuestion
+
+        pk = self.kwargs.get('pk')
+
+        object = model.objects.get(id=pk)
+        return object
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['question_type'] = self.kwargs.get('type')
+        return context
