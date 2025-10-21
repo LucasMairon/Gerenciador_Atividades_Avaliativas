@@ -9,7 +9,7 @@
 {% block content %}
         <h1 class="h2 mb-4 fw-bold">Editar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva{% endif %}</h1>
 
-        <form id="main-form" method="POST" hx-post=" {% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator"> {% csrf_token %}
+        <form id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-4">
