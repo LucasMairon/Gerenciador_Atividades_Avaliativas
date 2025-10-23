@@ -12,12 +12,20 @@
         <button type="submit">buscar</button>
     </form>
     {% for question in questions %}
-        {% if question.type == 'S' %}
-            <a href="{% url "question:update" type='subjective' pk=question.id %}">{{question.statement}}</a>
-        {% elif question.type == 'O' %}
-            <a href="{% url "question:update" type='objective' pk=question.id %}">{{question.statement}}</a>
-
+        <p>
+        tipo:{{question.get_type_display}}
+        dificuldade:{{question.get_difficulty_level_display}}
+        {% if question.type == 'O' %}
+            <a href="{% url "question:update" type="objective" pk=question.id %}">link de edição</a>
+        {% elif question.type == 'S' %}
+            <a href="{% url "question:update" type="subjective" pk=question.id %}">link de edição</a>
         {% endif %}
+        enunciado: {{question.statement}}
+        professor que criou: {{question.owner}}
+        data de criação: {{question.created_at|date:"d/m/Y"}}
+        disciplina da questão: {{question.discipline}}
+        quantidade de usos: {{question.use_count}}
+        </p>
     {% endfor %}
 
     {% include "partials/pagination.html" %}
