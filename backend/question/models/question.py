@@ -16,8 +16,8 @@ VISIBILITY_CHOICES = [
 ]
 
 TYPE_CHOICES = [
-    ('O', 'Objective'),
-    ('S', 'Subjective')
+    ('O', _('Objective')),
+    ('S', _('Subjective'))
 ]
 
 
