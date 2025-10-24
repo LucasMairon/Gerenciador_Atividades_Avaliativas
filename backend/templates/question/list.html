@@ -7,11 +7,11 @@
                 <h1 class="h2 fw-bold">Banco de questões</h1>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-plus-lg me-1"></i> Nova questão
+                        <i class="bi bi-plus-lg me-1"></i> Criar questão
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="../pages/criar_questao_objetiva.html">Questão objetiva</a></li>
-                        <li><a class="dropdown-item" href="{% url 'question:create' type="subjective" %}">Questão subjetiva</a></li>
+                        <li><a class="dropdown-item text-center" href="../pages/criar_questao_objetiva.html">Objetiva</a></li>
+                        <li><a class="dropdown-item text-center" href="{% url 'question:create' type="subjective" %}">Subjetiva</a></li>
                     </ul>
                 </div>
             </div>
