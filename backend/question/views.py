@@ -5,6 +5,9 @@ from django.db import transaction
 from django.db.models import Q
 from django_filters.views import FilterView
 
+from django.http import HttpResponse
+from django.contrib import messages
+
 from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
 from .utils import get_question_form_class
@@ -51,7 +54,41 @@ class QuestionCreateView(CreateView):
                 self.object.type = 'S'
                 self.object.save()
 
+        messages.success(self.request, 'Questão criada com sucesso!')
+
+        is_htmx = (
+            self.request.headers.get('HX-Request') == 'true' or
+            self.request.META.get('HTTP_HX_REQUEST') or
+            getattr(self.request, 'htmx', False)
+        )
+
+        if is_htmx:
+            response = HttpResponse(status=200)
+            response['HX-Redirect'] = reverse('question:list')
+            return response
+
         return redirect(self.get_success_url())
+    
+    def form_invalid(self, form):
+        is_htmx = (
+            self.request.headers.get('HX-Request') == 'true' or
+            self.request.META.get('HTTP_HX_REQUEST') or
+            getattr(self.request, 'htmx', False)
+        )
+
+        if is_htmx:
+            if self.kwargs.get('type') == 'objective':
+                alternatives = QuestionAlternativesFormSet(self.request.POST)
+                context = self.get_context_data(form=form)
+                context['alternatives'] = alternatives
+            else:
+                context = self.get_context_data(form=form)
+
+            response = self.render_to_response(context)
+            response.status_code = 422
+            return response
+
+        return super().form_invalid(form)
 
 
 class QuestionListView(FilterView):

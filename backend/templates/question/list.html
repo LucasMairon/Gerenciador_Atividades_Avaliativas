@@ -3,6 +3,17 @@
     {% block extra_head_infos %}{% endblock extra_head_infos %}
     {% block content %}
 
+        {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h2 fw-bold">Banco de questões</h1>
                 <div class="dropdown">
@@ -10,7 +21,7 @@
                         <i class="bi bi-plus-lg me-1"></i> Criar questão
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item text-center" href="../pages/criar_questao_objetiva.html">Objetiva</a></li>
+                        <li><a class="dropdown-item text-center" href="{% url 'question:create' type="objective" %}">Objetiva</a></li>
                         <li><a class="dropdown-item text-center" href="{% url 'question:create' type="subjective" %}">Subjetiva</a></li>
                     </ul>
                 </div>
