@@ -5,18 +5,13 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h2 fw-bold">Banco de questões</h1>
-                <div id="loading-indicator" class="htmx-indicator">
-                    <div class="spinner-border spinner-border-sm text-primary" role="status">
-                        <span class="visually-hidden">Carregando...</span>
-                    </div>
-                </div>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-plus-lg me-1"></i> Nova questão
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="../pages/criar_questao_objetiva.html">Questão objetiva</a></li>
-                        <li><a class="dropdown-item" href="../pages/criar_questao_subjetiva.html">Questão subjetiva</a></li>
+                        <li><a class="dropdown-item" href="{% url 'question:create' type="subjective" %}">Questão subjetiva</a></li>
                     </ul>
                 </div>
             </div>
