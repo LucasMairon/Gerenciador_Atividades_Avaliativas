@@ -1,97 +1,93 @@
 {% extends "base.html" %}
-{% block title %}Banco de questões{% endblock title %}
-{% block extra_head_infos %}{% endblock extra_head_infos %}
-{% block content %}
-    <form method='GET'> {% csrf_token %}
-        {{filter.form.as_p}}
-        <button type="submit">buscar</button>
-    </form>
-    {% for question in questions %}
+    {% block title %}Banco de questões{% endblock title %}
+    {% block extra_head_infos %}{% endblock extra_head_infos %}
+    {% block content %}
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h2 fw-bold">Banco de questões</h1>
+                <div id="loading-indicator" class="htmx-indicator">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-plus-lg me-1"></i> Nova questão
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="../pages/criar_questao_objetiva.html">Questão objetiva</a></li>
+                        <li><a class="dropdown-item" href="../pages/criar_questao_subjetiva.html">Questão subjetiva</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        <form method='GET'> {% csrf_token %}
+            {{filter.form.as_p}}
+            <button type="submit">buscar</button>
+        </form>
+
         <div class="row">
-        <div class="col-md-6 mb-4">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                            <div><span class="badge text-bg-success">{{question.get_difficulty_level_display}}</span> <span class="badge text-bg-info">{{question.get_type_display}}</span></div>
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        {% if question.type == 'O' %}
-                                            <a class="dropdown-item" href="{% url "question:update" type="objective" pk=question.id %}">
-                                                <i class="bi bi-pencil-fill me-2"></i> Editar
+            {% for question in questions %}
+                <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <div>
+                                    {% if question.difficulty_level == 'E' %}
+                                    <span class="badge text-bg-success">{{question.get_difficulty_level_display}}</span>
+                                    {% elif question.difficulty_level == 'M' %}
+                                    <span class="badge text-bg-warning">{{question.get_difficulty_level_display}}</span>
+                                    {% elif question.difficulty_level == 'D' %}
+                                    <span class="badge text-bg-danger">{{question.get_difficulty_level_display}}</span>
+                                    {%endif%}
+
+                                    {% if question.type == 'O' %}
+                                    <span class="badge text-bg-info">{{question.get_type_display}}</span>
+                                    {% elif question.type == 'S' %}
+                                    <span class="badge text-bg-secondary">{{question.get_type_display}}</span>
+                                    {%endif%}
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            {% if question.type == 'O' %}
+                                                <a class="dropdown-item" href="{% url "question:update" type="objective" pk=question.id %}">
+                                                    <i class="bi bi-pencil-fill me-2"></i> Editar
+                                                </a>
+                                            {% elif question.type == 'S' %}
+                                                <a class="dropdown-item" href="{% url "question:update" type="subjective" pk=question.id %}">
+                                                    <i class="bi bi-pencil-fill me-2"></i> Editar
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" 
+                                            hx-get="/question/details/subjective/123" hx-target="#modalVisualizarQuestao .modal-body" data-bs-toggle="modal" data-bs-target="#modalVisualizarQuestao"> <i class="bi bi-eye-fill me-2"></i> Visualizar
                                             </a>
-                                        {% elif question.type == 'S' %}
-                                            <a class="dropdown-item" href="{% url "question:update" type="subjective" pk=question.id %}">
-                                                <i class="bi bi-pencil-fill me-2"></i> Editar
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="#"
+                                            hx-get="/question/confirm-delete/123" hx-target="#modalDeletar .modal-content" data-bs-toggle="modal" data-bs-target="#modalDeletar">
+                                            <i class="bi bi-trash-fill me-2"></i> Deletar
                                             </a>
-                                        {% endif %}
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#" 
-                                        hx-get="/question/details/subjective/123" hx-target="#modalVisualizarQuestao .modal-body" data-bs-toggle="modal" data-bs-target="#modalVisualizarQuestao"> <i class="bi bi-eye-fill me-2"></i> Visualizar
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#"
-                                        hx-get="/question/confirm-delete/123" hx-target="#modalDeletar .modal-content" data-bs-toggle="modal" data-bs-target="#modalDeletar">
-                                        <i class="bi bi-trash-fill me-2"></i> Deletar
-                                        </a>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">{{question.statement}}</h6>
+                                <p class="card-text text-muted small mt-3">
+                                    <i class="bi bi-person-fill"></i> {{question.owner}} <span class="mx-2">|</span> <i class="bi bi-calendar3"></i> {{question.created_at|date:"d/m/Y"}}
+                                </p>
+                            </div>
+                            <div class="card-footer bg-white text-muted small d-flex justify-content-between">
+                                <span>{{question.discipline}}</span>
+                                <span><i class="bi bi-arrow-down-circle me-1"></i> {{question.use_count}} usos</span>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <h6 class="card-title">{{question.statement}}</h6>
-                            <p class="card-text text-muted small mt-3">
-                                <i class="bi bi-person-fill"></i> {{question.owner}} <span class="mx-2">|</span> <i class="bi bi-calendar3"></i> {{question.created_at|date:"d/m/Y"}}
-                            </p>
-                        </div>
-                        <div class="card-footer bg-white text-muted small d-flex justify-content-between">
-                            <span>{{question.discipline}}</span>
-                            <span><i class="bi bi-arrow-down-circle me-1"></i> {{question.use_count}} usos</span>
-                        </div>
-                    </div>
+                </div>
+            {% endfor %}
+            {% include "partials/pagination.html" %}
         </div>
-        </div>
-    {% endfor %}
-
-    {% include "partials/pagination.html" %}
-{% endblock content %}
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Banco de questões</title>
-</head>
-<body>
-    <form method='GET'> {% csrf_token %}
-        {{filter.form.as_p}}
-        <button type="submit">buscar</button>
-    </form>
-    {% for question in questions %}
-        <p>
-        tipo:{{question.get_type_display}}
-        dificuldade:{{question.get_difficulty_level_display}}
-        {% if question.type == 'O' %}
-            <a href="{% url "question:update" type="objective" pk=question.id %}">link de edição</a>
-        {% elif question.type == 'S' %}
-            <a href="{% url "question:update" type="subjective" pk=question.id %}">link de edição</a>
-        {% endif %}
-        enunciado: {{question.statement}}
-        professor que criou: {{question.owner}}
-        data de criação: {{question.created_at|date:"d/m/Y"}}
-        disciplina da questão: {{question.discipline}}
-        quantidade de usos: {{question.use_count}}
-        </p>
-    {% endfor %}
-
-    {% include "partials/pagination.html" %}
-
-
-</body>
-</html>
+    {% endblock content %}
