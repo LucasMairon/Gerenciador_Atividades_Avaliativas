@@ -85,7 +85,24 @@ class ObjectiveQuestionForm(QuestionForm):
         fields = QuestionForm.Meta.fields + ['objective',]
 
         widgets = QuestionForm.Meta.widgets
+        widgets.update(
+            {
+                'objective': forms.Textarea(
+                    attrs={
+                        'class': 'form-control',
+                        'id': 'objetivo',
+                        'rows': 3,
+                        'placeholder': 'Descreva o objetivo desta questão...'
+                    }
+                )
+            }
+        )
         labels = QuestionForm.Meta.labels
+        labels.update(
+            {
+                'objective': 'Objetivo da questão'
+            }
+        )
 
 
 QuestionAlternativesFormSet = forms.inlineformset_factory(
