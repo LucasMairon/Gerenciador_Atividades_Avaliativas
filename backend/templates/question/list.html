@@ -74,7 +74,7 @@
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <a class="dropdown-item text-danger" href="#"
-                                            hx-get="/question/confirm-delete/123" hx-target="#modalDeletar .modal-content" data-bs-toggle="modal" data-bs-target="#modalDeletar">
+                                            hx-get="{% url 'question:delete' pk=question.id %}" hx-target="#modalDeletar .modal-content" data-bs-toggle="modal" data-bs-target="#modalDeletar">
                                             <i class="bi bi-trash-fill me-2"></i> Deletar
                                             </a>
                                         </li>
@@ -95,5 +95,11 @@
                 </div>
             {% endfor %}
             {% include "partials/pagination.html" %}
+        </div>
+        <div class="modal fade" id="modalDeletar" tabindex="-1" aria-labelledby="modalDeletarLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    </div>
+            </div>
         </div>
     {% endblock content %}
