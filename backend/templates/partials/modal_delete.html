@@ -1,0 +1,19 @@
+<div class="modal" id="modalDeletar" tabindex="-1" aria-labelledby="modalDeletarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header">
+        <h5 class="modal-title text-center fw-bold" id="modalDeletarLabel">Deletar questão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja mesmo realizar esta operação? Ela é irreversível!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" hx-post = "{% url 'question:delete' pk=question.id %}" hx-headers="" >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
