@@ -136,9 +136,10 @@ class QuestionUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['question_type'] = self.kwargs.get('type')
         question = self.get_object()
-        question_alternatives = question.alternatives.order_by('order')
-        context['alternatives'] = QuestionAlternativesFormSet(
-            instance=self.object, queryset=question_alternatives)
+        if question.type == 'O':
+            question_alternatives = question.alternatives.order_by('order')
+            context['alternatives'] = QuestionAlternativesFormSet(
+                instance=self.object, queryset=question_alternatives)
         return context
 
     def form_valid(self, form):
