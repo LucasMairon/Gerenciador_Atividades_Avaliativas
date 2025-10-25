@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Editar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva{% endif %}{% endblock title %}<title> subjetiva</title>
+{% block title %}Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}{% endblock title %}<title> subjetiva</title>
 
 {% block extra_head_infos %}
 {% endblock extra_head_infos %}
 
 {% block content %}
-        <h1 class="h2 mb-4 fw-bold">Editar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva{% endif %}</h1>
+        <h1 class="h2 mb-4 fw-bold">Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}</h1>
 
         <form id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
             <div class="card border-0 shadow-sm">
@@ -48,13 +48,13 @@
                                 {% endfor %}
                             </div>
                         </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="{{form.statement.id_for_label}}" class="form-label fw-semibold">{{form.statement.label}} <span
+                                        class="text-danger">*</span></label>
+                                {{form.statement}}
+                            </div>
                         {% if question.type == 'S' %}
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="{{form.statement.id_for_label}}" class="form-label fw-semibold">{{form.statement.label}} <span
-                                            class="text-danger">*</span></label>
-                                    {{form.statement}}
-                                </div>
                                     <div class="mb-3">
                                     <label for="{{form.expected_answer.id_for_label}}" class="form-label fw-semibold">{{form.expected_answer.label}} <span
                                                 class="text-danger">*</span></label>
@@ -68,9 +68,34 @@
                                     </div>
                             </div>
                         {% elif question.type == 'O' %}
+                            <div>
+                                    <label class="form-label">Informe as alternativas e selecione a correta <span
+                                            class="text-danger">*</span></label>
+                                    <div id="alternativas-container">
+                                        {{alternatives.management_form}}
+                                        {% for alternative in alternatives %}
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text">{{alternative.instance.get_order_display}})</span>
+                                                {% for hidden_field in alternative.hidden_fields %}
+                                                    {{ hidden_field }}
+                                                {% endfor %}
+                                                {{alternative.description}}
+                                                <div class="input-group-text">
+                                                    {{alternative.is_correct}}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="btn btn-outline-secondary mt-2" id="btn-add-alternativa">
+                                        <i class="bi bi-plus-lg me-1"></i> Adicionar alternativa
+                                    </button>
+                                </div>
+                            </div>
+
                             <div class="col-12">
-                                <label for="objetivo" class="form-label fw-semibold">Objetivo da questão <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="objetivo" name="objetivo" rows="3" placeholder="Descreva o objetivo desta questão..." required>Verificar se o aluno compreende a distinção entre os tipos de requisitos.</textarea>
+                                <label for="{{form.objective.id_for_label}}" class="form-label">{{form.objective.label}} <span
+                                        class="text-danger">*</span></label>
+                                {{form.objective}}
                             </div>
                         {% endif %}
 
@@ -79,7 +104,7 @@
             </div>
 
             <div class="d-flex justify-content-end mt-4">
-                <a href="questoes.html" class="btn btn-secondary me-2">Cancelar</a>
+                <a href="{% url "question:list" %}" class="btn btn-secondary me-2">Cancelar</a>
                 <button type="submit" class="btn btn-primary">Atualizar</button>
             </div>
         </form>
