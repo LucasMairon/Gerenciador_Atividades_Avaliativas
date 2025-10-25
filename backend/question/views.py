@@ -1,13 +1,14 @@
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+)
 from django.db import transaction
 from django.db.models import Q
 from django_filters.views import FilterView
-
 from django.http import HttpResponse
 from django.contrib import messages
-
 from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
 from .utils import get_question_form_class
