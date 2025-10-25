@@ -134,4 +134,18 @@ class QuestionUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['question_type'] = self.kwargs.get('type')
+        question = self.get_object()
+        question_alternatives = question.alternatives.order_by('order')
+        context['alternatives'] = QuestionAlternativesFormSet(
+            instance=self.object, queryset=question_alternatives)
         return context
+
+    def form_valid(self, form):
+        alternatives = QuestionAlternativesFormSet(
+            self.request.POST, instance=self.object)
+        if alternatives.is_valid() and form.is_valid():
+            form.save()
+            alternatives.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.form_invalid(form)
