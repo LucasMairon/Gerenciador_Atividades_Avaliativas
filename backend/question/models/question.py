@@ -48,7 +48,9 @@ class Question(models.Model):
         verbose_name=_('Statement')
     )
     subject = models.TextField(
-        verbose_name=_('Subject')
+        verbose_name=_('Subject'),
+        blank=True,
+        null=True
     )
     use_count = models.PositiveIntegerField(
         _('Use count'),
