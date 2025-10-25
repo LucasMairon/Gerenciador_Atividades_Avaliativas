@@ -3,6 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
     UpdateView,
+    DeleteView,
 )
 from django.db import transaction
 from django.db.models import Q
@@ -149,3 +150,9 @@ class QuestionUpdateView(UpdateView):
             return redirect(self.get_success_url())
         else:
             return self.form_invalid(form)
+
+
+class QuestionDeleteView(DeleteView):
+    template_name = 'partials/modal_delete.html'
+    success_url = reverse_lazy('question:list')
+    model = Question
