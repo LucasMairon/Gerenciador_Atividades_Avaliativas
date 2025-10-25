@@ -42,11 +42,16 @@ class QuestionCreateView(CreateView):
             if self.kwargs.get('type') == 'objective':
                 self.object.type = 'O'
 
-                alternatives = QuestionAlternativesFormSet(self.request.POST)
+                alternatives = QuestionAlternativesFormSet(
+                    self.request.POST, instance=self.object)
+
                 if alternatives.is_valid():
+                    alternative_instances = alternatives.save(commit=False)
+                    for idx, instance in enumerate(alternative_instances):
+                        instance.order = idx + 1
                     self.object.save()
-                    alternatives.instance = self.object
                     alternatives.save()
+
                 else:
                     return self.form_invalid(form)
 
@@ -68,7 +73,7 @@ class QuestionCreateView(CreateView):
             return response
 
         return redirect(self.get_success_url())
-    
+
     def form_invalid(self, form):
         is_htmx = (
             self.request.headers.get('HX-Request') == 'true' or
