@@ -10,9 +10,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-success" hx-post = "{% url 'question:delete' pk=question.id %}" hx-headers="" >
-          Confirmar
-        </button>
+        <form method="post"> {% csrf_token %}
+            <button type="submit" class="btn btn-success" hx-post = "{% url 'question:delete' pk=question.id %}" hx-headers="" >
+              Confirmar
+            </button>
+        </form>
       </div>
     </div>
   </div>
