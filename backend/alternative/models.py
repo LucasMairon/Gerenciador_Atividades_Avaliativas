@@ -3,6 +3,14 @@ from django.utils.translation import gettext_lazy as _
 from question.models import ObjectiveQuestion
 import uuid
 
+ORDER_CHOICES = [
+    (1, 'A'),
+    (2, 'B'),
+    (3, 'C'),
+    (4, 'D'),
+    (5, 'E')
+]
+
 
 class Alternative(models.Model):
     id = models.UUIDField(
@@ -23,6 +31,10 @@ class Alternative(models.Model):
         ObjectiveQuestion,
         on_delete=models.CASCADE,
         related_name='alternatives'
+    )
+    order = models.PositiveIntegerField(
+        verbose_name=_('Order'),
+        choices=ORDER_CHOICES
     )
 
     def __str__(self):
