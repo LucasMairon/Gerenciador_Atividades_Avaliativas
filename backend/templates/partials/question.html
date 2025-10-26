@@ -21,17 +21,21 @@
             <div class="dropdown">
                 <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            {% if question.type == 'O' %}
-                                <a class="dropdown-item" href="{% url 'question:update' type='objective' pk=question.id %}">
-                                    <i class="bi bi-pencil-fill me-2"></i>Editar
-                                </a>
-                            {% elif question.type == 'S' %}
-                                <a class="dropdown-item" href="{% url 'question:update' type='subjective' pk=question.id %}">
-                                    <i class="bi bi-pencil-fill me-2"></i>Editar
-                                </a>
-                            {% endif %}
-                        </li>
+                        {% if user.id == question.owner.id %}
+                            <li>
+                            
+                                {% if question.type == 'O' %}
+                                    <a class="dropdown-item" href="{% url 'question:update' type='objective' pk=question.id %}">
+                                        <i class="bi bi-pencil-fill me-2"></i>Editar
+                                    </a>
+                                {% elif question.type == 'S' %}
+                                    <a class="dropdown-item" href="{% url 'question:update' type='subjective' pk=question.id %}">
+                                        <i class="bi bi-pencil-fill me-2"></i>Editar
+                                    </a>
+                                {% endif %}
+                            
+                            </li>
+                        {% endif %}
 
                         <li>
                             {% if question.type == 'O' %}
