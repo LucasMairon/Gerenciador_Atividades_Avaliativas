@@ -18,3 +18,11 @@ def decimal_to_letter(index):
     ascii_value = 64 + index
 
     return chr(ascii_value)
+
+
+@register.simple_tag()
+def get_message_icon(tag):
+    if tag == 'success':
+        return "bi bi-check-circle-fill"
+    elif tag == 'danger':
+        return "bi bi-exclamation-triangle-fill"
