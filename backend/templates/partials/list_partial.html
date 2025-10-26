@@ -1,0 +1,8 @@
+<div id="question-list-wrapper">
+    <div class="row">
+        {% for question in questions %}
+            {% include "partials/question.html" %}
+        {% endfor %}
+    </div>
+    {% include "partials/pagination.html" %}
+</div>

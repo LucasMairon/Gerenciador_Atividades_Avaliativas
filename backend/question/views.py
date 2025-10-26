@@ -111,6 +111,18 @@ class QuestionListView(FilterView):
             Q(visibility=True) | Q(owner=user)).order_by('-created_at')
         return questions
 
+    def get_template_names(self):
+        is_htmx = (
+            self.request.headers.get('HX-Request') == 'true' or
+            self.request.META.get('HTTP_HX_REQUEST') or
+            getattr(self.request, 'htmx', False)
+        )
+
+        if is_htmx:
+            return ['partials/list_partial.html']
+
+        return [self.template_name]
+
 
 class QuestionUpdateView(UpdateView):
     template_name = 'question/update.html'
