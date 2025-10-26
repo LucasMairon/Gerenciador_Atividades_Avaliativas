@@ -1,22 +1,73 @@
-Questão {% if question.type == 'O' %}objetiva {% elif question.type == 'S' %}subjetiva {% endif %}
+<div class="modal-header">
+  <h5 class="modal-title fw-bold" id="modalVisualizarQuestaoLabel">Questão {% if question.type == 'O' %}objetiva{% elif question.type == 'S' %}subjetiva{% endif %}</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+</div>
 
-<p>informações da questão:</p>
-<p>Disciplina: {{question.discipline}}</p>
-<p>Dificuldade: {{question.get_difficulty_level_display}}</p>
-<p>Assunto: {{question.subject}}</p>
-<p>Visibilidade: {{question.get_visibility_display}}</p>
+<div class="modal-body">
+    <div class="mb-4 p-3 rounded border">
+        <h6 class="mb-3 fw-semibold">Informações da questão</h6>
+        <div class="row g-2">
+            <div class="col-md-3">
+              <label class="form-label fw-medium">Disciplina</label>
+              <input type="text" class="form-control" value="{{question.discipline}}" readonly>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-medium">Dificuldade</label>
+              <input type="text" class="form-control" value="{{question.get_difficulty_level_display}}" readonly>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-medium">Assunto/Subtema</label>
+              <input type="text" class="form-control" value="{{question.subject}}" readonly>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-medium">Visibilidade</label>
+              <input type="text" class="form-control" value="{{question.get_visibility_display}}" readonly>
+            </div>
+        </div>
+    </div>
 
-<p>Enunciado da questão: {{question.statement}}</p>
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Enunciado da questão</label>
+      <textarea class="form-control" rows="3" readonly>{{question.statement}}</textarea>
+    </div>
+    {% if question.type == 'O' %}
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Alternativas</label>
 
-{% if question.type == 'O' %}
-    {% for alternative in alternatives %}
-        <p>{{alternative.instance.get_order_display}}) {{alternative.instance.description}} {% if alternative.instance.is_correct %}alternativa correta{% endif %}</p>
-    {% endfor %}
+            {% for alternative in alternatives %}
+            <div class="input-group mb-2">
 
-    <p>Objetivo da questão: {{question.objective}}</p>
+                <span class="input-group-text">
+                    {{alternative.instance.get_order_display}}
+                </span>
 
-{% elif question.type == 'S' %}
-    <p>Resposta esperada: {{question.expected_answer}}</p>
-    <p>Palavras-chaves esperadas: {{question.key_answers}}</p>
+                <input type="text" class="form-control" value="{{alternative.instance.description}}" readonly>
 
-{% endif %}
+                {% if alternative.instance.is_correct %}
+                <span class="input-group-text text-success">
+                    <i class="bi bi-check-lg" title="Alternativa correta"></i>
+                </span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label class="form-label fw-semibold">Objetivo da questão</label>
+            <textarea class="form-control" rows="3" readonly>{{question.objective}}</textarea>
+        </div>
+    {% elif question.type == 'S' %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Resposta esperada</label>
+          <textarea class="form-control" rows="5" readonly>{{question.expected_answer}}</textarea>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Palavras-chaves esperadas</label>
+          <input type="text" class="form-control" value="{{question.key_answers}}" readonly>
+        </div>
+    {% endif %}
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+</div>

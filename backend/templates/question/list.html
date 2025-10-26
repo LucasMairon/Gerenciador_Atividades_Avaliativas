@@ -25,7 +25,7 @@
                         <li><a class="dropdown-item text-center" href="{% url 'question:create' type="subjective" %}">Subjetiva</a></li>
                     </ul>
                 </div>
-            </div>
+        </div>
 
         <form method='GET'> {% csrf_token %}
             {{filter.form.as_p}}
@@ -38,13 +38,18 @@
                     {% include "partials/question.html" %}
                 {% endfor %}
             </div>
-                {% include "partials/pagination.html" %}
+            {% include "partials/pagination.html" %}
         </div>
 
         <div class="modal fade" id="modalDeletar" tabindex="-1" aria-labelledby="modalDeletarLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content shadow-lg">
-                    </div>
+                <div class="modal-content shadow-lg"></div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalVisualizarQuestao" tabindex="-1" aria-labelledby="modalVisualizarQuestaoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content shadow-lg"></div>
             </div>
         </div>
 
