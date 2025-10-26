@@ -1,0 +1,22 @@
+Questão {% if question.type == 'O' %}objetiva {% elif question.type == 'S' %}subjetiva {% endif %}
+
+<p>informações da questão:</p>
+<p>Disciplina: {{question.discipline}}</p>
+<p>Dificuldade: {{question.get_difficulty_level_display}}</p>
+<p>Assunto: {{question.subject}}</p>
+<p>Visibilidade: {{question.get_visibility_display}}</p>
+
+<p>Enunciado da questão: {{question.statement}}</p>
+
+{% if question.type == 'O' %}
+    {% for alternative in alternatives %}
+        <p>{{alternative.instance.get_order_display}}) {{alternative.instance.description}} {% if alternative.instance.is_correct %}alternativa correta{% endif %}</p>
+    {% endfor %}
+
+    <p>Objetivo da questão: {{question.objective}}</p>
+
+{% elif question.type == 'S' %}
+    <p>Resposta esperada: {{question.expected_answer}}</p>
+    <p>Palavras-chaves esperadas: {{question.key_answers}}</p>
+
+{% endif %}

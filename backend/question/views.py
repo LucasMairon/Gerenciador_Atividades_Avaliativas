@@ -4,6 +4,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
+    DetailView,
 )
 from django.db import transaction
 from django.db.models import Q
@@ -166,3 +167,29 @@ class QuestionDeleteView(DeleteView):
     success_url = reverse_lazy('question:list')
     model = Question
     context_object_name = 'question'
+
+
+class QuestionDetailView(DetailView):
+    template_name = 'partials/modal_detail.html'
+    context_object_name = 'question'
+
+    def get_object(self, queryset=None):
+        question_type = self.kwargs.get('type')
+        if question_type == 'objective':
+            model = ObjectiveQuestion
+        elif question_type == 'subjective':
+            model = SubjectiveQuestion
+
+        pk = self.kwargs.get('pk')
+
+        object = model.objects.get(id=pk)
+        return object
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = self.object
+        if question.type == 'O':
+            question_alternatives = question.alternatives.order_by('order')
+            context['alternatives'] = QuestionAlternativesFormSet(
+                instance=self.object, queryset=question_alternatives)
+        return context
