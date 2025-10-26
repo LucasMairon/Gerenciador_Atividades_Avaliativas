@@ -9,5 +9,7 @@ urlpatterns = [
     path('list/', views.QuestionListView.as_view(), name='list'),
     path("update/<str:type>/<uuid:pk>/",
          views.QuestionUpdateView.as_view(), name="update"),
-    path('delete/<uuid:pk>/', views.QuestionDeleteView.as_view(), name='delete')
+    path('delete/<uuid:pk>/', views.QuestionDeleteView.as_view(), name='delete'),
+    path('detail/<str:type>/<uuid:pk>/',
+         views.QuestionDetailView.as_view(), name='detail'),
 ]
