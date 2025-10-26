@@ -165,3 +165,4 @@ class QuestionDeleteView(DeleteView):
     template_name = 'partials/modal_delete.html'
     success_url = reverse_lazy('question:list')
     model = Question
+    context_object_name = 'question'
