@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import Config, RepositoryEnv
+from django.contrib.messages import constants as messages
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -158,3 +159,9 @@ MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Bootstrap alerts configuration
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'success',
+    messages.ERROR: 'danger',
+}
