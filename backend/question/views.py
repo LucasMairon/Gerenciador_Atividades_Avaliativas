@@ -143,11 +143,19 @@ class QuestionUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        alternatives = QuestionAlternativesFormSet(
-            self.request.POST, instance=self.object)
-        if alternatives.is_valid() and form.is_valid():
-            form.save()
-            alternatives.save()
+        if form.is_valid():
+
+            if self.object.type == 'O':
+                alternatives = QuestionAlternativesFormSet(
+                    self.request.POST, instance=self.object)
+                if alternatives.is_valid() and form.is_valid():
+                    form.save()
+                    alternatives.save()
+                else:
+                    return self.form_invalid(form)
+            elif self.object.type == 'S':
+                form.save()
+
             return redirect(self.get_success_url())
         else:
             return self.form_invalid(form)
