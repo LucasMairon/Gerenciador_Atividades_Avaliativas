@@ -3,17 +3,6 @@
     {% block extra_head_infos %}{% endblock extra_head_infos %}
     {% block content %}
 
-        {% if messages %}
-            <div class="mb-3">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show bi bi-check-circle-fill" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h2 fw-bold">Banco de questões</h1>
                 <div class="dropdown">
