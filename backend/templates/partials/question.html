@@ -23,7 +23,6 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         {% if user.id == question.owner.id %}
                             <li>
-                            
                                 {% if question.type == 'O' %}
                                     <a class="dropdown-item" href="{% url 'question:update' type='objective' pk=question.id %}">
                                         <i class="bi bi-pencil-fill me-2"></i>Editar
@@ -33,7 +32,6 @@
                                         <i class="bi bi-pencil-fill me-2"></i>Editar
                                     </a>
                                 {% endif %}
-                            
                             </li>
                         {% endif %}
 
@@ -57,17 +55,19 @@
                             {% endif %}
                         </li>
 
-                        <li><hr class="dropdown-divider"></li>
+                        {% if user.id == question.owner.id %}
+                            <li><hr class="dropdown-divider"></li>
 
-                        <li>
-                            <a class="dropdown-item text-danger" href="#"
-                                hx-get="{% url 'question:delete' pk=question.id %}"
-                                hx-target="#modalDeletar .modal-content"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalDeletar">
-                                    <i class="bi bi-trash-fill me-2"></i>Deletar
-                            </a>
-                        </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="#"
+                                    hx-get="{% url 'question:delete' pk=question.id %}"
+                                    hx-target="#modalDeletar .modal-content"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalDeletar">
+                                        <i class="bi bi-trash-fill me-2"></i>Deletar
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
             </div>
         </div>
