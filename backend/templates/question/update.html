@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load question_template_utils %}
 {% block title %}Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}{% endblock title %}<title> subjetiva</title>
 
 {% block extra_head_infos %}
@@ -75,7 +76,7 @@
                                         {{alternatives.management_form}}
                                         {% for alternative in alternatives %}
                                         <div class="input-group mb-2">
-                                            <span class="input-group-text">{{alternative.instance.get_order_display}})</span>
+                                            <span class="input-group-text">{% decimal_to_letter forloop.counter %})</span>
                                                 {% for hidden_field in alternative.hidden_fields %}
                                                     {{ hidden_field }}
                                                 {% endfor %}
