@@ -1,0 +1,50 @@
+<form method='GET' 
+    hx-get="{% url "question:list" %}"
+    hx-target="#question-list-wrapper"
+    hx-swap="outerHTML"
+    hx-trigger="change, keyup changed delay:100ms from:input, select"
+    > {% csrf_token %}
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-3">
+            <label for="{{filter.form.type.id_for_label}}" class="form-label">{{filter.form.type.label}}</label>
+            {{filter.form.type}}
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <label for="{{filter.form.discipline.id_for_label}}" class="form-label">{{filter.form.discipline.label}}</label>
+            {{filter.form.discipline}}
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <label for="{{filter.form.difficulty_level.id_for_label}}" class="form-label">{{filter.form.difficulty_level.label}}</label>
+            {{filter.form.difficulty_level}}
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <label for="{{filter.form.visibility.id_for_label}}"class="form-label d-block mb-2">{{filter.form.visibility.label}}</label>
+            <div class="d-flex flex-wrap" style="gap: 1rem;">
+                {% for radio in filter.form.visibility %}
+                    <div class="form-check">
+                        {{radio.tag}}
+                        <label class="form-check-label" for="{{radio.id_for_label}}">{{radio.choice_label}}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{filter.form.subject.id_for_label}}" class="form-label">{{filter.form.subject.label}}</label>
+            {{filter.form.subject}}
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{filter.form.statement.id_for_label}}" class="form-label">{{filter.form.statement.label}}</label>
+            {{filter.form.statement}}
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{filter.form.owner.id_for_label}}" class="form-label">{{filter.form.owner.label}}</label>
+            {{filter.form.owner}}
+        </div>
+    </div>
+</form>
