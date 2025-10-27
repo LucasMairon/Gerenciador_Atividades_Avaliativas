@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
-from .utils import get_question_form_class
+from .utils import get_question_form_class, is_htmx_request
 from .filters import QuestionFilterSet
 
 
@@ -97,6 +97,15 @@ class QuestionCreateView(CreateView):
             return response
 
         return super().form_invalid(form)
+
+    def get_template_names(self):
+        if self.kwargs.get('type') == 'objective':
+            if is_htmx_request(self.request):
+                return ['partials/alternatives_form.html']
+            else:
+                return [self.template_name]
+        elif self.kwargs.get('type') == 'subjective':
+            return super().get_template_names()
 
 
 class QuestionListView(FilterView):
