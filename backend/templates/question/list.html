@@ -15,11 +15,12 @@
                     </ul>
                 </div>
         </div>
-
-        <form method='GET'> {% csrf_token %}
-            {{filter.form.as_p}}
-            <button type="submit">buscar</button>
-        </form>
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-body bg-white rounded p-4">
+                <h5 class="card-title mb-3">Filtrar questões</h5>
+                    {% include "partials/filters.html" %}
+            </div>
+        </div>
 
         <div id="question-list-wrapper">
             <div class="row">
