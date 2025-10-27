@@ -41,6 +41,7 @@ DJANGO_APPS = [
 
 THRID_PARTY_APPS = [
     'django_filters',
+    'django_htmx',
 ]
 
 LOCAL_APPS = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
