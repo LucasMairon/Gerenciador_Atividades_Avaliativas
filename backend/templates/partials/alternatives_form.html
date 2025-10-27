@@ -1,0 +1,37 @@
+{% load question_template_utils %}
+
+<div id="alternativas-container">
+    {{alternatives.management_form}}
+    {% for alternative in alternatives %}
+        <div class="input-group mb-2" id='teste'>
+            <span class="input-group-text">{% decimal_to_letter forloop.counter %})</span>
+            {{alternative.description}}
+            <div class="input-group-text">
+                {{alternative.is_correct}}
+            </div>
+            
+            {% if forloop.counter == 5 %}
+            <button type="button" class="btn btn-outline-danger" 
+                    title="Remover alternativa"
+                    hx-get="{% url 'question:create' type='objective' %}"
+                    hx-target="#alternativas-container"
+                    hx-swap="outerHTML"
+                    hx-include="#main-form"
+                    hx-indicator="#alternatives-section">
+                <i class="bi bi-trash"></i>
+            </button>
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% if alternatives|length == 4 %}
+        <button type="button" class="btn btn-outline-secondary mt-2" id="btn-add-alternativa"
+                hx-get="{% url 'question:create' type='objective' %}?extra_alternative=True"
+                hx-target="#alternativas-container"
+                hx-swap="outerHTML"
+                hx-include="#main-form"
+                hx-indicator="#alternatives-section">
+            <i class="bi bi-plus-lg me-1"></i> Adicionar alternativa
+        </button>
+    {% endif %}
+</div>
+
