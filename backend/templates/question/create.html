@@ -70,25 +70,9 @@
                                 </div>
 
                             {% elif question_type == 'objective' %}
-                                <div>
-                                    <label class="form-label">Informe as alternativas e selecione a correta <span
-                                            class="text-danger">*</span></label>
-                                    <div id="alternativas-container">
-                                        {{alternatives.management_form}}
-                                        {% for alternative in alternatives %}
-                                            <div class="input-group mb-2">
-                                                <span class="input-group-text">{% decimal_to_letter forloop.counter %})</span>
-                                                {{alternative.description}}
-                                                <div class="input-group-text">
-                                                    {{alternative.is_correct}}
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    <button type="button" class="btn btn-outline-secondary mt-2" id="btn-add-alternativa">
-                                        <i class="bi bi-plus-lg me-1"></i> Adicionar alternativa
-                                    </button>
-                                </div>
+                            <label class="form-label">Informe as alternativas e selecione a correta <span
+                            class="text-danger">*</span></label>
+                                {% include "partials/alternatives_form.html" %}
                             </div>
 
                             <div class="col-12">
