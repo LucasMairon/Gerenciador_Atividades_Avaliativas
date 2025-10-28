@@ -19,7 +19,7 @@ class AlternativeForm(forms.ModelForm):
         fields = ['description', 'is_correct']
 
         widgets = {
-            'description': forms.Textarea(
+            'description': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'rows': 1
