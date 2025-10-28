@@ -2,6 +2,7 @@ from django import forms
 from alternative.forms import AlternativeForm
 from alternative.models import Alternative
 from .models import ObjectiveQuestion, Question, SubjectiveQuestion
+from django_summernote.widgets import SummernoteWidget
 
 
 class QuestionForm(forms.ModelForm):
@@ -35,11 +36,9 @@ class QuestionForm(forms.ModelForm):
         ]
 
         widgets = {
-            'statement': forms.Textarea(
+            'statement': SummernoteWidget(
                 attrs={
                     'class': 'form-control',
-                    'id': 'enunciado',
-                    'rows': 5,
                     'placeholder': 'Digite o enunciado da questão...',
                 }
             ),
