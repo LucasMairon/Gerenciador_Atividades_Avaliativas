@@ -9,6 +9,7 @@
         <h1 class="h2 mb-4 fw-bold">Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}</h1>
 
         <form id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
+
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-4">
@@ -74,24 +75,7 @@
                             <div>
                                     <label class="form-label fw-semibold">Informe as alternativas e selecione a correta <span
                                             class="text-danger">*</span></label>
-                                    <div id="alternativas-container">
-                                        {{alternatives.management_form}}
-                                        {% for alternative in alternatives %}
-                                        <div class="input-group mb-2">
-                                            <span class="input-group-text">{% decimal_to_letter forloop.counter %})</span>
-                                                {% for hidden_field in alternative.hidden_fields %}
-                                                    {{ hidden_field }}
-                                                {% endfor %}
-                                                {{alternative.description}}
-                                                <div class="input-group-text">
-                                                    {{alternative.is_correct}}
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    <button type="button" class="btn btn-outline-secondary mt-2" id="btn-add-alternativa">
-                                        <i class="bi bi-plus-lg me-1"></i> Adicionar alternativa
-                                    </button>
+                                    {% include "partials/alternatives_form.html" %}
                                 </div>
                             </div>
 
@@ -112,3 +96,7 @@
             </div>
         </form>
 {% endblock content %}
+
+{% block scripts %}
+{{form.media.js}}
+{% endblock scripts %}

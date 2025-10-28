@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load question_template_utils %}
     {% block extra_head_infos %}
+    {{form.media.css}}
     {% endblock extra_head_infos %}
     
     {% block title %}Criar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva {% endif %} {% endblock title %}
@@ -94,3 +95,7 @@
         </form>
     
     {% endblock content %}
+
+    {% block scripts %}
+    {{form.media.js}}
+    {% endblock scripts %}

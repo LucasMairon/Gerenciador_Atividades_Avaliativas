@@ -28,7 +28,7 @@
 
     <div class="mb-3">
       <label class="form-label fw-semibold">Enunciado da questão</label>
-      <textarea class="form-control" rows="3" readonly>{{question.statement}}</textarea>
+      {{question.statement|safe}}
     </div>
     {% if question.type == 'O' %}
         <div class="mb-3">
