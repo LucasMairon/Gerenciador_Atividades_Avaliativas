@@ -158,11 +158,14 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
                 if alternatives.is_valid() and form.is_valid():
                     form.save()
                     alternatives.save()
+                    messages.success(
+                        self.request, f'Questão {self.object.statement} editada com sucesso'[:50])
                 else:
                     return self.form_invalid(form)
             elif self.object.type == 'S':
                 form.save()
-
+                messages.success(
+                    self.request, f'Questão {self.object.statement} editada com sucesso'[:50])
             return redirect(self.get_success_url())
         else:
             return self.form_invalid(form)
