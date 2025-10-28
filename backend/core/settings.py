@@ -180,13 +180,15 @@ SUMMERNOTE_CONFIG = {
     'summernote': {
         'toolbar': [
             ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'strikethough', 'clear']],
+            ['font', ['bold', 'italic', 'underline',
+                      'strikethough', 'clear', 'superscript']],
             ['fontnames', ['fontname']],
+            ['fontsize', ['fontsize']],
             ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
+            ['para', ['ul', 'ol', 'paragraph', 'lineHeight', 'height']],
             ['table', ['table']],
-            ['insert', ['picture']],
-            ['view', ['fullscreen', 'codeview', 'help']],
+            ['insert', ['picture', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help', 'undo']],
         ]
     }
 }
