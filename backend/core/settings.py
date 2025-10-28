@@ -42,6 +42,7 @@ DJANGO_APPS = [
 THRID_PARTY_APPS = [
     'django_filters',
     'django_htmx',
+    'django_summernote',
 ]
 
 LOCAL_APPS = [
@@ -128,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'pt-Br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -150,12 +151,16 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static',),
     os.path.join(BASE_DIR, 'node_modules'),
 ]
+if DEBUG:
+    STATIC_ROOT = BASE_DIR / 'static_files/'
+    MEDIA_ROOT = BASE_DIR / 'media/'
 
-STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+else:
+    STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+    MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -166,4 +171,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.ERROR: 'danger',
+}
+
+# Summernote configurations
+SUMMERNOTE_CONFIG = {
+    'lang': 'pt-BR',
+    'theme': 'bs5',
+    'summernote': {
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'strikethough', 'clear']],
+            ['fontnames', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['picture']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ]
+    }
 }
