@@ -11,13 +11,14 @@ from django.db.models import Q
 from django_filters.views import FilterView
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
 from .utils import get_question_form_class, is_htmx_request
 from .filters import QuestionFilterSet
 
 
-class QuestionCreateView(CreateView):
+class QuestionCreateView(LoginRequiredMixin, CreateView):
     template_name = 'question/create.html'
     success_url = reverse_lazy('question:list')
 
@@ -97,7 +98,7 @@ class QuestionCreateView(CreateView):
             return super().get_template_names()
 
 
-class QuestionListView(FilterView):
+class QuestionListView(LoginRequiredMixin, FilterView):
     template_name = 'question/list.html'
     context_object_name = 'questions'
     filterset_class = QuestionFilterSet
@@ -117,7 +118,7 @@ class QuestionListView(FilterView):
         return [self.template_name]
 
 
-class QuestionUpdateView(UpdateView):
+class QuestionUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'question/update.html'
     context_object_name = 'question'
     http_method_names = ['get', 'patch', 'post']
@@ -167,14 +168,14 @@ class QuestionUpdateView(UpdateView):
             return self.form_invalid(form)
 
 
-class QuestionDeleteView(DeleteView):
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'partials/modal_delete.html'
     success_url = reverse_lazy('question:list')
     model = Question
     context_object_name = 'question'
 
 
-class QuestionDetailView(DetailView):
+class QuestionDetailView(LoginRequiredMixin, DetailView):
     template_name = 'partials/modal_detail.html'
     context_object_name = 'question'
 
