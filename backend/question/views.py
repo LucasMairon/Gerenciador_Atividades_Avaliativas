@@ -27,7 +27,11 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
         question_type = self.kwargs.get('type')
 
         if question_type == 'objective':
-            alternatives = QuestionAlternativesFormSet()
+            if self.request.method == 'GET':
+                alternatives = QuestionAlternativesFormSet(
+                    self.request.GET.get('alternatives'), prefix='alternatives')
+            else:
+                alternatives = QuestionAlternativesFormSet(self.request.POST)
             if self.request.GET.get('extra_alternative'):
                 alternatives.extra = 1
             context['alternatives'] = alternatives
@@ -67,7 +71,7 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
 
         if is_htmx_request(self.request):
             response = HttpResponse(status=200)
-            response['HX-Redirect'] = reverse('question:list')
+            response['HX-Redirect'] = self.get_success_url()
             return response
 
         return redirect(self.get_success_url())
@@ -76,7 +80,8 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
 
         if is_htmx_request(self.request):
             if self.kwargs.get('type') == 'objective':
-                alternatives = QuestionAlternativesFormSet(self.request.POST)
+                alternatives = QuestionAlternativesFormSet(
+                    self.request.POST, prefix='alternatives')
                 context = self.get_context_data(form=form)
                 context['alternatives'] = alternatives
             else:
@@ -146,29 +151,30 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
         if question.type == 'O':
             question_alternatives = question.alternatives.order_by('order')
             context['alternatives'] = QuestionAlternativesFormSet(
-                instance=self.object, queryset=question_alternatives)
+                instance=self.object, queryset=question_alternatives, prefix='alternatives')
         return context
 
     def form_valid(self, form):
-        if form.is_valid():
+        form.save()
+        if self.object.type == 'O':
+            alternatives = QuestionAlternativesFormSet(
+                self.request.POST, instance=self.object, prefix='alternatives')
+            if alternatives.is_valid():
+                alternatives.save()
+            else:
+                return self.form_invalid(form)
+        messages.success(
+            self.request, f'Questão {self.object.statement[:50]} editada com sucesso')
+        return redirect(self.get_success_url())
 
-            if self.object.type == 'O':
-                alternatives = QuestionAlternativesFormSet(
-                    self.request.POST, instance=self.object)
-                if alternatives.is_valid() and form.is_valid():
-                    form.save()
-                    alternatives.save()
-                    messages.success(
-                        self.request, f'Questão {self.object.statement} editada com sucesso'[:50])
-                else:
-                    return self.form_invalid(form)
-            elif self.object.type == 'S':
-                form.save()
-                messages.success(
-                    self.request, f'Questão {self.object.statement} editada com sucesso'[:50])
-            return redirect(self.get_success_url())
-        else:
-            return self.form_invalid(form)
+    def get_template_names(self):
+        if self.kwargs.get('type') == 'objective':
+            if is_htmx_request(self.request):
+                return ['partials/alternatives_form.html']
+            else:
+                return [self.template_name]
+        elif self.kwargs.get('type') == 'subjective':
+            return super().get_template_names()
 
 
 class QuestionDeleteView(LoginRequiredMixin, DeleteView):
