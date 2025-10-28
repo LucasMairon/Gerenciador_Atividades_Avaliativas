@@ -3,6 +3,10 @@
 <div id="alternativas-container">
     {{alternatives.management_form}}
     {% for alternative in alternatives %}
+        {% if question %}
+            {{alternative.id}}
+        
+        {% endif %}
         <div class="input-group mb-2" id='teste'>
             <span class="input-group-text">{% decimal_to_letter forloop.counter %})</span>
             {{alternative.description}}
@@ -13,7 +17,11 @@
             {% if forloop.counter == 5 %}
             <button type="button" class="btn btn-outline-danger" 
                     title="Remover alternativa"
-                    hx-get="{% url 'question:create' type='objective' %}"
+                    {% if question %}
+                        hx-get="{% url "question:update" type='objective' pk=question.id %}"
+                    {% else %}
+                        hx-get="{% url 'question:create' type='objective' %}"
+                    {% endif %}
                     hx-target="#alternativas-container"
                     hx-swap="outerHTML"
                     hx-include="#main-form"
@@ -25,7 +33,15 @@
     {% endfor %}
     {% if alternatives|length == 4 %}
         <button type="button" class="btn btn-outline-secondary mt-2" id="btn-add-alternativa"
-                hx-get="{% url 'question:create' type='objective' %}?extra_alternative=True"
+                {% if question %}
+                
+                    hx-get="{% url "question:update" type='objective' pk=question.id %}?extra_alternative=True"
+
+                {% else %}
+
+                    hx-get="{% url 'question:create' type='objective' %}?extra_alternative=True"
+
+                {% endif %}
                 hx-target="#alternativas-container"
                 hx-swap="outerHTML"
                 hx-include="#main-form"
