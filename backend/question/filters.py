@@ -67,7 +67,7 @@ class QuestionFilterSet(django_filters.FilterSet):
             attrs={
                 'class': 'form-control',
                 'id': 'assunto',
-                'Placeholder': 'informe o asunto'
+                'Placeholder': 'Buscar por assunto'
             }
         )
     )
@@ -79,7 +79,7 @@ class QuestionFilterSet(django_filters.FilterSet):
             attrs={
                 'class': 'form-control',
                 'id': 'buscar-questao',
-                'Placeholder': 'informe o enunciado da questão'
+                'Placeholder': 'Buscar pelo enunciado da questão'
             }
         )
     )
