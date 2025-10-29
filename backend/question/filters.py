@@ -5,8 +5,8 @@ from discipline.models import Discipline
 from django.contrib.auth.models import User
 
 VISIBILITY_FILTER_CHOICES = (
-    (False, 'Privadas'),
-    (True, 'Compartilhadas')
+    (False, 'Privada'),
+    (True, 'Compartilhada')
 )
 
 
@@ -87,7 +87,7 @@ class QuestionFilterSet(django_filters.FilterSet):
     owner = django_filters.ModelChoiceFilter(
         queryset=User.objects.all(),
         label='Buscar por professor',
-        empty_label='Todas',
+        empty_label='Todos',
         widget=forms.Select(
             attrs={
                 'class': 'form-select',
