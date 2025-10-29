@@ -28,7 +28,7 @@
 
     <div class="mb-3">
       <label class="form-label fw-semibold">Enunciado da questão</label>
-      {{question.statement|safe}}
+      <div class="form-control">{{question.statement|safe}}</div>
     </div>
     {% if question.type == 'O' %}
         <div class="mb-3">
