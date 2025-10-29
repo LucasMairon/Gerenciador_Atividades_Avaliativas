@@ -174,10 +174,12 @@ MESSAGE_TAGS = {
 }
 
 # Summernote configurations
+SUMMERNOTE_THEME = 'bs4'
+
 SUMMERNOTE_CONFIG = {
     'lang': 'pt-BR',
-    'theme': 'bs5',
     'summernote': {
+        'width': '100%',
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline',
