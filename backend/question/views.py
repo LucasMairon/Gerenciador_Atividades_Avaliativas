@@ -164,7 +164,7 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
             else:
                 return self.form_invalid(form)
         messages.success(
-            self.request, f'Questão {self.object.statement[:50]} editada com sucesso')
+            self.request, 'Questão editada com sucesso!')
         return redirect(self.get_success_url())
 
     def get_template_names(self):
