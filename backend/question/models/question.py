@@ -52,6 +52,12 @@ class Question(models.Model):
         blank=True,
         null=True
     )
+    topic = models.CharField(
+        verbose_name=_('Topic'),
+        max_length=255,
+        blank=True,
+        null=True,
+    )
     use_count = models.PositiveIntegerField(
         _('Use count'),
         default=0
