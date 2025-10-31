@@ -68,7 +68,7 @@ msgstr "Difícil"
 
 #: question/models/question.py:14
 msgid "Public"
-msgstr "Compartilhada"
+msgstr "Pública"
 
 #: question/models/question.py:15
 msgid "Private"
