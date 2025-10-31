@@ -6,7 +6,9 @@ from .question import Question
 class ObjectiveQuestion(Question):
     objective = models.CharField(
         verbose_name=_('Objective'),
-        max_length=100
+        max_length=100,
+        null=True,
+        blank=True
     )
 
     def __str__(self):
