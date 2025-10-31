@@ -20,7 +20,7 @@ class Discipline(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f'{self.code} - {self.name}'
 
     class Meta:
         verbose_name = _('Disciplina')
