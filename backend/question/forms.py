@@ -33,6 +33,7 @@ class QuestionForm(forms.ModelForm):
             'visibility',
             'discipline',
             'subject',
+            'topic',
         ]
 
         widgets = {
@@ -65,6 +66,13 @@ class QuestionForm(forms.ModelForm):
                     'id': 'assunto',
                     'placeholder': 'Informe o assunto'
                 }
+            ),
+            'topic': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'id': 'topico',
+                    'placeholder': 'Informe o tópico'
+                }
             )
         }
 
@@ -74,7 +82,7 @@ class QuestionForm(forms.ModelForm):
             'visibility': 'Visibilidade',
             'discipline': 'Disciplina',
             'subject': 'Assunto/Subtema',
-
+            'topic': 'Tópico'
         }
 
 

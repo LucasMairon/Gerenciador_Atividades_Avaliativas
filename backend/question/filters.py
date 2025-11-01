@@ -72,6 +72,18 @@ class QuestionFilterSet(django_filters.FilterSet):
         )
     )
 
+    topic = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='Tópico',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'topico',
+                'Placeholder': 'Buscar por tópico'
+            }
+        )
+    )
+
     statement = django_filters.CharFilter(
         lookup_expr='icontains',
         label='Buscar questão',
