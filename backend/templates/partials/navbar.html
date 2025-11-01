@@ -19,6 +19,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-file-earmark-text me-1"></i> Atividades</a>
                 </li>
+                {% if  user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-people-fill me-1"></i> Docentes</a>
+                    </li>
+                {% endif %}
             </ul>
 
             <div class="navbar-nav">
