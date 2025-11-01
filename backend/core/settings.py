@@ -49,6 +49,7 @@ LOCAL_APPS = [
     'alternative',
     'discipline',
     'question',
+    'user',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THRID_PARTY_APPS
@@ -194,3 +195,6 @@ SUMMERNOTE_CONFIG = {
         ]
     }
 }
+
+# Custom user configuration
+AUTH_USER_MODEL = 'user.User'
