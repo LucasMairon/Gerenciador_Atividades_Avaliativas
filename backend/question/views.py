@@ -96,7 +96,7 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
     def get_template_names(self):
         if self.kwargs.get('type') == 'objective':
             if is_htmx_request(self.request):
-                return ['partials/alternatives_form.html']
+                return ['question/partials/alternatives_form.html']
             else:
                 return [self.template_name]
         elif self.kwargs.get('type') == 'subjective':
@@ -118,7 +118,7 @@ class QuestionListView(LoginRequiredMixin, FilterView):
     def get_template_names(self):
 
         if is_htmx_request(self.request):
-            return ['partials/list_partial.html']
+            return ['question/partials/list_partial.html']
 
         return [self.template_name]
 
@@ -170,7 +170,7 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
     def get_template_names(self):
         if self.kwargs.get('type') == 'objective':
             if is_htmx_request(self.request):
-                return ['partials/alternatives_form.html']
+                return ['question/partials/alternatives_form.html']
             else:
                 return [self.template_name]
         elif self.kwargs.get('type') == 'subjective':
@@ -178,14 +178,14 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class QuestionDeleteView(LoginRequiredMixin, DeleteView):
-    template_name = 'partials/modal_delete.html'
+    template_name = 'question/partials/modal_delete.html'
     success_url = reverse_lazy('question:list')
     model = Question
     context_object_name = 'question'
 
 
 class QuestionDetailView(LoginRequiredMixin, DetailView):
-    template_name = 'partials/modal_detail.html'
+    template_name = 'question/partials/modal_detail.html'
     context_object_name = 'question'
 
     def get_object(self, queryset=None):

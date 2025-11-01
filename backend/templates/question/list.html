@@ -18,16 +18,16 @@
         <div class="card border-0 shadow-sm mb-5">
             <div class="card-body bg-white rounded p-4">
                 <h5 class="card-title mb-3">Filtrar questões</h5>
-                    {% include "partials/filters.html" %}
+                    {% include "question/partials/filters.html" %}
             </div>
         </div>
 
         <div id="question-list-wrapper">
             <div class="row">
                 {% for question in questions %}
-                    {% include "partials/question.html" %}
+                    {% include "question/partials/question.html" %}
                     {%empty%}
-                        {% include "partials/empty_list.html" %}
+                        {% include "question/partials/empty_list.html" %}
                 {% endfor %}
             </div>
             {% if questions|length > 0 %}
