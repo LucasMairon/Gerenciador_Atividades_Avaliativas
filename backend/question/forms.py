@@ -81,7 +81,7 @@ class QuestionForm(forms.ModelForm):
             'difficulty_level': 'Dificuldade',
             'visibility': 'Visibilidade',
             'discipline': 'Disciplina',
-            'subject': 'Assunto/Subtema',
+            'subject': 'Assunto',
             'topic': 'Tópico'
         }
 

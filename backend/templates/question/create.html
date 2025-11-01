@@ -22,7 +22,7 @@
                                 {{form.discipline}}
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="{{form.difficulty_level.id_for_label}}" class="form-label fw-semibold">{{form.difficulty_level.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.difficulty_level}}
@@ -33,25 +33,21 @@
                                 {{form.subject}}
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="{{form.topic.id_for_label}}" class="form-label fw-semibold">{{form.topic.label}}</label>
                                 {{form.topic}}
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="form-label fw-semibold">{{form.visibility.label}} <span
                                         class="text-danger">*</span></label>
-                                
                                 {% for radio in form.visibility %}
                                     <div class="form-check">
                                         {{radio.tag}}
                                         <label class="form-check-label" for="{{radio.id_for_label}}">
                                             {{radio.choice_label}}
                                         </label>
-                                    
                                     </div>
-                                
-                                
                                 {% endfor %}
                             </div>
                         </div>
