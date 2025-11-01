@@ -1,62 +1,64 @@
 {% extends "base.html" %}
-{% block title %}Editar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva{% endif %}{% endblock title %}<title> subjetiva</title>
+{% load question_template_utils %}
+{% block title %}Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}{% endblock title %}<title> subjetiva</title>
 
 {% block extra_head_infos %}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 {% endblock extra_head_infos %}
 
 {% block content %}
-        <h1 class="h2 mb-4 fw-bold">Editar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva{% endif %}</h1>
+        <h1 class="h2 mb-4 fw-bold">Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}</h1>
 
-        <form id="main-form" method="POST" hx-post=" {% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator"> {% csrf_token %}
+        <form id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
+
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-4">
                         
-                        <div class="col-md-4">
+                        <div class="col-12">
                             <h5 class="mb-3 fw-bold">Informações da questão</h5>
-                            <div class="mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-3">
                                 <label for="{{form.discipline.id_for_label}}" class="form-label fw-semibold">{{form.discipline.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.discipline}}
                             </div>
 
-                            <div class="mb-3">
+                            <div class="col-md-2">
                                 <label for="{{form.difficulty_level.id_for_label}}" class="form-label fw-semibold">{{form.difficulty_level.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.difficulty_level}}
                             </div>
 
-                            <div class="mb-3">
+                            <div class="col-md-3">
                                 <label for="{{form.subject.id_for_label}}" class="form-label fw-semibold">{{form.subject.label}}</label>
                                 {{form.subject}}
                             </div>
 
-                            <div>
+                            <div class="col-md-2">
+                                <label for="{{form.topic.id_for_label}}" class="form-label fw-semibold">{{form.topic.label}}</label>
+                                {{form.topic}}
+                            </div>
+
+                            <div class="col-md-2">
                                 <label class="form-label fw-semibold">{{form.visibility.label}} <span
                                         class="text-danger">*</span></label>
-                                
                                 {% for radio in form.visibility %}
                                     <div class="form-check">
                                         {{radio.tag}}
-                                        <label class="form-check-label" for="{{radio.id_for_label}}">
-                                            {{radio.choice_label}}{% if radio.choice_label == 'Compartilhada' %}(outros docentes){% else %}(apenas eu){% endif %}
-                                        </label>
-                                    
+                                        <label class="form-check-label" for="{{radio.id_for_label}}">{{radio.choice_label}}</label>
                                     </div>
-                                
-                                
                                 {% endfor %}
                             </div>
+                            
                         </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="{{form.statement.id_for_label}}" class="form-label fw-semibold">{{form.statement.label}} <span
+                                        class="text-danger">*</span></label>
+                                {{form.statement}}
+                            </div>
                         {% if question.type == 'S' %}
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="{{form.statement.id_for_label}}" class="form-label fw-semibold">{{form.statement.label}} <span
-                                            class="text-danger">*</span></label>
-                                    {{form.statement}}
-                                </div>
                                     <div class="mb-3">
                                     <label for="{{form.expected_answer.id_for_label}}" class="form-label fw-semibold">{{form.expected_answer.label}} <span
                                                 class="text-danger">*</span></label>
@@ -64,15 +66,21 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="{{form.key_answers.id_for_label}}" class="form-label fw-semibold">{{form.key_answers.label}}
-                                            <span class="text-danger">*</span></label>
+                                        <label for="{{form.key_answers.id_for_label}}" class="form-label fw-semibold">{{form.key_answers.label}}</label>
                                         {{form.key_answers}}
                                     </div>
                             </div>
                         {% elif question.type == 'O' %}
+                            <div>
+                                    <label class="form-label fw-semibold">Informe as alternativas e selecione a correta <span
+                                            class="text-danger">*</span></label>
+                                    {% include "question/partials/alternatives_form.html" %}
+                                </div>
+                            </div>
+
                             <div class="col-12">
-                                <label for="objetivo" class="form-label fw-semibold">Objetivo da questão <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="objetivo" name="objetivo" rows="3" placeholder="Descreva o objetivo desta questão..." required>Verificar se o aluno compreende a distinção entre os tipos de requisitos.</textarea>
+                                <label for="{{form.objective.id_for_label}}" class="form-label fw-semibold">{{form.objective.label}}</label>
+                                {{form.objective}}
                             </div>
                         {% endif %}
 
@@ -81,15 +89,12 @@
             </div>
 
             <div class="d-flex justify-content-end mt-4">
-                <a href="questoes.html" class="btn btn-secondary me-2">Cancelar</a>
+                <a href="{% url "question:list" %}" class="btn btn-secondary me-2">Cancelar</a>
                 <button type="submit" class="btn btn-primary">Atualizar</button>
             </div>
         </form>
 {% endblock content %}
 
 {% block scripts %}
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+{{form.media.js}}
 {% endblock scripts %}

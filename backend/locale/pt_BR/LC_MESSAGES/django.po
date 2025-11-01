@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-19 23:27-0300\n"
+"POT-Creation-Date: 2025-10-23 16:57-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,9 +50,9 @@ msgstr ""
 msgid "Disciplinas"
 msgstr ""
 
-#: question/models/objective_question.py:8
+#: question/models/objective_question.py:8 question/models/question.py:19
 msgid "Objective"
-msgstr ""
+msgstr "Objetiva"
 
 #: question/models/question.py:8
 msgid "Easy"
@@ -68,11 +68,15 @@ msgstr "Difícil"
 
 #: question/models/question.py:14
 msgid "Public"
-msgstr "Compartilhada"
+msgstr "Pública"
 
 #: question/models/question.py:15
 msgid "Private"
 msgstr "Privada"
+
+#: question/models/question.py:20
+msgid "Subjective"
+msgstr "Subjetiva"
 
 #: question/models/question.py:33
 msgid "Owner"
@@ -844,30 +848,37 @@ msgid "noon"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:7
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:18
 msgid "Monday"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:19
 msgid "Tuesday"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:20
 msgid "Wednesday"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:21
 msgid "Thursday"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:22
 msgid "Friday"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:23
 msgid "Saturday"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
+#: venv/lib/python3.12/site-packages/extra_views/dates.py:24
 msgid "Sunday"
 msgstr ""
 

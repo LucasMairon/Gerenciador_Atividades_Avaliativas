@@ -18,17 +18,9 @@ class Discipline(models.Model):
         verbose_name=_('Code'),
         max_length=10
     )
-    topic = models.CharField(
-        verbose_name=_('Topic'),
-        max_length=255
-    )
-    subject = models.CharField(
-        verbose_name=_('Subject'),
-        max_length=255
-    )
 
     def __str__(self):
-        return self.name
+        return f'{self.code} - {self.name}'
 
     class Meta:
         verbose_name = _('Disciplina')

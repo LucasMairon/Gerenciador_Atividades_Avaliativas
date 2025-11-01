@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import Config, RepositoryEnv
+from django.contrib.messages import constants as messages
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,12 +41,15 @@ DJANGO_APPS = [
 
 THRID_PARTY_APPS = [
     'django_filters',
+    'django_htmx',
+    'django_summernote',
 ]
 
 LOCAL_APPS = [
     'alternative',
     'discipline',
     'question',
+    'user',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THRID_PARTY_APPS
@@ -56,6 +60,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -125,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'pt-Br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -144,16 +149,52 @@ LOCALE_PATHS = [
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    os.path.join(BASE_DIR, 'static',),
+    os.path.join(BASE_DIR, 'node_modules'),
 ]
+if DEBUG:
+    STATIC_ROOT = BASE_DIR / 'static_files/'
+    MEDIA_ROOT = BASE_DIR / 'media/'
 
-STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+else:
+    STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+    MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Bootstrap alerts configuration
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'success',
+    messages.ERROR: 'danger',
+}
+
+# Summernote configurations
+SUMMERNOTE_THEME = 'bs4'
+
+SUMMERNOTE_CONFIG = {
+    'lang': 'pt-BR',
+    'summernote': {
+        'width': '100%',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline',
+                      'strikethough', 'clear', 'superscript']],
+            ['fontnames', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph', 'lineHeight', 'height']],
+            ['table', ['table']],
+            ['insert', ['picture', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help', 'undo']],
+        ]
+    }
+}
+
+# Custom user configuration
+AUTH_USER_MODEL = 'user.User'

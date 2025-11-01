@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="text-center py-5">
+        
+        <h3 class="fw-bold mb-3">Questões não encontradas</h3>
+        
+        <p class="text-muted mb-4">Nenhuma questão encontrada, crie uma nova questão.</p>
+
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-plus-lg me-1"></i> Criar questão
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item text-center" href="{% url 'question:create' type="objective" %}">Objetiva</a></li>
+                <li><a class="dropdown-item text-center" href="{% url 'question:create' type="subjective" %}">Subjetiva</a></li>
+            </ul>
+        </div>
+        
+    </div>
+</div>

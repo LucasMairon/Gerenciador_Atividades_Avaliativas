@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from user.models import User
 from django.utils.translation import gettext_lazy as _
 from discipline.models import Discipline
 import uuid
@@ -16,8 +16,8 @@ VISIBILITY_CHOICES = [
 ]
 
 TYPE_CHOICES = [
-    ('O', 'Objective'),
-    ('S', 'Subjective')
+    ('O', _('Objective')),
+    ('S', _('Subjective'))
 ]
 
 
@@ -48,7 +48,15 @@ class Question(models.Model):
         verbose_name=_('Statement')
     )
     subject = models.TextField(
-        verbose_name=_('Subject')
+        verbose_name=_('Subject'),
+        blank=True,
+        null=True
+    )
+    topic = models.CharField(
+        verbose_name=_('Topic'),
+        max_length=255,
+        blank=True,
+        null=True,
     )
     use_count = models.PositiveIntegerField(
         _('Use count'),
@@ -67,7 +75,7 @@ class Question(models.Model):
         verbose_name=_('Created at'),
         auto_now_add=True
     )
-    updated_at = models.DateField(
+    updated_at = models.DateTimeField(
         verbose_name=_('Updated at'),
         auto_now=True
     )

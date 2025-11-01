@@ -1,23 +1,68 @@
-{% load url_query_util %}
+{% load question_template_utils %}
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
+<nav aria-label="Páginação" class="d-flex justify-content-center mt-4">
+    <ul class="pagination justify-content-center shadow-sm">
+        
         <li class="page-item">
         {% if page_obj.has_previous %}
-            <a class="page-link" href="?{% add_param_to_url page=page_obj.previous_page_number %}" aria-label="Previous">
+            <a class="page-link" 
+               href="?{% add_param_to_url page=page_obj.previous_page_number %}" 
+               aria-label="Anterior"
+               hx-get="?{% add_param_to_url page=page_obj.previous_page_number %}"
+               hx-target="#question-list-wrapper"
+               hx-swap="outerHTML"
+               hx-push-url="true">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         {% endif %}
         </li>
+
         {% if page_obj.has_previous %}
-            <li class="page-item"><a class="page-link" href="?{% add_param_to_url page=page_obj.previous_page_number %}">{{page_obj.previous_page_number}}</a></li>
+            <li class="page-item">
+                <a class="page-link" 
+                   href="?{% add_param_to_url page=page_obj.previous_page_number %}"
+                   hx-get="?{% add_param_to_url page=page_obj.previous_page_number %}"
+                   hx-target="#question-list-wrapper"
+                   hx-swap="outerHTML"
+                   hx-push-url="true">
+                   {{page_obj.previous_page_number}}
+                </a>
+            </li>
         {% endif %}
-        <li class="page-item"><a class="page-link" href="?{% add_param_to_url page=page_obj.number %}">{{page_obj.number}}</a></li>
+        
+        <li class="page-item active">
+            <a class="page-link" 
+               href="?{% add_param_to_url page=page_obj.number %}"
+               hx-get="?{% add_param_to_url page=page_obj.number %}"
+               hx-target="#question-list-wrapper"
+               hx-swap="outerHTML"
+               hx-push-url="true">
+               {{page_obj.number}}
+            </a>
+        </li>
+
         {% if page_obj.has_next %}
-            <li class="page-item"><a class="page-link" href="?{% add_param_to_url page=page_obj.next_page_number %}">{{page_obj.next_page_number}}</a></li>
+            <li class="page-item">
+                <a class="page-link" 
+                   href="?{% add_param_to_url page=page_obj.next_page_number %}"
+                   hx-get="?{% add_param_to_url page=page_obj.next_page_number %}"
+                   hx-target="#question-list-wrapper"
+                   hx-swap="outerHTML"
+                   hx-push-url="true">
+                   {{page_obj.next_page_number}}
+                </a>
+            </li>
         {% endif %}
+
+        <li class"page-item">
         {% if page_obj.has_next %}
-            <a class="page-link" href="?{% add_param_to_url page=page_obj.next_page_number %}" aria-label="Next">
+            <a class="page-link" 
+               href="?{% add_param_to_url page=page_obj.next_page_number %}" 
+               aria-label="Próximo"
+               hx-get="?{% add_param_to_url page=page_obj.next_page_number %}"
+               hx-target="#question-list-wrapper"
+               hx-swap="outerHTML"
+               hx-push-url="true">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         {% endif %}

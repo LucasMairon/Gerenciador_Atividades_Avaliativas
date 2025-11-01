@@ -2,6 +2,7 @@ from django import forms
 from alternative.forms import AlternativeForm
 from alternative.models import Alternative
 from .models import ObjectiveQuestion, Question, SubjectiveQuestion
+from django_summernote.widgets import SummernoteWidget
 
 
 class QuestionForm(forms.ModelForm):
@@ -32,14 +33,13 @@ class QuestionForm(forms.ModelForm):
             'visibility',
             'discipline',
             'subject',
+            'topic',
         ]
 
         widgets = {
-            'statement': forms.Textarea(
+            'statement': SummernoteWidget(
                 attrs={
                     'class': 'form-control',
-                    'id': 'enunciado',
-                    'rows': 5,
                     'placeholder': 'Digite o enunciado da questão...',
                 }
             ),
@@ -66,6 +66,13 @@ class QuestionForm(forms.ModelForm):
                     'id': 'assunto',
                     'placeholder': 'Informe o assunto'
                 }
+            ),
+            'topic': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'id': 'topico',
+                    'placeholder': 'Informe o tópico'
+                }
             )
         }
 
@@ -74,8 +81,8 @@ class QuestionForm(forms.ModelForm):
             'difficulty_level': 'Dificuldade',
             'visibility': 'Visibilidade',
             'discipline': 'Disciplina',
-            'subject': 'Assunto/Subtema',
-
+            'subject': 'Assunto',
+            'topic': 'Tópico'
         }
 
 
@@ -85,7 +92,24 @@ class ObjectiveQuestionForm(QuestionForm):
         fields = QuestionForm.Meta.fields + ['objective',]
 
         widgets = QuestionForm.Meta.widgets
+        widgets.update(
+            {
+                'objective': forms.Textarea(
+                    attrs={
+                        'class': 'form-control',
+                        'id': 'objetivo',
+                        'rows': 3,
+                        'placeholder': 'Descreva o objetivo desta questão...'
+                    }
+                )
+            }
+        )
         labels = QuestionForm.Meta.labels
+        labels.update(
+            {
+                'objective': 'Objetivo da questão'
+            }
+        )
 
 
 QuestionAlternativesFormSet = forms.inlineformset_factory(
