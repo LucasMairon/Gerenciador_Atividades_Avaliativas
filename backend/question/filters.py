@@ -2,7 +2,7 @@ import django_filters
 from .models import Question
 from django import forms
 from discipline.models import Discipline
-from django.contrib.auth.models import User
+from user.models import User
 
 VISIBILITY_FILTER_CHOICES = (
     (False, 'Privada'),
@@ -97,7 +97,7 @@ class QuestionFilterSet(django_filters.FilterSet):
     )
 
     owner = django_filters.ModelChoiceFilter(
-        queryset=User.objects.all(),
+        queryset=User.objects.filter(is_superuser=False),
         label='Buscar por professor',
         empty_label='Todos',
         widget=forms.Select(
