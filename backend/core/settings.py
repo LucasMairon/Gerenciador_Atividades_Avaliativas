@@ -50,6 +50,7 @@ LOCAL_APPS = [
     'discipline',
     'question',
     'user',
+    'activity',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THRID_PARTY_APPS
