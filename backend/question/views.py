@@ -14,7 +14,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
-from .utils import get_question_form_class, is_htmx_request
+from .utils import get_question_form_class
+from core.utils import is_htmx_request
 from .filters import QuestionFilterSet
 
 
