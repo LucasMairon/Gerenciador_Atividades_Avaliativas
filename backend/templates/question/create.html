@@ -8,7 +8,7 @@
     {% block content %}
         <h1 class="h2 mb-4 fw-bold">Criar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva {% endif %} </h1>
 
-        <form id="main-form" hx-post="{% url 'question:create' type=question_type %}" hx-swap="outerHTML" hx-indicator=".htmx-indicator"> {% csrf_token %}
+        <form class="needs-validation" novalidate id="main-form" hx-post="{% url 'question:create' type=question_type %}" hx-swap="outerHTML" hx-indicator=".htmx-indicator"> {% csrf_token %}
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-4">
@@ -20,12 +20,18 @@
                                 <label for="{{form.discipline.id_for_label}}" class="form-label fw-semibold">{{form.discipline.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.discipline}}
+                                <div class="invalid-feedback">
+                                    Você deve selecionar uma disciplina.
+                                </div>
                             </div>
 
                             <div class="col-md-2">
                                 <label for="{{form.difficulty_level.id_for_label}}" class="form-label fw-semibold">{{form.difficulty_level.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.difficulty_level}}
+                                <div class="invalid-feedback">
+                                    Você deve selecionar uma dificuldade.
+                                </div>
                             </div>
 
                             <div class="col-md-3">
@@ -58,6 +64,9 @@
                                 <label for="{{form.statement.id_for_label}}" class="form-label fw-semibold">{{form.statement.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.statement}}
+                                <div class="invalid-feedback">
+                                    Você deve selecionar uma dificuldade.
+                                </div>
                             </div>
                             
                             {% if question_type == 'subjective' %}
@@ -65,6 +74,9 @@
                                     <label for="{{form.expected_answer.id_for_label}}" class="form-label fw-semibold">{{form.expected_answer.label}} <span
                                             class="text-danger">*</span></label>
                                     {{form.expected_answer}}
+                                    <div class="invalid-feedback">
+                                    Você deve informar a resposta esperada.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
