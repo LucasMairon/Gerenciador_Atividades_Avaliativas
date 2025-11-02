@@ -7,4 +7,11 @@
                     <button class="btn btn-primary bi bi-plus-lg me-1" type="button" href="{}">Criar atividade</button>
         </div>
 
+        {{filter.form.as_p}}
+        {% for activity in activities %}
+            <p>Nome: {{activity.name}}</p>
+        {% empty %}
+        Nenhuma atividade cadastrada ainda
+        {% endfor %}
+
     {% endblock content %}
