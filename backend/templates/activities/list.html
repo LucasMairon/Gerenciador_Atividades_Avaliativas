@@ -3,11 +3,17 @@
     {% block extra_head_infos %}{% endblock extra_head_infos %}
     {% block content %}
         <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h2 fw-bold">Atividades avaliativas</h1>
-                    <button class="btn btn-primary bi bi-plus-lg me-1" type="button" href="{}">Criar atividade</button>
+            <h1 class="h2 fw-bold">Atividades avaliativas</h1>
+            <button class="btn btn-primary bi bi-plus-lg me-1" type="button" href="{}"> Criar atividade</button>
         </div>
 
-        {{filter.form.as_p}}
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-body bg-white rounded p-4">
+                <h5 class="card-title mb-3">Filtrar atividades</h5>
+                    {% include "activities/partials/filters.html" %}
+            </div>
+        </div>
+
         {% for activity in activities %}
             <p>Nome: {{activity.name}}</p>
         {% empty %}
