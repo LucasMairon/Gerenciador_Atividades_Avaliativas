@@ -181,6 +181,7 @@ SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     'lang': 'pt-BR',
     'summernote': {
+        'placeholder':'Digite o enunciado da questão...',
         'width': '100%',
         'toolbar': [
             ['style', ['style']],
