@@ -20,7 +20,7 @@
                     {% include "activities/partials/activity.html" %}
                     <p>Nome: {{activity.name}}</p>
                 {% empty %}
-                Nenhuma atividade cadastrada ainda
+                    {% include "activities/partials/empty_list.html" %}
                 {% endfor %}
             </div>
         </div>
