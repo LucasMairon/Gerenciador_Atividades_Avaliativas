@@ -14,10 +14,15 @@
             </div>
         </div>
 
-        {% for activity in activities %}
-            <p>Nome: {{activity.name}}</p>
-        {% empty %}
-        Nenhuma atividade cadastrada ainda
-        {% endfor %}
+        <div id="activity-list-wrapper">
+            <div class="row">
+                {% for activity in activities %}
+                    {% include "activities/partials/activity.html" %}
+                    <p>Nome: {{activity.name}}</p>
+                {% empty %}
+                Nenhuma atividade cadastrada ainda
+                {% endfor %}
+            </div>
+        </div>
 
     {% endblock content %}

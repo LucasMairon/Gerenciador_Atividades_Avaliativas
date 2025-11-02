@@ -1,0 +1,42 @@
+{% load static %}
+
+<div class="col-md-6 mb-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold">Unidade 1 - 2025.2</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Engenharia de Requisitos</h6>
+                <p class="card-text text-muted small mt-3">
+                    <i class="bi bi-question-circle me-1"></i> Questões: 10
+                    <span class="mx-2">|</span>
+                    <i class="bi bi-calendar3 me-1"></i> 01/10/2025
+                </p>
+        </div>
+        <div class="card-footer bg-white d-flex flex-wrap gap-2 p-3 justify-content-between">
+            <a href="#" class="btn btn-primary btn-sm"><i class="bi bi-pencil-fill me-1"></i> Editar</a>
+            <a href="#" class="btn btn-secondary btn-sm"><i class="bi bi-eye-fill me-1"></i> Visualizar</a>
+                            
+            <div class="dropdown">
+                <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-download me-1"></i> Exportar
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-pdf me-2"></i> PDF</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-docx me-2"></i> DOCX</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-code me-2"></i> LATEX</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-warning btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-shuffle me-1"></i> Embaralhar
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Ordem das questões</a></li>
+                    <li><a class="dropdown-item" href="#">Ordem das alternativas</a></li>
+                </ul>
+            </div>
+
+            <a href="#" class="btn btn-danger btn-sm" aria-label="Deletar"><i class="bi bi-trash-fill"></i></a>
+        </div>
+    </div>
+</div>
