@@ -66,6 +66,14 @@ class Activity(models.Model):
         on_delete=models.PROTECT,
         related_name='activities'
     )
+    created_at = models.DateTimeField(
+        verbose_name=_('Created at'),
+        auto_now_add=True
+    )
+    updated_at = models.DateTimeField(
+        verbose_name=_('Updated at'),
+        auto_now=True
+    )
 
     def __str__(self):
         return self.name
