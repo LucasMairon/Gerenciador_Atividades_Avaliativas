@@ -18,7 +18,6 @@
             <div class="row">
                 {% for activity in activities %}
                     {% include "activities/partials/activity.html" %}
-                    <p>Nome: {{activity.name}}</p>
                 {% empty %}
                     {% include "activities/partials/empty_list.html" %}
                 {% endfor %}
