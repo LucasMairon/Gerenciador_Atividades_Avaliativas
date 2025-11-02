@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from user.models import User
 from question.models import Question
+from discipline.models import Discipline
 from . import validators
 import uuid
 
@@ -58,6 +59,12 @@ class Activity(models.Model):
         related_name='activities',
         through="QuestionActivity",
         verbose_name=_('Activity questions')
+    )
+    discipline = models.ForeignKey(
+        Discipline,
+        verbose_name=_('Discipline'),
+        on_delete=models.PROTECT,
+        related_name='activities'
     )
 
     def __str__(self):
