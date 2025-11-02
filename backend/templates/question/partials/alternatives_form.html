@@ -10,11 +10,11 @@
         <div class="input-group mb-2" id='teste'>
             <span class="input-group-text">{% decimal_to_letter forloop.counter %})</span>
             {{alternative.description}}
-                <div class="invalid-feedback">
-                    Você deve informar a alternativa.
-                </div>
             <div class="input-group-text">
                 {{alternative.is_correct}}
+            </div>
+            <div class="invalid-feedback">
+                Você deve digitar a alternativa.
             </div>
             
             {% if forloop.counter == 5 %}
