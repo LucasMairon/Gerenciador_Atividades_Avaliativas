@@ -30,7 +30,7 @@ class Activity(models.Model):
     )
     period = models.CharField(
         verbose_name=_('Period'),
-        max_length=5,
+        max_length=6,
         validators=[validators.period_validator]
     )
     owner = models.ForeignKey(
