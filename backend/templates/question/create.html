@@ -86,7 +86,10 @@
                                 </div>
 
                             {% elif question_type == 'objective' %}
-                                <label class="form-label fw-semibold">Informe as alternativas e selecione somente a correta <span class="text-danger">*</span></label>
+                                <div class="form-label fw-semibold d-flex justify-content-between">
+                                    <span>Informe as alternativas <span class="text-danger">*</span></span>
+                                    <span>Selecione somente a correta: <span class="text-danger">*</span></span>
+                                </div>
                                     {% include "question/partials/alternatives_form.html" %}
                                 </div>
 
