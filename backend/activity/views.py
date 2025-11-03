@@ -12,11 +12,11 @@ class ActivityListView(FilterView):
 
     def get_queryset(self):
         activities = Activity.objects.filter(owner=self.request.user.id).order_by(
-            '-created_at').order_by('-updated_at')
+            '-created_at', '-updated_at')
         return activities
 
     def get_template_names(self):
         if is_htmx_request(self.request):
             return ['activities/partials/activity.html']
 
-        return super().get_template_names()
+        return [self.template_name]
