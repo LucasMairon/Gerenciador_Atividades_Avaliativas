@@ -27,8 +27,7 @@ class AlternativeForm(forms.ModelForm):
             ),
             'is_correct': forms.CheckboxInput(
                 attrs={
-                    'class': 'form-check-input mt-0',
-                    'required': True
+                    'class': 'form-check-input mt-0'
                 }
             )
         }
