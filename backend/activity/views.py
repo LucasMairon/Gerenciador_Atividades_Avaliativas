@@ -17,6 +17,6 @@ class ActivityListView(FilterView):
 
     def get_template_names(self):
         if is_htmx_request(self.request):
-            return ['activities/partials/activity.html']
+            return ['activities/partials/list_partial.html']
 
         return [self.template_name]
