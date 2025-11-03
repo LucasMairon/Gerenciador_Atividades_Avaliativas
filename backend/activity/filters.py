@@ -41,4 +41,4 @@ class ActivityFilterSet(django_filters.FilterSet):
 
     class Meta:
         model = Activity
-        fields = []
+        fields = ['discipline', 'unit', 'period']
