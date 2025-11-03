@@ -1,5 +1,11 @@
 {% load static %}
 
+{% if question.type == 'O' %}
+    {% url 'question:detail' type='objective' pk=question.id as detail_url %}
+{% elif question.type == 'S' %}
+    {% url 'question:detail' type='subjective' pk=question.id as detail_url %}
+{% endif %}
+
 <div class="col-md-6 mb-4">
     <div class="card shadow-sm h-100">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
@@ -19,7 +25,9 @@
                 {%endif%}
             </div>
             <div class="dropdown">
-                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-strategy="fixed">
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         {% if user.id == question.owner.id %}
                             <li>
@@ -36,23 +44,13 @@
                         {% endif %}
 
                         <li>
-                            {% if question.type == 'O' %}
                                 <a class="dropdown-item" href="#"
-                                    hx-get="{% url 'question:detail' type='objective' pk=question.id %}"
+                                    hx-get="{{detail_url}}"
                                     hx-target="#modalVisualizarQuestao .modal-content"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalVisualizarQuestao">
                                         <i class="bi bi-eye-fill me-2"></i>Visualizar
                                 </a>
-                            {% elif question.type == 'S' %}
-                                <a class="dropdown-item" href="#"
-                                    hx-get="{% url 'question:detail' type='subjective' pk=question.id %}"
-                                    hx-target="#modalVisualizarQuestao .modal-content"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalVisualizarQuestao">
-                                        <i class="bi bi-eye-fill me-2"></i>Visualizar
-                                </a>
-                            {% endif %}
                         </li>
 
                         {% if user.id == question.owner.id %}
@@ -72,7 +70,12 @@
             </div>
         </div>
 
-        <div class="card-body">
+        <div class="card-body"
+         style="cursor: pointer;"
+         hx-get="{{detail_url}}"
+         hx-target="#modalVisualizarQuestao .modal-content"
+         data-bs-toggle="modal"
+         data-bs-target="#modalVisualizarQuestao">
             <h6 class="card-title text-truncate">{{question.statement|striptags}}</h6>
             <p class="card-text text-muted small mt-3">
                 <i class="bi bi-person-fill"></i> Prof. {{question.owner}}<span class="mx-2">|</span> <i class="bi bi-calendar3"></i> {{question.created_at|date:"d/m/Y"}}
