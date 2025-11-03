@@ -43,6 +43,7 @@ THRID_PARTY_APPS = [
     'django_filters',
     'django_htmx',
     'django_summernote',
+    'django_tomselect',
 ]
 
 LOCAL_APPS = [
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_tomselect.middleware.TomSelectMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -78,6 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django_tomselect.context_processors.tomselect",
             ],
         },
     },
@@ -181,7 +184,7 @@ SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     'lang': 'pt-BR',
     'summernote': {
-        'placeholder':'Digite o enunciado da questão...',
+        'placeholder': 'Digite o enunciado da questão...',
         'width': '100%',
         'toolbar': [
             ['style', ['style']],
