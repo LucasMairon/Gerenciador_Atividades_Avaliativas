@@ -8,6 +8,7 @@ urlpatterns = [
     path("question/", include('question.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('activity/', include('activity.urls')),
+    path('discipline', include('discipline.urls'))
 ]
 
 if settings.DEBUG:
