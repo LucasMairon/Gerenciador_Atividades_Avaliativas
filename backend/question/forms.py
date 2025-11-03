@@ -3,6 +3,7 @@ from alternative.forms import AlternativeForm
 from alternative.models import Alternative
 from .models import ObjectiveQuestion, Question, SubjectiveQuestion
 from django_summernote.widgets import SummernoteWidget
+from django_tomselect.forms import TomSelectModelWidget, TomSelectConfig
 
 
 class QuestionForm(forms.ModelForm):
@@ -54,10 +55,16 @@ class QuestionForm(forms.ModelForm):
                     'class': 'form-check-input'
                 }
             ),
-            'discipline': forms.Select(
+            'discipline': TomSelectModelWidget(
+                config=TomSelectConfig(
+                    url='discipline:autocomplete',
+                    placeholder='Selecione a disciplina',
+                    create=False,
+                ),
                 attrs={
                     'class': 'form-select',
-                    'id': 'disciplina'
+                    'id': 'disciplina',
+                    'data-theme': 'bootstrap5',
                 }
             ),
             'subject': forms.TextInput(
