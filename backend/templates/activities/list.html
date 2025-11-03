@@ -22,6 +22,9 @@
                     {% include "activities/partials/empty_list.html" %}
                 {% endfor %}
             </div>
+            {% if activities|length > 0 %}
+                {% include "partials/pagination.html" %}
+            {% endif %}
         </div>
 
     {% endblock content %}
