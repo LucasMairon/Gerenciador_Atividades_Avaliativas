@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from core.utils import is_htmx_request
 from .models import Activity, QuestionActivity
@@ -31,6 +32,7 @@ class ActivityCreateView(CreateView, FilterView):
     form_class = ActivityForm
     template_name = 'activities/create.html'
     filterset_class = QuestionActivityFilterSet
+    success_url = reverse_lazy('activity:list')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
