@@ -3,6 +3,19 @@ from .models import Activity
 
 
 class ActivityForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['discipline'].empty_label = 'Selecione uma disciplina'
+        unit_choices = list(
+            self.fields['unit'].choices)
+        unit_choices.pop(0)
+
+        default_unit_choice = [("", 'Selecione uma unidade')]
+
+        self.fields['unit'].choices = default_unit_choice + \
+            unit_choices
+
     class Meta:
         model = Activity
         fields = [
