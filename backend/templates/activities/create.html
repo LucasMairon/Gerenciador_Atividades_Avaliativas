@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+formulario da avaliação:
+<form method="post" hx-post="{% url "activity:create" %}">
+    {{form}}
+    <button type="submit">Salvar</button>
+</form>
+filtro das questões:
+{{filter.form.as_p}}
+
+{% endblock content %}
