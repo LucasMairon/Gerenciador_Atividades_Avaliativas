@@ -3,6 +3,7 @@ from .models import Activity
 from question.models import Question
 from discipline.models import Discipline
 from django import forms
+from question.filters import QuestionFilterSet
 
 
 class ActivityFilterSet(django_filters.FilterSet):
@@ -45,12 +46,17 @@ class ActivityFilterSet(django_filters.FilterSet):
         fields = ['discipline', 'unit', 'period']
 
 
-class QuestionActivityFilterSet(django_filters.FilterSet):
+class QuestionActivityFilterSet(QuestionFilterSet):
+    visibility = None
+    subject = None
+    topic = None
+    owner = None
+
     class Meta:
         model = Question
         fields = {
-            'discipline': ['exact'],
-            'difficulty_level': ['exact'],
-            'type': ['exact'],
-            'statement': ['icontains'],
+            'discipline',
+            'difficulty_level',
+            'type',
+            'statement',
         }
