@@ -1,7 +1,11 @@
 from django_filters.views import FilterView
 from core.utils import is_htmx_request
-from .models import Activity
-from .filters import ActivityFilterSet
+from .models import Activity, QuestionActivity
+from .filters import ActivityFilterSet, QuestionActivityFilterSet
+from django.views.generic import CreateView
+from .forms import ActivityForm
+from question.models import Question
+from django.shortcuts import get_list_or_404
 
 
 class ActivityListView(FilterView):
@@ -20,3 +24,29 @@ class ActivityListView(FilterView):
             return ['activities/partials/list_partial.html']
 
         return [self.template_name]
+
+
+class ActivityCreateView(CreateView, FilterView):
+    model = Activity
+    form_class = ActivityForm
+    template_name = 'activities/create.html'
+    filterset_class = QuestionActivityFilterSet
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+
+        list_of_ids = self.request.POST.get('questions_ids')
+        if list_of_ids:
+            ordered_list_ids = list_of_ids.split(',')
+            questions = get_list_or_404(id=ordered_list_ids)
+
+            for index in len(questions):
+                question_activity = QuestionActivity.objects.create(
+                    activity=self.object, question=questions[index])
+                question_activity.order = index + 1
+                question_activity.save()
+
+        self.object.save()
+
+        return super().form_valid(form)
