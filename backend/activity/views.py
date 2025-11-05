@@ -3,7 +3,7 @@ from django_filters.views import FilterView
 from core.utils import is_htmx_request
 from .models import Activity, QuestionActivity
 from .filters import ActivityFilterSet, QuestionActivityFilterSet
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from .forms import ActivityForm
 from question.models import Question
 from django.shortcuts import get_list_or_404
@@ -52,3 +52,10 @@ class ActivityCreateView(CreateView, FilterView):
         self.object.save()
 
         return super().form_valid(form)
+
+
+class ActivityDeleteView(DeleteView):
+    model = Activity
+    template_name = 'activities/partials/modal_delete.html'
+    context_object_name = 'activity'
+    success_url = reverse_lazy('activity:list')
