@@ -1,5 +1,6 @@
 import django_filters
 from .models import Activity
+from question.models import Question
 from discipline.models import Discipline
 from django import forms
 
@@ -42,3 +43,14 @@ class ActivityFilterSet(django_filters.FilterSet):
     class Meta:
         model = Activity
         fields = ['discipline', 'unit', 'period']
+
+
+class QuestionActivityFilterSet(django_filters.FilterSet):
+    class Meta:
+        model = Question
+        fields = {
+            'discipline': ['exact'],
+            'difficulty_level': ['exact'],
+            'type': ['exact'],
+            'statement': ['icontains'],
+        }
