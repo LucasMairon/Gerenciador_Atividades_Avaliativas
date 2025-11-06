@@ -43,7 +43,7 @@ class ActivityForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                     'id': 'periodo',
-                    'placeholder': 'Ex:2025.2'
+                    'placeholder': 'Ex: 2025.2'
                 }
             ),
             'unit': forms.Select(

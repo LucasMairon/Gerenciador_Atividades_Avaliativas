@@ -1,12 +1,63 @@
 {% extends "base.html" %}
+{% block title %}Criar atividade avaliativa{% endblock title %}
 
 {% block content %}
-formulario da avaliação:
-<form method="post" hx-post="{% url "activity:create" %}">
-    {{form}}
-    <button type="submit">Salvar</button>
-</form>
-filtro das questões:
-{{filter.form.as_p}}
+    <h1 class="h2 mb-4 fw-bold">Criar atividade avaliativa</h1>
 
+    <form method="post" hx-post="{% url "activity:create" %}">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">Informações da atividade avaliativa</h5>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="{{form.name.id_for_label}}" class="form-label fw-medium">Nome da atividade <span class="text-danger">*</span></label>
+                            {{form.name}}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="{{form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina <span class="text-danger">*</span></label>
+                            {{form.discipline}}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="{{form.period.id_for_label}}" class="form-label fw-medium">Período <span class="text-danger">*</span></label>
+                            {{form.period}}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="{{form.unit.id_for_label}}" class="form-label fw-medium">Unidade <span class="text-danger">*</span></label>
+                            {{form.unit}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">Filtrar questões</h5>
+                    
+                    <form id="filter-questions-form" 
+                          hx-get="{% url "question:list" %}" 
+                          hx-target="#available-questions"
+                          hx-swap="innerHTML">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="{{filter.form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina</label>
+                                {{filter.form.discipline}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="{{filter.form.difficulty_level.id_for_label}}" class="form-label fw-medium">Dificuldade</label>
+                                {{filter.form.difficulty_level}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="{{filter.form.type.id_for_label}}" class="form-label fw-medium">Tipo de questão</label>
+                                {{filter.form.type}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="{{filter.form.statement.id_for_label}}" class="form-label fw-medium">Buscar</label>
+                                {{filter.form.statement}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <button type="submit">Salvar</button>
+    </form>
 {% endblock content %}
