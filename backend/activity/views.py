@@ -6,7 +6,8 @@ from .filters import ActivityFilterSet, QuestionActivityFilterSet
 from django.views.generic import CreateView, DeleteView
 from .forms import ActivityForm
 from question.models import Question
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
+from django_weasyprint.views import WeasyTemplateView
 
 
 class ActivityListView(FilterView):
@@ -59,3 +60,17 @@ class ActivityDeleteView(DeleteView):
     template_name = 'activities/partials/modal_delete.html'
     context_object_name = 'activity'
     success_url = reverse_lazy('activity:list')
+
+
+class ActivityPDFPreviewView(WeasyTemplateView):
+    template_name = 'activities/detail_pdf.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        activity_pk = kwargs.get('pk')
+
+        activity = get_object_or_404(Activity, id=activity_pk)
+
+        context['activity'] = activity
+
+        return context
