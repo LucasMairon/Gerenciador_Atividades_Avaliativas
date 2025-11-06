@@ -58,6 +58,70 @@
                     </form>
                 </div>
             </div>
+
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-white py-3">
+                            <h6 class="mb-0 fw-bold">Questões</h6>
+                        </div>
+                        
+                        <div id="available-questions" class="card-body question-list-container list-group list-group-flush p-3 question-list-group">
+                            <div class="list-group-item p-3 mb-2 border rounded question-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="me-3">
+                                        <div class="mb-2">
+                                            <span class="badge text-bg-danger">Difícil</span>
+                                            <span class="badge text-bg-info">Objetiva</span>
+                                        </div>
+                                        <div class="justify-content-between"><span class="text-muted"><i class="bi bi-arrow-down-circle me-1"></i> 12 usos</span></div>
+                                        <span class="d-block mb-1">Quais as fases da metodologia cascata...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer bg-white d-flex justify-content-center">
+                            <nav aria-label="Paginação das questões disponíveis">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-white py-3">
+                            <h6 class="mb-0 fw-bold">Questões selecionadas</h6>
+                        </div>
+                        
+                        <div id="selected-questions" class="card-body question-list-container list-group list-group-flush p-3 question-list-group">
+                            
+                            <div id="empty-selected-placeholder" class="text-center text-muted p-5 h-100 d-flex align-items-center justify-content-center">
+                                <span>As questões selecionadas para a atividade avaliativa aparecerão aqui!</span>
+                            </div>
+
+                        </div>
+                        <div class="card-footer bg-white d-flex justify-content-center">
+                            <nav aria-label="Paginação das questões selecionadas">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <button type="submit">Salvar</button>
     </form>
 {% endblock content %}
