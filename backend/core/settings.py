@@ -44,6 +44,7 @@ THRID_PARTY_APPS = [
     'django_htmx',
     'django_summernote',
     'django_tomselect',
+    'django_weasyprint',
 ]
 
 LOCAL_APPS = [
