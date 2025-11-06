@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {{activity.name}} - Unidade {{activity.unit}} - {{activity.period}}
+    {% for question in questions %}
+        {{question.statement}}
+        {{question.get_difficulty_level_display}}
+        
+        {% if question.type == 'O' %}
+            {% for alternative in question.alternatives %}
+                {{alternative.description}}
+            {% endfor %}
+
+        {% elif question.type == 'S' %}
+            {{question.expected_answer}}
+        {% endif %}
+        
+
+    {% endfor %}
+</body>
+</html>
