@@ -8,6 +8,7 @@ from .forms import ActivityForm
 from question.models import Question
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django_weasyprint.views import WeasyTemplateView
+from django.db.models import Q
 
 
 class ActivityListView(FilterView):
@@ -34,6 +35,8 @@ class ActivityCreateView(CreateView, FilterView):
     template_name = 'activities/create.html'
     filterset_class = QuestionActivityFilterSet
     success_url = reverse_lazy('activity:list')
+    context_object_name = 'questions'
+    paginate_by = 6
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -53,6 +56,12 @@ class ActivityCreateView(CreateView, FilterView):
         self.object.save()
 
         return super().form_valid(form)
+
+    def get_queryset(self):
+        user = self.request.user
+        questions = Question.objects.filter(
+            Q(visibility=True) | Q(owner=user)).order_by('-updated_at', '-created_at')
+        return questions
 
 
 class ActivityDeleteView(DeleteView):
