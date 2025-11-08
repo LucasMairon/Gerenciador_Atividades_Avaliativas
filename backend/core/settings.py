@@ -48,6 +48,7 @@ THRID_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    'core',
     'alternative',
     'discipline',
     'question',
