@@ -1,12 +1,14 @@
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
+from django.core.paginator import Paginator
+from django.contrib import messages
 from core.utils import is_htmx_request
 from .models import Activity, QuestionActivity
 from .filters import ActivityFilterSet, QuestionActivityFilterSet
 from django.views.generic import CreateView, DeleteView
 from .forms import ActivityForm
 from question.models import Question
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django_weasyprint.views import WeasyTemplateView
 from django.db.models import Q
 
@@ -29,55 +31,55 @@ class ActivityListView(FilterView):
         return [self.template_name]
 
 
-class ActivityCreateView(CreateView, FilterView):
+class ActivityCreateView(CreateView):
     model = Activity
     form_class = ActivityForm
     template_name = 'activities/create.html'
-    filterset_class = QuestionActivityFilterSet
     success_url = reverse_lazy('activity:list')
-    context_object_name = 'questions'
-    paginate_by = 6
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
 
+        self.object.save()
         list_of_ids = self.request.POST.get('questions_ids')
         if list_of_ids:
             ordered_list_ids = list_of_ids.split(',')
-            questions = get_list_or_404(id=ordered_list_ids)
 
-            for index in len(questions):
+            for index, question_id in enumerate(ordered_list_ids):
+                question = get_object_or_404(id=question_id)
                 question_activity = QuestionActivity.objects.create(
-                    activity=self.object, question=questions[index])
-                question_activity.order = index + 1
+                    activity=self.object, question=question, order=index + 1)
+                question.use_count += 1
                 question_activity.save()
 
-        self.object.save()
-
-        return super().form_valid(form)
-
-    def get_queryset(self):
-        user = self.request.user
-        questions = Question.objects.filter(
-            Q(visibility=True) | Q(owner=user)).order_by('-updated_at', '-created_at')
-
-        filterset_class = self.get_filterset_class()
-        self.filterset = filterset_class(
-            self.request.GET or None,
-            queryset=questions,
-            request=self.request
-        )
-        return self.filterset.qs
+            return redirect(self.get_success_url())
+        else:
+            messages.error(
+                self.request, 'Se certifique de adicionar pelo menos uma questão a avaliação')
+            return self.form_invalid(form)
 
     def get_context_data(self, **kwargs):
-        if not hasattr(self, 'filterset'):
-            self.get_queryset()
-
-        self.object_list = self.filterset.qs
-
         context = super().get_context_data(**kwargs)
-        context['filter'] = self.filterset
+
+        user = self.request.user
+        questions_queryset = Question.objects.filter(
+            Q(visibility=True) | Q(owner=user)).order_by('-updated_at', '-created_at')
+
+        question_activity_filterset = QuestionActivityFilterSet(
+            self.request.GET or None,
+            queryset=questions_queryset,
+            request=self.request,
+            prefix='filter'
+        )
+
+        paginator = Paginator(question_activity_filterset.qs, 6)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context['filter'] = question_activity_filterset
+        context['questions'] = page_obj
+        context['paginator'] = paginator
         return context
 
     def get_template_names(self):
@@ -85,6 +87,12 @@ class ActivityCreateView(CreateView, FilterView):
             return ['activities/partials/available_questions_list.html']
 
         return [self.template_name]
+
+    def form_invalid(self, form):
+        messages.error(
+            self.request, f'{form.errors}')
+        response = super().form_invalid(form)
+        return response
 
 
 class ActivityDeleteView(DeleteView):
