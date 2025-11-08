@@ -7,17 +7,17 @@
 </head>
 <body>
     {{activity.name}} - Unidade {{activity.unit}} - {{activity.period}}
-    {% for question in questions %}
-        {{question.statement}}
-        {{question.get_difficulty_level_display}}
+    {% for question_activity in questions_activity %}
+        {{question_activity.question.statement}}
+        {{question_activity.question.get_difficulty_level_display}}
         
-        {% if question.type == 'O' %}
-            {% for alternative in question.alternatives %}
+        {% if question_activity.question.type == 'O' %}
+            {% for alternative in question_activity.question.alternatives %}
                 {{alternative.description}}
             {% endfor %}
 
-        {% elif question.type == 'S' %}
-            {{question.expected_answer}}
+        {% elif question_activity.question.type == 'S' %}
+            {{question_activity.question.expected_answer}}
         {% endif %}
         
 
