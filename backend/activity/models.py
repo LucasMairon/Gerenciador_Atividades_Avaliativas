@@ -106,3 +106,4 @@ class QuestionActivity(models.Model):
         verbose_name = 'Questão de atividade'
         verbose_name_plural = 'Questões de atividades'
         unique_together = [['activity', 'order'], ['activity', 'question']]
+        ordering = ['order']
