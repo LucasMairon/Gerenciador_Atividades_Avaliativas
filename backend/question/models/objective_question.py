@@ -11,9 +11,6 @@ class ObjectiveQuestion(Question):
         blank=True
     )
 
-    def __str__(self):
-        return self.statement
-
     class Meta:
         verbose_name = 'Questão Objetiva'
         verbose_name_plural = 'Questões Objetivas'

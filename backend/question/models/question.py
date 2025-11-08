@@ -86,6 +86,9 @@ class Question(models.Model):
         related_name='%(class)s_questions'
     )
 
+    def __str__(self):
+        return self.statement
+
     class Meta:
         verbose_name = 'Questão'
         verbose_name_plural = 'Questões'
