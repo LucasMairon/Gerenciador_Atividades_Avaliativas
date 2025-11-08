@@ -4,124 +4,112 @@
 {% block content %}
     <h1 class="h2 mb-4 fw-bold">Criar atividade avaliativa</h1>
 
-    <form method="post" hx-post="{% url "activity:create" %}">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3">Informações da atividade avaliativa</h5>
+    <form method="post" id="activity-form" action="{% url "activity:create" %}">
+        {% csrf_token %}
+
+        <input type="hidden" name="questions_ids" id="questions_ids_input">
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Informações da atividade avaliativa</h5>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="{{form.name.id_for_label}}" class="form-label fw-medium">Nome da atividade <span class="text-danger">*</span></label>
+                        {{form.name}}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina <span class="text-danger">*</span></label>
+                        {{form.discipline}}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{form.period.id_for_label}}" class="form-label fw-medium">Período <span class="text-danger">*</span></label>
+                        {{form.period}}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{form.unit.id_for_label}}" class="form-label fw-medium">Unidade <span class="text-danger">*</span></label>
+                        {{form.unit}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Filtrar questões</h5>
+                
+                <div id="filter-questions-form" 
+                      hx-get="{% url "activity:create" %}" 
+                      hx-target="#available-questions-wrapper"
+                      hx-swap="innerHTML"
+                      hx-trigger="change, keyup changed delay:500ms from:input"
+                      hx-include="this">
+                    
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <label for="{{form.name.id_for_label}}" class="form-label fw-medium">Nome da atividade <span class="text-danger">*</span></label>
-                            {{form.name}}
+                            <label for="{{filter.form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina</label>
+                            {{filter.form.discipline}}
                         </div>
                         <div class="col-md-3">
-                            <label for="{{form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina <span class="text-danger">*</span></label>
-                            {{form.discipline}}
+                            <label for="{{filter.form.difficulty_level.id_for_label}}" class="form-label fw-medium">Dificuldade</label>
+                            {{filter.form.difficulty_level}}
                         </div>
                         <div class="col-md-3">
-                            <label for="{{form.period.id_for_label}}" class="form-label fw-medium">Período <span class="text-danger">*</span></label>
-                            {{form.period}}
+                            <label for="{{filter.form.type.id_for_label}}" class="form-label fw-medium">Tipo de questão</label>
+                            {{filter.form.type}}
                         </div>
                         <div class="col-md-3">
-                            <label for="{{form.unit.id_for_label}}" class="form-label fw-medium">Unidade <span class="text-danger">*</span></label>
-                            {{form.unit}}
+                            <label for="{{filter.form.statement.id_for_label}}" class="form-label fw-medium">Buscar</label>
+                            {{filter.form.statement}}
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3">Filtrar questões</h5>
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100 d-flex flex-column">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 fw-bold">Questões Disponíveis</h6>
+                    </div>
                     
-                    <form id="filter-questions-form" 
-                          hx-get="{% url "question:list" %}" 
-                          hx-target="#available-questions"
-                          hx-swap="innerHTML">
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <label for="{{filter.form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina</label>
-                                {{filter.form.discipline}}
-                            </div>
-                            <div class="col-md-3">
-                                <label for="{{filter.form.difficulty_level.id_for_label}}" class="form-label fw-medium">Dificuldade</label>
-                                {{filter.form.difficulty_level}}
-                            </div>
-                            <div class="col-md-3">
-                                <label for="{{filter.form.type.id_for_label}}" class="form-label fw-medium">Tipo de questão</label>
-                                {{filter.form.type}}
-                            </div>
-                            <div class="col-md-3">
-                                <label for="{{filter.form.statement.id_for_label}}" class="form-label fw-medium">Buscar</label>
-                                {{filter.form.statement}}
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="row g-4">
-
-                <div class="col-lg-6">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-header bg-white py-3">
-                            <h6 class="mb-0 fw-bold">Questões</h6>
-                        </div>
-                        
-                        <div id="available-questions" class="card-body question-list-container list-group list-group-flush p-3 question-list-group">
-                            <div class="list-group-item p-3 mb-2 border rounded question-card">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="me-3">
-                                        <div class="mb-2">
-                                            <span class="badge text-bg-danger">Difícil</span>
-                                            <span class="badge text-bg-info">Objetiva</span>
-                                        </div>
-                                        <div class="justify-content-between"><span class="text-muted"><i class="bi bi-arrow-down-circle me-1"></i> 12 usos</span></div>
-                                        <span class="d-block mb-1">Quais as fases da metodologia cascata...</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-footer bg-white d-flex justify-content-center">
-                            <nav aria-label="Paginação das questões disponíveis">
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <div id="available-questions-wrapper" class="card-body question-list-container p-3">
+                        {% include "activities/partials/_list_content.html" %}
                     </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-header bg-white py-3">
-                            <h6 class="mb-0 fw-bold">Questões selecionadas</h6>
-                        </div>
-                        
-                        <div id="selected-questions" class="card-body question-list-container list-group list-group-flush p-3 question-list-group">
-                            
-                            <div id="empty-selected-placeholder" class="text-center text-muted p-5 h-100 d-flex align-items-center justify-content-center">
-                                <span>As questões selecionadas para a atividade avaliativa aparecerão aqui!</span>
-                            </div>
-
-                        </div>
-                        <div class="card-footer bg-white d-flex justify-content-center">
-                            <nav aria-label="Paginação das questões selecionadas">
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
-                            </nav>
+                    <div class="card-footer bg-white d-flex justify-content-center">
+                        <div id="questions-pagination">
+                            {% include "activities/partials/pagination_questions.html" %}
                         </div>
                     </div>
                 </div>
             </div>
 
-        <button type="submit">Salvar</button>
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 fw-bold">Questões Selecionadas</h6>
+                    </div>
+                    
+                    <div id="selected-questions" class="card-body question-list-container list-group question-list-group p-3" style="min-height: 400px; max-height: 600px; overflow-y: auto;">
+                        
+                        <div id="empty-selected-placeholder" class="text-center text-muted p-5 h-100 d-flex align-items-center justify-content-center">
+                            <span>Arraste as questões para cá!</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <a href="{% url "activity:list" %}" class="btn btn-secondary me-2">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
     </form>
 {% endblock content %}
+
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+{% endblock scripts %}
