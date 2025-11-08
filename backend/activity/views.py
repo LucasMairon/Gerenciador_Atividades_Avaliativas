@@ -88,12 +88,6 @@ class ActivityCreateView(CreateView):
 
         return [self.template_name]
 
-    def form_invalid(self, form):
-        messages.error(
-            self.request, f'{form.errors}')
-        response = super().form_invalid(form)
-        return response
-
 
 class ActivityDeleteView(DeleteView):
     model = Activity
