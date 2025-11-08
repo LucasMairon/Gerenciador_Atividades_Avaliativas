@@ -40,7 +40,7 @@ class ActivityCreateView(CreateView, FilterView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.user = self.request.user
+        self.object.owner = self.request.user
 
         list_of_ids = self.request.POST.get('questions_ids')
         if list_of_ids:
@@ -61,7 +61,7 @@ class ActivityCreateView(CreateView, FilterView):
         user = self.request.user
         questions = Question.objects.filter(
             Q(visibility=True) | Q(owner=user)).order_by('-updated_at', '-created_at')
-        
+
         filterset_class = self.get_filterset_class()
         self.filterset = filterset_class(
             self.request.GET or None,
@@ -69,7 +69,7 @@ class ActivityCreateView(CreateView, FilterView):
             request=self.request
         )
         return self.filterset.qs
-    
+
     def get_context_data(self, **kwargs):
         if not hasattr(self, 'filterset'):
             self.get_queryset()
@@ -83,7 +83,7 @@ class ActivityCreateView(CreateView, FilterView):
     def get_template_names(self):
         if is_htmx_request(self.request):
             return ['activities/partials/available_questions_list.html']
-        
+
         return [self.template_name]
 
 
