@@ -74,13 +74,8 @@ class ActivityCreateView(CreateView):
             prefix='filter'
         )
 
-        paginator = Paginator(question_activity_filterset.qs, 6)
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
         context['filter'] = question_activity_filterset
-        context['questions'] = page_obj
-        context['paginator'] = paginator
+        context['questions'] = question_activity_filterset.qs
         return context
 
     def get_template_names(self):

@@ -74,14 +74,10 @@
                         <h6 class="mb-0 fw-bold">Questões Disponíveis</h6>
                     </div>
                     
-                    <div id="available-questions-wrapper" class="card-body question-list-container p-3">
-                        {% include "activities/partials/_list_content.html" %}
+                    <div id="available-questions-wrapper" class="card-body question-list-container p-3" style="min-height: 400px; max-height: 600px; overflow-y: auto;">
+                        {% include "activities/partials/available_questions_list.html" %}
                     </div>
-                    <div class="card-footer bg-white d-flex justify-content-center">
-                        <div id="questions-pagination">
-                            {% include "activities/partials/pagination_questions.html" %}
-                        </div>
-                    </div>
+
                 </div>
             </div>
 

@@ -1,9 +1,0 @@
-<div id="available-questions" class="list-group question-list-group">
-    {% for question in questions %}
-        {% include "activities/partials/question_card.html" with question=question %}
-    {% empty %}
-        <div id="empty-available-placeholder" class="text-center text-muted p-5">
-            <span>Nenhuma questão disponível, altere o filtro de questões!</span>
-        </div>
-    {% endfor %}
-</div>
