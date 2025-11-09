@@ -23,7 +23,7 @@
                 {% endfor %}
             </div>
             {% if activities|length > 0 %}
-                {% include "partials/pagination.html" %}
+                {% include "partials/pagination.html" with id_target="#activity-list-wrapper" %}
             {% endif %}
         </div>
 

@@ -7,6 +7,6 @@
         {% endfor %}
     </div>
         {% if questions|length > 0 %}
-            {% include "partials/pagination.html" %}
+            {% include "partials/pagination.html" with id_target="#question-list-wrapper"%}
         {% endif %}
 </div>

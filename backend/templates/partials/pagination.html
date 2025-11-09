@@ -9,7 +9,7 @@
                href="?{% add_param_to_url page=page_obj.previous_page_number %}" 
                aria-label="Anterior"
                hx-get="?{% add_param_to_url page=page_obj.previous_page_number %}"
-               hx-target="#question-list-wrapper"
+               hx-target={{id_target}}
                hx-swap="outerHTML"
                hx-push-url="true">
                 <span aria-hidden="true">&laquo;</span>
@@ -22,7 +22,7 @@
                 <a class="page-link" 
                    href="?{% add_param_to_url page=page_obj.previous_page_number %}"
                    hx-get="?{% add_param_to_url page=page_obj.previous_page_number %}"
-                   hx-target="#question-list-wrapper"
+                   hx-target={{id_target}}
                    hx-swap="outerHTML"
                    hx-push-url="true">
                    {{page_obj.previous_page_number}}
@@ -34,7 +34,7 @@
             <a class="page-link" 
                href="?{% add_param_to_url page=page_obj.number %}"
                hx-get="?{% add_param_to_url page=page_obj.number %}"
-               hx-target="#question-list-wrapper"
+               hx-target={{id_target}}
                hx-swap="outerHTML"
                hx-push-url="true">
                {{page_obj.number}}
@@ -46,7 +46,7 @@
                 <a class="page-link" 
                    href="?{% add_param_to_url page=page_obj.next_page_number %}"
                    hx-get="?{% add_param_to_url page=page_obj.next_page_number %}"
-                   hx-target="#question-list-wrapper"
+                   hx-target={{id_target}}
                    hx-swap="outerHTML"
                    hx-push-url="true">
                    {{page_obj.next_page_number}}
@@ -60,7 +60,7 @@
                href="?{% add_param_to_url page=page_obj.next_page_number %}" 
                aria-label="Próximo"
                hx-get="?{% add_param_to_url page=page_obj.next_page_number %}"
-               hx-target="#question-list-wrapper"
+               hx-target={{id_target}}
                hx-swap="outerHTML"
                hx-push-url="true">
                 <span aria-hidden="true">&raquo;</span>
