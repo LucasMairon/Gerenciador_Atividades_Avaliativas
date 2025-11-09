@@ -123,4 +123,4 @@ class ActivityPDFPreviewView(WeasyTemplateView):
 
     def get_pdf_filename(self):
         activity = self.get_object(id=self.kwargs.get('pk'))
-        return f'{activity.name} - unidade {activity.unit} - {activity.period}'
+        return f'{activity.name}-unidade_{activity.unit}-{activity.period}'
