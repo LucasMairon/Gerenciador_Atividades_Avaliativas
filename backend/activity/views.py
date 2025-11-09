@@ -102,12 +102,16 @@ class ActivityDeleteView(DeleteView):
 
 class ActivityPDFPreviewView(WeasyTemplateView):
     template_name = 'activities/pdf_preview/detail_pdf.html'
+    pdf_attachment = False
+
+    def get_object(self, id):
+        return get_object_or_404(Activity, id=id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         activity_pk = kwargs.get('pk')
 
-        activity = get_object_or_404(Activity, id=activity_pk)
+        activity = self.get_object(id=activity_pk)
 
         context['activity'] = activity
 
@@ -116,3 +120,7 @@ class ActivityPDFPreviewView(WeasyTemplateView):
         context['questions'] = questions_activity
 
         return context
+
+    def get_pdf_filename(self):
+        activity = self.get_object(id=self.kwargs.get('pk'))
+        return f'{activity.name} - unidade {activity.unit} - {activity.period}'
