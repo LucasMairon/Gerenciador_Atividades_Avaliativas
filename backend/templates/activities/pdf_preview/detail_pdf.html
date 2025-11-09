@@ -130,14 +130,13 @@
         <ol>
             {% for question_activity in questions_activity %}
             <li>
-                {{question_activity.question.statement|safe}}
-
                 {% if question_activity.question.type == 'O' %}
-                  <ol>
+                    {{question_activity.question.statement|safe}}
                     {% for alternative in question_activity.question.alternatives %}
                         <li>{{alternative.description|safe}}</li>
                     {% endfor %}
-                  </ol>
+                {% elif question_activity.question.type == 'S' %}
+                    {{question_activity.question.statement|safe}}
                 {% endif %}
             </li>
             {% endfor %}
