@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="col-md-6 mb-4">
+<div class="col-md-6 mb-4" id="activity-card-{{ activity.id }}">
     <div class="card shadow-sm h-100">
         <div class="card-body">
             <h5 class="card-title fw-semibold">Unidade {{activity.unit}} - {{activity.period}}</h5>
@@ -36,7 +36,13 @@
                 </ul>
             </div>
 
-            <a href="#" class="btn btn-danger btn-sm" aria-label="Deletar"><i class="bi bi-trash-fill"></i></a>
+            <a href="#" class="btn btn-danger btn-sm" aria-label="Deletar"
+               hx-get="{% url 'activity:delete' pk=activity.id %}"
+               hx-target="#modal-delete-activity .modal-content"
+               data-bs-toggle="modal"
+               data-bs-target="#modal-delete-activity">
+                <i class="bi bi-trash-fill"></i>
+            </a>
         </div>
     </div>
 </div>

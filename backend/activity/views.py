@@ -11,6 +11,7 @@ from question.models import Question
 from django.shortcuts import get_object_or_404, redirect
 from django_weasyprint.views import WeasyTemplateView
 from django.db.models import Q
+from django.http import HttpResponse
 
 
 class ActivityListView(FilterView):
@@ -90,6 +91,13 @@ class ActivityDeleteView(DeleteView):
     template_name = 'activities/partials/modal_delete.html'
     context_object_name = 'activity'
     success_url = reverse_lazy('activity:list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        self.object.delete()
+
+        return HttpResponse(status=200)
 
 
 class ActivityPDFPreviewView(WeasyTemplateView):
