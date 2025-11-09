@@ -1,11 +1,21 @@
 {% load static %}
 
+{% if question.type == 'O' %}
+    {% url 'question:detail' type='objective' pk=question.id as detail_url %}
+{% elif question.type == 'S' %}
+    {% url 'question:detail' type='subjective' pk=question.id as detail_url %}
+{% endif %}
+
 <div class="list-group-item p-3 mb-2 border rounded question-card" 
      data-question-id="{{ question.id }}">
     
     <div class="d-flex justify-content-between align-items-center">
         
-        <div class="me-3" style="flex-grow: 1;"> 
+        <div class="me-3" style="flex-grow: 1; cursor: pointer;"
+             hx-get="{{ detail_url }}"
+             hx-target="#modalVisualizarQuestao .modal-content"
+             data-bs-toggle="modal"
+             data-bs-target="#modalVisualizarQuestao"> 
             
             <div class="d-flex justify-content-between align-items-start mb-2">
                 
@@ -30,10 +40,10 @@
                 </div>
             </div>
 
-            <span class="d-block mb-1">{{ question.statement|striptags|truncatechars:60 }}</span>
+            <h6 class="d-block mb-1">{{ question.statement|striptags|truncatechars:60 }}</h6>
 
         </div>
         
-        <i classs="bi bi-grip-vertical" style="font-size: 1.2rem; cursor: grab;"></i>
+        <i classs="bi bi-grip-vertical drag-handle" style="font-size: 1.2rem; cursor: grab;"></i>
     </div>
 </div>
