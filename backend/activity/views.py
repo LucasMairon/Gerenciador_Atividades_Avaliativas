@@ -1,17 +1,17 @@
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
-from django.core.paginator import Paginator
 from django.contrib import messages
-from core.utils import is_htmx_request
-from .models import Activity, QuestionActivity
-from .filters import ActivityFilterSet, QuestionActivityFilterSet
 from django.views.generic import CreateView, DeleteView
-from .forms import ActivityForm
 from question.models import Question
 from django.shortcuts import get_object_or_404, redirect
 from django_weasyprint.views import WeasyTemplateView
 from django.db.models import Q
 from django.http import HttpResponse
+from .utils import get_question_activity_filter
+from core.utils import is_htmx_request
+from .forms import ActivityForm
+from .models import Activity, QuestionActivity
+from .filters import ActivityFilterSet
 
 
 class ActivityListView(FilterView):
@@ -64,15 +64,9 @@ class ActivityCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        user = self.request.user
-        questions_queryset = Question.objects.filter(
-            Q(visibility=True) | Q(owner=user)).order_by('-updated_at', '-created_at')
-
-        question_activity_filterset = QuestionActivityFilterSet(
-            self.request.GET or None,
-            queryset=questions_queryset,
-            request=self.request,
-            prefix='filter'
+        question_activity_filterset = get_question_activity_filter(
+            owner=self.request.user,
+            request=self.request
         )
 
         context['filter'] = question_activity_filterset
