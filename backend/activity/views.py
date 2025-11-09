@@ -51,6 +51,7 @@ class ActivityCreateView(CreateView):
                 question_activity = QuestionActivity.objects.create(
                     activity=self.object, question=question, order=index + 1)
                 question.use_count += 1
+                question.save()
                 question_activity.save()
 
             return redirect(self.get_success_url())
