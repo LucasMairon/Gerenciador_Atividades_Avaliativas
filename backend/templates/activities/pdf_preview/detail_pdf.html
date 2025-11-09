@@ -128,15 +128,15 @@
 
     <div class="questions">
         <ol>
-            {% for question_activity in questions_activity %}
+            {% for question in questions %}
             <li>
-                {% if question_activity.question.type == 'O' %}
-                    {{question_activity.question.statement|safe}}
-                    {% for alternative in question_activity.question.alternatives %}
+                {% if question.type == 'O' %}
+                    {{question.statement|safe}}
+                    {% for alternative in question.objectivequestion.alternatives.all %}
                         <li>{{alternative.description|safe}}</li>
                     {% endfor %}
-                {% elif question_activity.question.type == 'S' %}
-                    {{question_activity.question.statement|safe}}
+                {% elif question.type == 'S' %}
+                    {{question.statement|safe}}
                 {% endif %}
             </li>
             {% endfor %}

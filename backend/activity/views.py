@@ -111,6 +111,8 @@ class ActivityPDFPreviewView(WeasyTemplateView):
 
         context['activity'] = activity
 
-        context['questions_activity'] = activity.questionactivity_set.all()
+        questions_activity = activity.questions.all()
+
+        context['questions'] = questions_activity
 
         return context
