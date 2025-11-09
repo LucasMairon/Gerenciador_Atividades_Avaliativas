@@ -47,7 +47,7 @@ class ActivityCreateView(CreateView):
             ordered_list_ids = list_of_ids.split(',')
 
             for index, question_id in enumerate(ordered_list_ids):
-                question = get_object_or_404(id=question_id)
+                question = get_object_or_404(Question, id=question_id)
                 question_activity = QuestionActivity.objects.create(
                     activity=self.object, question=question, order=index + 1)
                 question.use_count += 1
@@ -56,7 +56,7 @@ class ActivityCreateView(CreateView):
             return redirect(self.get_success_url())
         else:
             messages.error(
-                self.request, 'Se certifique de adicionar pelo menos uma questão a avaliação')
+                self.request, 'Se certifique de adicionar pelo menos uma questão na atividade avaliativa!')
             return self.form_invalid(form)
 
     def get_context_data(self, **kwargs):
