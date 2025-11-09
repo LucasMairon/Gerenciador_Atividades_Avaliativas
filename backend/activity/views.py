@@ -93,7 +93,7 @@ class ActivityDeleteView(DeleteView):
 
 
 class ActivityPDFPreviewView(WeasyTemplateView):
-    template_name = 'activities/detail_pdf.html'
+    template_name = 'activities/pdf_preview/detail_pdf.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
