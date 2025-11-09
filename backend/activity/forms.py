@@ -43,6 +43,7 @@ class ActivityForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                     'id': 'periodo',
+                    'pattern':'^(19|20)\d{2}\.[1-3]$',
                     'placeholder': 'Ex: 2025.2'
                 }
             ),

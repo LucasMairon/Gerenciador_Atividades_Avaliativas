@@ -4,7 +4,7 @@
 {% block content %}
     <h1 class="h2 mb-4 fw-bold">Criar atividade avaliativa</h1>
 
-    <form method="post" id="activity-form" action="{% url "activity:create" %}">
+    <form class="needs-validation" novalidate method="post" id="activity-form" action="{% url "activity:create" %}">
         {% csrf_token %}
 
         <input type="hidden" name="questions_ids" id="questions_ids_input">
@@ -16,18 +16,22 @@
                     <div class="col-md-3">
                         <label for="{{form.name.id_for_label}}" class="form-label fw-medium">Nome da atividade <span class="text-danger">*</span></label>
                         {{form.name}}
+                        <div class="invalid-feedback">Você deve informar o nome da atividade avaliativa.</div>
                     </div>
                     <div class="col-md-3">
                         <label for="{{form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina <span class="text-danger">*</span></label>
                         {{form.discipline}}
+                        <div class="invalid-feedback">Você deve selecionar uma disciplina.</div>
                     </div>
                     <div class="col-md-3">
                         <label for="{{form.period.id_for_label}}" class="form-label fw-medium">Período <span class="text-danger">*</span></label>
                         {{form.period}}
+                        <div class="invalid-feedback">Insira o período no formato correto. Ex: 2025.2</div>
                     </div>
                     <div class="col-md-3">
                         <label for="{{form.unit.id_for_label}}" class="form-label fw-medium">Unidade <span class="text-danger">*</span></label>
                         {{form.unit}}
+                        <div class="invalid-feedback">Você deve selecionar uma unidade.</div>
                     </div>
                 </div>
             </div>
