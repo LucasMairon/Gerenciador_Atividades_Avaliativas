@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from django.contrib import messages
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from question.models import Question
 from django.shortcuts import get_object_or_404, redirect
 from django_weasyprint.views import WeasyTemplateView
@@ -66,7 +66,8 @@ class ActivityCreateView(CreateView):
 
         question_activity_filterset = get_question_activity_filter(
             owner=self.request.user,
-            request=self.request
+            request=self.request,
+            queryset=None
         )
 
         context['filter'] = question_activity_filterset
@@ -92,6 +93,60 @@ class ActivityDeleteView(DeleteView):
         self.object.delete()
 
         return HttpResponse(status=200)
+
+
+class ActivityUpdateView(UpdateView):
+    model = Activity
+    template_name = 'activities/update.html'
+    context_object_name = 'activity'
+    success_url = reverse_lazy('activity:list')
+    form_class = ActivityForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        activity = self.get_object()
+        questions_queryset = Question.objects.filter(Q(visibility=True) | Q(
+            owner=self.request.user)).order_by('-updated_at', '-created_at')
+
+        available_questions = questions_queryset.exclude(
+            id__in=activity.questions.all())
+        question_activity_filterset = get_question_activity_filter(
+            owner=self.request.user,
+            request=self.request,
+            queryset=available_questions
+        )
+
+        context['actual_questions'] = activity.questions.all()
+        context['filter'] = question_activity_filterset
+        context['questions'] = question_activity_filterset.qs
+        return context
+
+    def form_valid(self, form):
+        activity_default_questions = self.object.questions.all()
+
+        list_of_ids = self.request.POST.get('questions_id')
+
+        if list_of_ids:
+            ordered_list_ids = list_of_ids.split(',')
+
+            for index, question_id in enumerate(ordered_list_ids):
+                question = get_object_or_404(Question, id=question_id)
+
+                question_activity = QuestionActivity.objects.update_or_create(
+                    activity=self.object, question=question, defaults={'order': index + 1})
+
+                if question not in activity_default_questions:
+                    question.use_count += 1
+
+                question.save()
+                question_activity.save()
+
+            return redirect(self.get_success_url())
+
+        else:
+            messages.error(
+                self.request, 'Se certifique de adicionar pelo menos uma questão na atividade avaliativa!')
+            return self.form_invalid(form)
 
 
 class ActivityPDFPreviewView(WeasyTemplateView):
