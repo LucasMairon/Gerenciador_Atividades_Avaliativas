@@ -59,7 +59,8 @@ class ActivityCreateView(CreateView):
                     messages.error(
                         self.request, 'Você está tentando manipular uma questão que não existe mais')
                     return self.form_invalid(form)
-
+            messages.success(
+                self.request, 'Atividade avaliativa criada com sucesso!')
             return redirect(self.get_success_url())
         else:
             messages.error(
@@ -152,6 +153,8 @@ class ActivityUpdateView(UpdateView):
                         self.request, 'Você está tentando manipular uma questão que não existe mais')
                     return self.form_invalid(form)
 
+            messages.success(
+                self.request, 'Atividade avaliativa editada com sucesso')
             return redirect(self.get_success_url())
 
         else:
