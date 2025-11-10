@@ -129,11 +129,11 @@
         <h2>Centro Multidisciplinar de Pau dos Ferros</h2>
         <h2>Departamento de Engenharias e Tecnologia</h2>
         <h2>{{activity.discipline.code}} - {{activity.discipline.name}}</h2>
-        <h2>Docente: {{activity.owner.name}}</h2>
+        <h2>Docente: {{activity.owner.name|title}}</h2>
       </div>
     </div>
 
-    <div class="exam-title">{{activity.name}} - Unidade {{activity.unit}}</div>
+    <div class="exam-title">{{activity.name| title}} - Unidade {{activity.unit}}</div>
 
     <div class="student-info">
       <strong>Nome:</strong><span class="line"></span> <strong> Data:</strong
@@ -149,7 +149,7 @@
             {% if question.type == 'O' %}
               <ol class="alternatives">
                 {% for alternative in question.objectivequestion.alternatives.all %}
-                  <li>{{alternative.description|safe}}</li>
+                  <li>{{alternative.description}}</li>
                 {% endfor %}
               </ol>
             {% endif %}
