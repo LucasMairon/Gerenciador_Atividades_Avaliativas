@@ -113,7 +113,7 @@ class QuestionListView(LoginRequiredMixin, FilterView):
     def get_queryset(self):
         user = self.request.user
         questions = Question.objects.filter(
-            Q(visibility=True) | Q(owner=user)).order_by('-created_at')
+            Q(visibility=True) | Q(owner=user)).filter(is_active=True).order_by('-created_at')
         return questions
 
     def get_template_names(self):
@@ -183,6 +183,14 @@ class QuestionDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('question:list')
     model = Question
     context_object_name = 'question'
+
+    def form_valid(self, form):
+        if self.object.activities.all():
+            self.object.is_active = False
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return super().form_valid(form)
 
 
 class QuestionDetailView(LoginRequiredMixin, DetailView):
