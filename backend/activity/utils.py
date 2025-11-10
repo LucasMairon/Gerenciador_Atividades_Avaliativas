@@ -8,7 +8,7 @@ def get_question_activity_filter(owner, request, queryset):
         questions_queryset = queryset
     else:
         questions_queryset = Question.objects.filter(
-            Q(visibility=True) | Q(owner=owner)).order_by('-updated_at', '-created_at')
+            Q(visibility=True) | Q(owner=owner)).filter(is_active=True).order_by('-updated_at', '-created_at')
 
     question_activity_filterset = QuestionActivityFilterSet(
         request.GET or None,

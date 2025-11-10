@@ -49,11 +49,16 @@ class ActivityCreateView(CreateView):
 
             for index, question_id in enumerate(ordered_list_ids):
                 question = get_object_or_404(Question, id=question_id)
-                question_activity = QuestionActivity.objects.create(
-                    activity=self.object, question=question, order=index + 1)
-                question.use_count += 1
-                question.save()
-                question_activity.save()
+                if question.is_active:
+                    question_activity = QuestionActivity.objects.create(
+                        activity=self.object, question=question, order=index + 1)
+                    question.use_count += 1
+                    question.save()
+                    question_activity.save()
+                else:
+                    messages.error(
+                        self.request, 'Você está tentando manipular uma questão que não existe mais')
+                    return self.form_invalid(form)
 
             return redirect(self.get_success_url())
         else:
@@ -132,14 +137,20 @@ class ActivityUpdateView(UpdateView):
             for index, question_id in enumerate(ordered_list_ids):
                 question = get_object_or_404(Question, id=question_id)
 
-                question_activity = QuestionActivity.objects.update_or_create(
-                    activity=self.object, question=question, defaults={'order': index + 1})
+                if question.is_active:
 
-                if question not in activity_default_questions:
-                    question.use_count += 1
+                    question_activity = QuestionActivity.objects.update_or_create(
+                        activity=self.object, question=question, defaults={'order': index + 1})
 
-                question.save()
-                question_activity.save()
+                    if question not in activity_default_questions:
+                        question.use_count += 1
+
+                    question.save()
+                    question_activity.save()
+                else:
+                    messages.error(
+                        self.request, 'Você está tentando manipular uma questão que não existe mais')
+                    return self.form_invalid(form)
 
             return redirect(self.get_success_url())
 
