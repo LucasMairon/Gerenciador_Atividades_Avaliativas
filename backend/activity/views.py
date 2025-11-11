@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from django.contrib import messages
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, UpdateView, View
 from question.models import Question
 from django.shortcuts import get_object_or_404, redirect
 from django_weasyprint.views import WeasyTemplateView
@@ -149,7 +149,7 @@ class ActivityUpdateView(UpdateView):
 
             messages.success(
                 self.request, 'Atividade avaliativa editada com sucesso')
-            return redirect(self.get_success_url())
+            return super().form_valid(form)
 
         else:
             messages.error(
