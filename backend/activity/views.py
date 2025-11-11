@@ -130,7 +130,7 @@ class ActivityUpdateView(UpdateView):
     def form_valid(self, form):
         activity_default_questions = self.object.questions.all()
 
-        list_of_ids = self.request.POST.get('questions_id')
+        list_of_ids = self.request.POST.get('questions_ids')
 
         if list_of_ids:
             ordered_list_ids = list_of_ids.split(',')

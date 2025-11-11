@@ -188,6 +188,7 @@
             initAvailableList();
             initSelectedList();
             checkPlaceholders();
+            updateHiddenInput();
         });
 
         document.body.addEventListener("htmx:afterSwap", function (event) {
