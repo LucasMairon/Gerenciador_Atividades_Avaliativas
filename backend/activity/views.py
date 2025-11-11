@@ -112,7 +112,7 @@ class ActivityUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         activity = self.get_object()
         questions_queryset = Question.objects.filter(Q(visibility=True) | Q(
-            owner=self.request.user)).order_by('-updated_at', '-created_at')
+            owner=self.request.user)).filter(is_active=True).order_by('-updated_at', '-created_at')
 
         available_questions = questions_queryset.exclude(
             id__in=activity.questions.all())
@@ -138,21 +138,14 @@ class ActivityUpdateView(UpdateView):
 
             for index, question_id in enumerate(ordered_list_ids):
                 question = get_object_or_404(Question, id=question_id)
+                question_activity = QuestionActivity.objects.create(
+                    activity=self.object, question=question, order=index + 1)
 
-                if question.is_active:
+                if question.id not in actual_questions_ids:
+                    question.use_count += 1
+                    question.save(update_fields=['use_count'])
 
-                    question_activity = QuestionActivity.objects.create(
-                        activity=self.object, question=question, order=index + 1)
-
-                    if question.id not in actual_questions_ids:
-                        question.use_count += 1
-                        question.save(update_fields=['use_count'])
-
-                    question_activity.save()
-                else:
-                    messages.error(
-                        self.request, 'Você está tentando manipular uma questão que não existe mais')
-                    return self.form_invalid(form)
+                question_activity.save()
 
             messages.success(
                 self.request, 'Atividade avaliativa editada com sucesso')
