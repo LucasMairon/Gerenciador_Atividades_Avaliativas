@@ -128,8 +128,9 @@ class ActivityUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        activity_default_questions = self.object.questions.all()
-
+        actual_questions_ids = set(
+            self.object.questionactivity_set.values_list('question_id', flat=True))
+        self.object.questionactivity_set.all().delete()
         list_of_ids = self.request.POST.get('questions_ids')
 
         if list_of_ids:
@@ -140,13 +141,13 @@ class ActivityUpdateView(UpdateView):
 
                 if question.is_active:
 
-                    question_activity = QuestionActivity.objects.update_or_create(
-                        activity=self.object, question=question, defaults={'order': index + 1})
+                    question_activity = QuestionActivity.objects.create(
+                        activity=self.object, question=question, order=index + 1)
 
-                    if question not in activity_default_questions:
+                    if question.id not in actual_questions_ids:
                         question.use_count += 1
+                        question.save(update_fields=['use_count'])
 
-                    question.save()
                     question_activity.save()
                 else:
                     messages.error(
