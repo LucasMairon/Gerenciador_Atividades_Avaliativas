@@ -10,4 +10,6 @@ urlpatterns = [
     path('update/<uuid:pk>/', views.ActivityUpdateView.as_view(), name='update'),
     path('preview/<uuid:pk>/',
          views.ActivityPDFPreviewView.as_view(), name='preview'),
+    path('shuffle/<uuid:pk>/<str:target>/',
+         views.ActivityShuffleView.as_view(), name='shuffle')
 ]
