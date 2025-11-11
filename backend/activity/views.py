@@ -7,11 +7,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django_weasyprint.views import WeasyTemplateView
 from django.db.models import Q
 from django.http import HttpResponse
+from alternative.models import Alternative
 from .utils import get_question_activity_filter
 from core.utils import is_htmx_request
 from .forms import ActivityForm
 from .models import Activity, QuestionActivity
 from .filters import ActivityFilterSet
+import random
 
 
 class ActivityListView(FilterView):
@@ -185,3 +187,37 @@ class ActivityPDFPreviewView(WeasyTemplateView):
     def get_pdf_filename(self):
         activity = self.get_object(id=self.kwargs.get('pk'))
         return f'{activity.name}-unidade_{activity.unit}-{activity.period}'
+
+
+class ActivityShuffleView(View):
+    success_url = reverse_lazy('activity:list')
+
+    def post(self, *args, **kwargs):
+        pk = kwargs.get('pk')
+        target = kwargs.get('target')
+        activity = get_object_or_404(Activity, id=pk)
+
+        questions = activity.questions.all()
+
+        if target == 'questions':
+            pass
+        elif target == 'alternatives':
+            for question in questions:
+                if question.type == 'O':
+                    alternatives = question.objectivequestion.alternatives.all()
+
+                    alternative_orders_list = [
+                        alt.order for alt in alternatives]
+
+                    random.shuffle(alternative_orders_list)
+
+                    modified_alternatives = []
+
+                    for index, alternative in enumerate(alternatives):
+                        alternative.order = alternative_orders_list[index]
+                        modified_alternatives.append(alternative)
+
+                    Alternative.objects.bulk_update(
+                        modified_alternatives, ['order'])
+
+        return redirect(self.success_url)

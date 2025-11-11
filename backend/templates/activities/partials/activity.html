@@ -32,7 +32,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Ordem das questões</a></li>
-                    <li><a class="dropdown-item" href="#">Ordem das alternativas</a></li>
+                    <li><a class="dropdown-item" hx-post="{% url "activity:shuffle" pk=activity.id target='alternatives' %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap='outerHTML' hx-target="#activity-card-{{ activity.id }}">Ordem das alternativas</a></li>
                 </ul>
             </div>
 
