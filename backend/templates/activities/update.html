@@ -79,7 +79,7 @@
                     </div>
                     
                     <div id="available-questions-wrapper" class="card-body question-list-container p-3" style="min-height: 400px; max-height: 600px; overflow-y: auto;">
-                        {% include "activities/partials/available_questions_list.html" %}
+                        {% include "activities/partials/available_questions_list.html" with questions=questions %}
                     </div>
 
                 </div>
@@ -92,7 +92,9 @@
                     </div>
                     
                     <div id="selected-questions" class="card-body question-list-container list-group question-list-group p-3" style="min-height: 400px; max-height: 600px; overflow-y: auto;">
-                        
+                        {% for question in actual_questions %}
+                            {% include "activities/partials/question_card.html" with question=question %}
+                        {% endfor %}
                         <div id="empty-selected-placeholder" class="text-center text-muted p-5 h-100 d-flex align-items-center justify-content-center">
                             <span>Arraste as questões para cá!</span>
                         </div>
