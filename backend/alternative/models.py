@@ -43,3 +43,4 @@ class Alternative(models.Model):
     class Meta:
         verbose_name = 'Alternativa'
         verbose_name_plural = 'Alternativas'
+        ordering = ['order']
