@@ -4,7 +4,7 @@ from django.db.models import Q
 
 
 def get_question_activity_filter(owner, request, queryset):
-    if queryset:
+    if queryset is not None:
         questions_queryset = queryset
     else:
         questions_queryset = Question.objects.filter(
