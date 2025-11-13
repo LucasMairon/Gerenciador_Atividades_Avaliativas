@@ -8,6 +8,7 @@ from django_weasyprint.views import WeasyTemplateView
 from django.db.models import Q
 from django.http import HttpResponse
 from alternative.models import Alternative
+from django.db import transaction
 from .utils import get_question_activity_filter
 from core.utils import is_htmx_request
 from .forms import ActivityForm
@@ -190,7 +191,6 @@ class ActivityPDFPreviewView(WeasyTemplateView):
 
 
 class ActivityShuffleView(View):
-    success_url = reverse_lazy('activity:list')
 
     def post(self, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -199,8 +199,32 @@ class ActivityShuffleView(View):
 
         questions = activity.questions.all()
 
+        TEMP_OFFSET = 100
+
         if target == 'questions':
-            pass
+            with transaction.atomic():
+                questions_activity = activity.questionactivity_set.all()
+                questions_activity_orders_list = [
+                    question_activity.order for question_activity in questions_activity]
+
+                random.shuffle(questions_activity_orders_list)
+
+                temp_modified_questions_activity = []
+                for index, question_activity in enumerate(questions_activity):
+                    question_activity.order = TEMP_OFFSET + question_activity.order
+                    temp_modified_questions_activity.append(question_activity)
+
+                QuestionActivity.objects.bulk_update(
+                    temp_modified_questions_activity, ['order'])
+
+                modified_questions_activity = []
+                for index, question_activity in enumerate(questions_activity):
+                    question_activity.order = questions_activity_orders_list[index]
+                    modified_questions_activity.append(question_activity)
+
+                QuestionActivity.objects.bulk_update(
+                    modified_questions_activity, ['order'])
+
         elif target == 'alternatives':
             for question in questions:
                 if question.type == 'O':
@@ -220,4 +244,4 @@ class ActivityShuffleView(View):
                     Alternative.objects.bulk_update(
                         modified_alternatives, ['order'])
 
-        return redirect(self.success_url)
+        return redirect('activities/partials/activity.html')
