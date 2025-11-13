@@ -30,16 +30,18 @@
             </li>
         {% endif %}
         
-        <li class="page-item active">
-            <a class="page-link" 
-               href="?{% add_param_to_url page=page_obj.number %}"
-               hx-get="?{% add_param_to_url page=page_obj.number %}"
-               hx-target={{id_target}}
-               hx-swap="outerHTML"
-               hx-push-url="true">
-               {{page_obj.number}}
-            </a>
-        </li>
+        {% if page.num_pages > 1 %}
+            <li class="page-item active">
+                <a class="page-link" 
+                href="?{% add_param_to_url page=page_obj.number %}"
+                hx-get="?{% add_param_to_url page=page_obj.number %}"
+                hx-target={{id_target}}
+                hx-swap="outerHTML"
+                hx-push-url="true">
+                {{page_obj.number}}
+                </a>
+            </li>
+        {% endif %}
 
         {% if page_obj.has_next %}
             <li class="page-item">
