@@ -31,8 +31,13 @@
                     <i class="bi bi-shuffle me-1"></i> Embaralhar
                 </button>
                 <ul class="dropdown-menu">
+<<<<<<< HEAD
                     <li><a class="dropdown-item" href="#">Ordem das questões</a></li>
                     <li><a class="dropdown-item" href="#" hx-post="{% url 'activity:shuffle' pk=activity.id target='alternatives' %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap='outerHTML' hx-target="#activity-card-{{ activity.id }}">Ordem das alternativas</a></li>
+=======
+                    <li><a class="dropdown-item" hx-post="{% url "activity:shuffle" pk=activity.id target='questions' %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap='outerHTML' hx-target="#activity-card-{{ activity.id }}">Ordem das questões</a></li>
+                    <li><a class="dropdown-item" hx-post="{% url "activity:shuffle" pk=activity.id target='alternatives' %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap='outerHTML' hx-target="#activity-card-{{ activity.id }}">Ordem das alternativas</a></li>
+>>>>>>> fc0f34c (feat: adding url to question shuffle)
                 </ul>
             </div>
 
