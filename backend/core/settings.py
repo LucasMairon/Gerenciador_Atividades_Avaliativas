@@ -188,6 +188,7 @@ SUMMERNOTE_CONFIG = {
     'summernote': {
         'placeholder': 'Digite o enunciado da questão...',
         'width': '100%',
+        'height': '280px',
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline',
@@ -197,7 +198,7 @@ SUMMERNOTE_CONFIG = {
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph', 'lineHeight', 'height']],
             ['table', ['table']],
-            ['insert', ['picture', 'hr']],
+            ['insert', ['picture', 'hr', 'math']],
             ['view', ['fullscreen', 'codeview', 'help', 'undo']],
         ]
     }
