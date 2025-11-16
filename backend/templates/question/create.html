@@ -2,6 +2,7 @@
 {% load question_template_utils %}
     {% block extra_head_infos %}
     {{form.media.css}}
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
     {% endblock extra_head_infos %}
     
     {% block title %}Criar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva {% endif %} {% endblock title %}
