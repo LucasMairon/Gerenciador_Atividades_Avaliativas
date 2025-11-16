@@ -11,5 +11,7 @@ urlpatterns = [
     path('preview/<uuid:pk>/',
          views.ActivityPDFPreviewView.as_view(), name='preview'),
     path('shuffle/<uuid:pk>/<str:target>/',
-         views.ActivityShuffleView.as_view(), name='shuffle')
+         views.ActivityShuffleView.as_view(), name='shuffle'),
+    path('export/<uuid:pk>/<str:format>/',
+         views.ActivityExportView.as_view(), name='export')
 ]

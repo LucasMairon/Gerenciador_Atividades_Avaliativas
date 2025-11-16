@@ -9,12 +9,17 @@ from django.db.models import Q
 from django.http import HttpResponse
 from alternative.models import Alternative
 from django.db import transaction
+from django.template.loader import render_to_string
 from .utils import get_question_activity_filter
 from core.utils import is_htmx_request
 from .forms import ActivityForm
 from .models import Activity, QuestionActivity
 from .filters import ActivityFilterSet
 import random
+import weasyprint
+import pypandoc
+import tempfile
+import os
 
 
 class ActivityListView(FilterView):
@@ -245,3 +250,97 @@ class ActivityShuffleView(View):
                         modified_alternatives, ['order'])
 
         return redirect('activities/partials/activity.html')
+
+
+class ActivityExportView(View):
+
+    def get_general_content(self, pk):
+        self.object = get_object_or_404(Activity, id=pk)
+
+        questions_activity = self.object.questionactivity_set.all()
+
+        questions = []
+        for question in questions_activity:
+            questions.append(question.question)
+
+        return {
+            'activity': self.object,
+            'questions': questions
+        }
+
+    def fix_template_links(self, html_string):
+        base_url = self.request.build_absolute_uri('/')[:-1]
+
+        return html_string.replace(
+            'src="/static/', f'src="{base_url}/static/'
+        ).replace(
+            'src="/media/', f'src="{base_url}/media/'
+        ).replace(
+            'src="../static/', f'src="{base_url}/static/'
+        )
+
+    def generate_pdf_to_export(self, html_string, filename):
+        base_url = self.request.build_absolute_uri('/')
+        pdf_file = weasyprint.HTML(
+            string=html_string, base_url=base_url).write_pdf()
+
+        response = HttpResponse(
+            pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename={filename}'
+        return response
+
+    def generate_latex_to_export(self, html_string, filename):
+        html_string = self.fix_template_links(html_string)
+        latex_file = pypandoc.convert_text(
+            html_string,
+            'tex',
+            format='html',
+        )
+
+        response = HttpResponse(
+            latex_file, content_type='text/plain')
+        response['Content-Disposition'] = f'attachment; filename={filename}.tex'
+        return response
+
+    def generate_docx_to_export(self, html_string, filename):
+        html_string = self.fix_template_links(html_string)
+
+        temp_docx_file = tempfile.NamedTemporaryFile(
+            suffix='.docx', delete=False)
+        temp_file_path = temp_docx_file.name
+        temp_docx_file.close()
+
+        pypandoc.convert_text(
+            html_string,
+            'docx',
+            'html',
+            outputfile=temp_file_path
+        )
+
+        with open(temp_file_path, 'rb') as f:
+            docx_bytes = f.read()
+
+        os.remove(temp_file_path)
+
+        response = HttpResponse(
+            docx_bytes, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename={filename}.docx'
+        return response
+
+    def get(self, request, pk, format, *args, **kwargs):
+        context = self.get_general_content(pk)
+
+        html_string = render_to_string(
+            'activities/pdf_preview/detail_pdf.html',
+            context,
+            request=self.request
+        )
+        activity = context['activity']
+        filename = f'{activity.name}-unidade_{activity.unit}-{activity.period}'
+
+        if format == 'pdf':
+            return self.generate_pdf_to_export(html_string, filename)
+        elif format == 'latex':
+            return self.generate_latex_to_export(html_string, filename)
+        elif format == 'docx':
+            return self.generate_docx_to_export(html_string, filename)
