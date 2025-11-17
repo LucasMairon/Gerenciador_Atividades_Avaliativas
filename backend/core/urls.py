@@ -8,7 +8,8 @@ urlpatterns = [
     path("question/", include('question.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('activity/', include('activity.urls')),
-    path('discipline/', include('discipline.urls'))
+    path('discipline/', include('discipline.urls')),
+    path('', include('user.urls'))
 ]
 
 if settings.DEBUG:
