@@ -206,3 +206,8 @@ SUMMERNOTE_CONFIG = {
 
 # Custom user configuration
 AUTH_USER_MODEL = 'user.User'
+
+# Login configuration
+LOGIN_URL = 'user:login'
+
+LOGIN_REDIRECT_URL = 'question:list'
