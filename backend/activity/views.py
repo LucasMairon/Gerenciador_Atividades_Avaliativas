@@ -10,8 +10,10 @@ from django.http import HttpResponse
 from alternative.models import Alternative
 from django.db import transaction
 from django.template.loader import render_to_string
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .utils import get_question_activity_filter
 from core.utils import is_htmx_request
+from .mixins import ActivityOwnerCheckMixin
 from .forms import ActivityForm
 from .models import Activity, QuestionActivity
 from .filters import ActivityFilterSet
@@ -22,7 +24,7 @@ import tempfile
 import os
 
 
-class ActivityListView(FilterView):
+class ActivityListView(LoginRequiredMixin, FilterView):
     template_name = 'activities/list.html'
     filterset_class = ActivityFilterSet
     context_object_name = 'activities'
@@ -40,7 +42,7 @@ class ActivityListView(FilterView):
         return [self.template_name]
 
 
-class ActivityCreateView(CreateView):
+class ActivityCreateView(LoginRequiredMixin, CreateView):
     model = Activity
     form_class = ActivityForm
     template_name = 'activities/create.html'
@@ -95,7 +97,7 @@ class ActivityCreateView(CreateView):
         return [self.template_name]
 
 
-class ActivityDeleteView(DeleteView):
+class ActivityDeleteView(LoginRequiredMixin, ActivityOwnerCheckMixin, DeleteView):
     model = Activity
     template_name = 'activities/partials/modal_delete.html'
     context_object_name = 'activity'
@@ -109,7 +111,7 @@ class ActivityDeleteView(DeleteView):
         return HttpResponse(status=200)
 
 
-class ActivityUpdateView(UpdateView):
+class ActivityUpdateView(LoginRequiredMixin, ActivityOwnerCheckMixin, UpdateView):
     model = Activity
     template_name = 'activities/update.html'
     context_object_name = 'activity'
@@ -165,7 +167,7 @@ class ActivityUpdateView(UpdateView):
             return self.form_invalid(form)
 
 
-class ActivityPDFPreviewView(WeasyTemplateView):
+class ActivityPDFPreviewView(LoginRequiredMixin, ActivityOwnerCheckMixin, WeasyTemplateView):
     template_name = 'activities/pdf_preview/detail_pdf.html'
     pdf_attachment = False
 
@@ -195,7 +197,7 @@ class ActivityPDFPreviewView(WeasyTemplateView):
         return f'{activity.name}-unidade_{activity.unit}-{activity.period}'
 
 
-class ActivityShuffleView(View):
+class ActivityShuffleView(LoginRequiredMixin, ActivityOwnerCheckMixin, View):
 
     def post(self, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -252,7 +254,7 @@ class ActivityShuffleView(View):
         return redirect('activities/partials/activity.html')
 
 
-class ActivityExportView(View):
+class ActivityExportView(LoginRequiredMixin, ActivityOwnerCheckMixin, View):
 
     def get_general_content(self, pk):
         self.object = get_object_or_404(Activity, id=pk)
