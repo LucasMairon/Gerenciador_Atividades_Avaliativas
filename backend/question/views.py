@@ -17,6 +17,7 @@ from .forms import QuestionAlternativesFormSet
 from .utils import get_question_form_class
 from core.utils import is_htmx_request
 from .filters import QuestionFilterSet
+from .mixins import QuestionOwnerCheckMixin
 
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
@@ -124,7 +125,7 @@ class QuestionListView(LoginRequiredMixin, FilterView):
         return [self.template_name]
 
 
-class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+class QuestionUpdateView(LoginRequiredMixin, QuestionOwnerCheckMixin, UpdateView):
     template_name = 'question/update.html'
     context_object_name = 'question'
     http_method_names = ['get', 'patch', 'post']
@@ -178,7 +179,7 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
             return super().get_template_names()
 
 
-class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+class QuestionDeleteView(LoginRequiredMixin, QuestionOwnerCheckMixin, DeleteView):
     template_name = 'question/partials/modal_delete.html'
     success_url = reverse_lazy('question:list')
     model = Question
