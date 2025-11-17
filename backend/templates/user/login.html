@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,6 +10,15 @@
 <body class="bg-primary">
 
     <main>
+        <form action="{% url "user:login" %}" method="post"> {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            <label for="{{form.username.id_for_label}}">{{form.username.label}}</label>
+            {{form.username}}
+            
+            <label for="{{form.password.id_for_label}}">{{form.password.label}}</label>
+            {{form.password}}
+            <button type="submit">enviar</button>
+        </form>
     </main>
 
     <script src="{% static 'bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
