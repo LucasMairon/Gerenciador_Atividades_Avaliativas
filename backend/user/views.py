@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView
+from .forms import UserLoginForm
 
-# Create your views here.
+
+class UserLoginView(LoginView):
+    authentication_form = UserLoginForm
+    template_name = 'user/login.html'
