@@ -9,20 +9,63 @@
 </head>
 <body class="bg-primary">
 
-    <main>
-        <form action="{% url "user:login" %}" method="post"> {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next }}">
-            <label for="{{form.username.id_for_label}}">{{form.username.label}}</label>
-            {{form.username}}
-            
-            <label for="{{form.password.id_for_label}}">{{form.password.label}}</label>
-            {{form.password}}
-            <button type="submit">enviar</button>
-        </form>
-    </main>
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="col-11 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-body p-4 p-md-5">
+
+                    <h3 class="text-center fw-bold mb-4">Acesse o sistema</h3>
+
+                    <form method="POST" action="{% url "user:login" %}"> {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{form.username.id_for_label}}" class="form-label fw-medium">{{form.username.label}}</label>
+                            <input type="hidden" name="next" value="{{ next }}" required>
+                            {{form.username}}
+                        </div>
+
+                        <div class="mb-5">
+                            <label for="{{form.password.id_for_label}}" class="form-label fw-medium">{{form.password.label}}</label>
+                            <div class="input-group">
+                                {{form.password}}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+
+                            <div class="text-end mt-2">
+                                <a href="#" class="text-primary">
+                                    <small>Esqueceu sua senha?</small>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary fw-bold">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="{% static 'bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'htmx.org/dist/htmx.min.js' %}"></script>
     <script src="{% static 'assets/js/script.js' %}"></script>
+
+    {% block scripts %}
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        const icon = togglePassword.querySelector('i');
+
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            icon.classList.toggle('bi-eye-slash');
+            icon.classList.toggle('bi-eye');
+        });
+    </script>
+    {% endblock scripts %}
+
 </body>
 </html>

@@ -11,9 +11,10 @@ class UserLoginForm(AuthenticationForm):
         validators=[institutional_email_validator],
         widget=forms.EmailInput(
             attrs={
-                'class': 'email_class_here',
-                'id': 'email_id_here',
-                'placeholder': 'email_placeholder_here'
+                'class': 'form-control',
+                'id': 'email',
+                'placeholder': 'institucional@ufersa.edu.br',
+                'required': True
             }
         )
     )
@@ -23,9 +24,10 @@ class UserLoginForm(AuthenticationForm):
         validators=[password_validator],
         widget=forms.PasswordInput(
             attrs={
-                'class': 'password_class_here',
-                'id': 'password_id_here',
-                'placeholder': 'password_placeholder_here'
+                'class': 'form-control',
+                'id': 'password',
+                'placeholder': 'Digite a sua senha',
+                'required': True
             }
         )
     )

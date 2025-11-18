@@ -21800,8 +21800,3 @@ textarea.form-control-lg {
   border-color: #ffffff;
   background-color: rgba(255, 255, 255, 0.1);
 }
-
-.select2-container--bootstrap-5 .select2-results__option--highlighted {
-  background-color: #35467b;
-  color: #ffffff;
-}
