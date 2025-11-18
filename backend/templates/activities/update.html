@@ -2,7 +2,7 @@
 {% block title %}Editar atividade avaliativa{% endblock title %}
 
 {% block content %}
-    <h1 class="h2 mb-4 fw-bold">Editar atividade avaliativa</h1>
+    <h1 class="h2 mb-4 fw-bold">Editar Atividade Avaliativa</h1>
 
     <form class="needs-validation" novalidate method="post" id="activity-form" action="{% url "activity:update" pk=activity.id %}">
         {% csrf_token %}
@@ -39,7 +39,7 @@
 
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body p-4">
-                <h5 class="fw-bold mb-3">Filtrar questões</h5>
+                <h5 class="fw-bold mb-3">Filtrar Questões</h5>
                 
                 <div id="filter-questions-form" 
                       hx-get="{% url "activity:create" %}" 

@@ -7,7 +7,7 @@
     
     {% block title %}Criar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva {% endif %} {% endblock title %}
     {% block content %}
-        <h1 class="h2 mb-4 fw-bold">Criar questão {% if question_type == 'subjective' %}subjetiva {% else %}objetiva {% endif %} </h1>
+        <h1 class="h2 mb-4 fw-bold">Criar Questão {% if question_type == 'subjective' %}Subjetiva {% else %}Objetiva {% endif %} </h1>
 
         <form class="needs-validation" novalidate id="main-form" hx-post="{% url 'question:create' type=question_type %}" hx-swap="outerHTML" hx-indicator=".htmx-indicator"> {% csrf_token %}
             <div class="card border-0 shadow-sm">

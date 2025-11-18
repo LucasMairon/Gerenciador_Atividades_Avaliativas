@@ -7,7 +7,7 @@
 {% endblock extra_head_infos %}
 
 {% block content %}
-        <h1 class="h2 mb-4 fw-bold">Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}</h1>
+        <h1 class="h2 mb-4 fw-bold">Editar Questão {% if question.type == 'S' %}Subjetiva {% elif question.type == 'O' %}Objetiva{% endif %}</h1>
 
         <form class="needs-validation" novalidate id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
 
