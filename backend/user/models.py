@@ -56,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'institutional_email'
     REQUIRED_FIELDS = ['name', 'campus', 'department']
+    EMAIL_FIELD = 'institutional_email'
     objects = CustomUserManagers()
 
     def __str__(self):
