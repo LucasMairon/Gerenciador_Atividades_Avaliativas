@@ -211,3 +211,13 @@ AUTH_USER_MODEL = 'user.User'
 LOGIN_URL = 'user:login'
 
 LOGIN_REDIRECT_URL = 'question:list'
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env_config('EMAIL_HOST')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env_config('EMAIL_HOST_USER')
+
+EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL')
