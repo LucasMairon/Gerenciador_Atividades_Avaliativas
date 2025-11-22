@@ -123,9 +123,8 @@ QuestionAlternativesFormSet = forms.inlineformset_factory(
     parent_model=ObjectiveQuestion,
     model=Alternative,
     form=AlternativeForm,
-    extra=0,
     max_num=5,
-    min_num=4,
+    min_num=5,
     can_delete=False,
 )
 

@@ -34,8 +34,6 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
                     self.request.GET.get('alternatives'), prefix='alternatives')
             else:
                 alternatives = QuestionAlternativesFormSet(self.request.POST)
-            if self.request.GET.get('extra_alternative'):
-                alternatives.extra = 1
             context['alternatives'] = alternatives
 
         context['question_type'] = question_type
