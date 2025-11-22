@@ -24,8 +24,10 @@ plumbum==1.10.0
 ply==3.11
 psycopg2-binary==2.9.10
 pycparser==2.23
+pydyf==0.11.0
 pypandoc==1.16.2
 pypandoc_binary==1.16.2
+pyphen==0.17.2
 python-decouple==3.8
 requirements-parser==0.13.0
 sqlparse==0.5.3
