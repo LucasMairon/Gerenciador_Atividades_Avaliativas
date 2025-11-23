@@ -18,5 +18,5 @@ name_validator = RegexValidator(
 
 password_validator = RegexValidator(
     r"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$)",
-    _('Invalid password. Please ensure you use a password with 8 characters, at least one uppercase letter, at least one lowercase letter, at least one number, and at least one special character')
+    _('Senha incorreta. Verifique se a senha informada segue todos os requisitos de segurança.')
 )

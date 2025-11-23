@@ -13,7 +13,7 @@ class UserLoginForm(AuthenticationForm):
             attrs={
                 'class': 'form-control',
                 'id': 'email',
-                'placeholder': 'institucional@ufersa.edu.br',
+                'placeholder': 'Exemplo@ufersa.edu.br',
                 'required': True
             }
         )
