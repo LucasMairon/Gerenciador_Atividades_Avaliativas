@@ -14,8 +14,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Question, ObjectiveQuestion, SubjectiveQuestion
 from .forms import QuestionAlternativesFormSet
-from .utils import get_question_form_class, is_htmx_request
+from .utils import get_question_form_class
+from core.utils import is_htmx_request
 from .filters import QuestionFilterSet
+from .mixins import QuestionOwnerCheckMixin
 
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
@@ -32,8 +34,6 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
                     self.request.GET.get('alternatives'), prefix='alternatives')
             else:
                 alternatives = QuestionAlternativesFormSet(self.request.POST)
-            if self.request.GET.get('extra_alternative'):
-                alternatives.extra = 1
             context['alternatives'] = alternatives
 
         context['question_type'] = question_type
@@ -112,7 +112,7 @@ class QuestionListView(LoginRequiredMixin, FilterView):
     def get_queryset(self):
         user = self.request.user
         questions = Question.objects.filter(
-            Q(visibility=True) | Q(owner=user)).order_by('-created_at')
+            Q(visibility=True) | Q(owner=user)).filter(is_active=True).order_by('-created_at')
         return questions
 
     def get_template_names(self):
@@ -123,7 +123,7 @@ class QuestionListView(LoginRequiredMixin, FilterView):
         return [self.template_name]
 
 
-class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+class QuestionUpdateView(LoginRequiredMixin, QuestionOwnerCheckMixin, UpdateView):
     template_name = 'question/update.html'
     context_object_name = 'question'
     http_method_names = ['get', 'patch', 'post']
@@ -177,11 +177,19 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
             return super().get_template_names()
 
 
-class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+class QuestionDeleteView(LoginRequiredMixin, QuestionOwnerCheckMixin, DeleteView):
     template_name = 'question/partials/modal_delete.html'
     success_url = reverse_lazy('question:list')
     model = Question
     context_object_name = 'question'
+
+    def form_valid(self, form):
+        if self.object.activities.all():
+            self.object.is_active = False
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return super().form_valid(form)
 
 
 class QuestionDetailView(LoginRequiredMixin, DetailView):

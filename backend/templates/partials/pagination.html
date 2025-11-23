@@ -1,4 +1,4 @@
-{% load question_template_utils %}
+{% load base_template_utils %}
 
 <nav aria-label="Páginação" class="d-flex justify-content-center mt-4">
     <ul class="pagination justify-content-center shadow-sm">
@@ -9,7 +9,7 @@
                href="?{% add_param_to_url page=page_obj.previous_page_number %}" 
                aria-label="Anterior"
                hx-get="?{% add_param_to_url page=page_obj.previous_page_number %}"
-               hx-target="#question-list-wrapper"
+               hx-target={{id_target}}
                hx-swap="outerHTML"
                hx-push-url="true">
                 <span aria-hidden="true">&laquo;</span>
@@ -22,7 +22,7 @@
                 <a class="page-link" 
                    href="?{% add_param_to_url page=page_obj.previous_page_number %}"
                    hx-get="?{% add_param_to_url page=page_obj.previous_page_number %}"
-                   hx-target="#question-list-wrapper"
+                   hx-target={{id_target}}
                    hx-swap="outerHTML"
                    hx-push-url="true">
                    {{page_obj.previous_page_number}}
@@ -32,12 +32,12 @@
         
         <li class="page-item active">
             <a class="page-link" 
-               href="?{% add_param_to_url page=page_obj.number %}"
-               hx-get="?{% add_param_to_url page=page_obj.number %}"
-               hx-target="#question-list-wrapper"
-               hx-swap="outerHTML"
-               hx-push-url="true">
-               {{page_obj.number}}
+            href="?{% add_param_to_url page=page_obj.number %}"
+            hx-get="?{% add_param_to_url page=page_obj.number %}"
+            hx-target={{id_target}}
+            hx-swap="outerHTML"
+            hx-push-url="true">
+            {{page_obj.number}}
             </a>
         </li>
 
@@ -46,7 +46,7 @@
                 <a class="page-link" 
                    href="?{% add_param_to_url page=page_obj.next_page_number %}"
                    hx-get="?{% add_param_to_url page=page_obj.next_page_number %}"
-                   hx-target="#question-list-wrapper"
+                   hx-target={{id_target}}
                    hx-swap="outerHTML"
                    hx-push-url="true">
                    {{page_obj.next_page_number}}
@@ -54,13 +54,13 @@
             </li>
         {% endif %}
 
-        <li class"page-item">
+        <li class="page-item">
         {% if page_obj.has_next %}
             <a class="page-link" 
                href="?{% add_param_to_url page=page_obj.next_page_number %}" 
                aria-label="Próximo"
                hx-get="?{% add_param_to_url page=page_obj.next_page_number %}"
-               hx-target="#question-list-wrapper"
+               hx-target={{id_target}}
                hx-swap="outerHTML"
                hx-push-url="true">
                 <span aria-hidden="true">&raquo;</span>

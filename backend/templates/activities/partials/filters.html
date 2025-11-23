@@ -1,0 +1,18 @@
+<form  method='GET' hx-get="{% url "activity:list" %}" hx-trigger="change, keyup changed delay:100ms from:input, select" hx-swap="outerHTML" hx-target="#activity-list-wrapper"> {% csrf_token %}
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label for="{{filter.form.discipline.id_for_label}}" class="form-label fw-medium">Disciplina</label>
+            {{filter.form.discipline}}
+        </div>
+        <div class="col-md-4">
+            <label for="{{filter.form.unit.id_for_label}}" class="form-label fw-medium">Unidade</label>
+            {{filter.form.unit}}
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{filter.form.period.id_for_label}}" class="form-label fw-medium">Período</label>
+            {{filter.form.period}}
+        </div>
+    </div>
+</form>

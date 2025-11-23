@@ -3,12 +3,13 @@
 {% block title %}Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}{% endblock title %}<title> subjetiva</title>
 
 {% block extra_head_infos %}
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 {% endblock extra_head_infos %}
 
 {% block content %}
-        <h1 class="h2 mb-4 fw-bold">Editar questão {% if question.type == 'S' %}subjetiva {% elif question.type == 'O' %}objetiva{% endif %}</h1>
+        <h1 class="h2 mb-4 fw-bold">Editar Questão {% if question.type == 'S' %}Subjetiva {% elif question.type == 'O' %}Objetiva{% endif %}</h1>
 
-        <form id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
+        <form class="needs-validation" novalidate id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
 
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
@@ -21,12 +22,18 @@
                                 <label for="{{form.discipline.id_for_label}}" class="form-label fw-semibold">{{form.discipline.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.discipline}}
+                                <div class="invalid-feedback">
+                                    Você deve selecionar uma disciplina.
+                                </div>
                             </div>
 
                             <div class="col-md-2">
                                 <label for="{{form.difficulty_level.id_for_label}}" class="form-label fw-semibold">{{form.difficulty_level.label}} <span
                                         class="text-danger">*</span></label>
                                 {{form.difficulty_level}}
+                                <div class="invalid-feedback">
+                                    Você deve selecionar uma dificuldade.
+                                </div>
                             </div>
 
                             <div class="col-md-3">
@@ -63,6 +70,9 @@
                                     <label for="{{form.expected_answer.id_for_label}}" class="form-label fw-semibold">{{form.expected_answer.label}} <span
                                                 class="text-danger">*</span></label>
                                         {{form.expected_answer}}
+                                        <div class="invalid-feedback">
+                                            Você deve informar a resposta esperada.
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
@@ -71,11 +81,11 @@
                                     </div>
                             </div>
                         {% elif question.type == 'O' %}
-                            <div>
-                                    <label class="form-label fw-semibold">Informe as alternativas e selecione a correta <span
-                                            class="text-danger">*</span></label>
-                                    {% include "question/partials/alternatives_form.html" %}
+                                <div class="form-label fw-semibold d-flex justify-content-between">
+                                    <span>Informe as alternativas <span class="text-danger">*</span></span>
+                                    <span>Selecione somente a correta: <span class="text-danger">*</span></span>
                                 </div>
+                                    {% include "question/partials/alternatives_form.html" %}
                             </div>
 
                             <div class="col-12">

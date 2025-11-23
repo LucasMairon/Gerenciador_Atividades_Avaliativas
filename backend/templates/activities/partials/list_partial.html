@@ -1,0 +1,12 @@
+<div id="activity-list-wrapper">
+    <div class="row">
+        {% for activity in activities %}
+            {% include "activities/partials/activity.html" %}
+        {% empty %}
+            {% include "activities/partials/empty_list.html" %}
+        {% endfor %}
+    </div>
+    {% if activities|length > 0 %}
+        {% include "partials/pagination.html" with id_target="#activity-list-wrapper"%}
+    {% endif %}
+</div>

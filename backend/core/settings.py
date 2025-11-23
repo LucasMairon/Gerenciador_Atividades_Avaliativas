@@ -43,13 +43,17 @@ THRID_PARTY_APPS = [
     'django_filters',
     'django_htmx',
     'django_summernote',
+    'django_tomselect',
+    'django_weasyprint',
 ]
 
 LOCAL_APPS = [
+    'core',
     'alternative',
     'discipline',
     'question',
     'user',
+    'activity',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THRID_PARTY_APPS
@@ -63,6 +67,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_tomselect.middleware.TomSelectMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -77,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django_tomselect.context_processors.tomselect",
             ],
         },
     },
@@ -180,7 +186,9 @@ SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     'lang': 'pt-BR',
     'summernote': {
+        'placeholder': 'Digite o enunciado da questão...',
         'width': '100%',
+        'height': '280px',
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline',
@@ -190,7 +198,7 @@ SUMMERNOTE_CONFIG = {
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph', 'lineHeight', 'height']],
             ['table', ['table']],
-            ['insert', ['picture', 'hr']],
+            ['insert', ['picture', 'hr', 'math']],
             ['view', ['fullscreen', 'codeview', 'help', 'undo']],
         ]
     }
@@ -198,3 +206,18 @@ SUMMERNOTE_CONFIG = {
 
 # Custom user configuration
 AUTH_USER_MODEL = 'user.User'
+
+# Login configuration
+LOGIN_URL = 'user:login'
+
+LOGIN_REDIRECT_URL = 'question:list'
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env_config('EMAIL_HOST')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env_config('EMAIL_HOST_USER')
+
+EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL')

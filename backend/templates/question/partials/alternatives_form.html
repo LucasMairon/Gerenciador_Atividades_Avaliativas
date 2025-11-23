@@ -13,41 +13,11 @@
             <div class="input-group-text">
                 {{alternative.is_correct}}
             </div>
+            <div class="invalid-feedback">
+                Você deve digitar a alternativa.
+            </div>
             
-            {% if forloop.counter == 5 %}
-            <button type="button" class="btn btn-outline-danger" 
-                    title="Remover alternativa"
-                    {% if question %}
-                        hx-get="{% url "question:update" type='objective' pk=question.id %}"
-                    {% else %}
-                        hx-get="{% url 'question:create' type='objective' %}"
-                    {% endif %}
-                    hx-target="#alternativas-container"
-                    hx-swap="outerHTML"
-                    hx-include="#main-form"
-                    hx-indicator="#alternatives-section">
-                <i class="bi bi-trash"></i>
-            </button>
-            {% endif %}
         </div>
     {% endfor %}
-    {% if alternatives|length == 4 %}
-        <button type="button" class="btn btn-outline-secondary mt-2" id="btn-add-alternativa"
-                {% if question %}
-                
-                    hx-get="{% url "question:update" type='objective' pk=question.id %}?extra_alternative=True"
-
-                {% else %}
-
-                    hx-get="{% url 'question:create' type='objective' %}?extra_alternative=True"
-
-                {% endif %}
-                hx-target="#alternativas-container"
-                hx-swap="outerHTML"
-                hx-include="#main-form"
-                hx-indicator="#alternatives-section">
-            <i class="bi bi-plus-lg me-1"></i> Adicionar alternativa
-        </button>
-    {% endif %}
 </div>
 

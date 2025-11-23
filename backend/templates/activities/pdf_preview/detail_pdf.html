@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      body {
+        font-family: Arial;
+        margin: 40px;
+        line-height: 1.6;
+        font-size: 12pt;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        width: 200px;
+        margin-right: 20px;
+      }
+
+      .header-info {
+        text-align: left;
+        flex: 1;
+        line-height: 1.3;
+      }
+
+      .header-info h1,
+      .header-info h2 {
+        margin: 0;
+        font-weight: normal;
+        font-size: 12pt;
+      }
+
+      .header-info h1 {
+        font-weight: bold;
+      }
+
+      .student-info {
+        margin-bottom: 30px;
+        white-space: nowrap;
+      }
+
+      .student-info .line {
+        border-bottom: 1px solid #000000;
+        display: inline-block;
+        width: 60%;
+        margin-left: 10px;
+      }
+
+      .student-info .date-line {
+        border-bottom: 1px solid #000000;
+        display: inline-block;
+        width: 15%;
+        margin-left: 15px;
+      }
+
+      .exam-title {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 40px;
+        font-size: 14pt;
+      }
+
+      .questions ol {
+        padding-left: 20px;
+      }
+
+      .questions li {
+        margin-bottom: 20px;
+      }
+
+      .statement {
+        text-align: justify;
+        margin-bottom: 10px;
+      }
+
+      ol.alternatives {
+        list-style-type: upper-alpha;
+        padding-left: 30px;
+        margin-top: 10px;
+      }
+
+      ol.alternatives li {
+        margin-bottom: 5px;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 2cm;
+        }
+
+        body {
+          margin: 0;
+          line-height: 1.4;
+        }
+
+        .logo {
+          width: 180px;
+        }
+
+        .header-info {
+          line-height: 1.3;
+        }
+
+        .questions > ol > li {
+          page-break-inside: avoid;
+          margin-bottom: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img
+        src="{% static "assets/images/logo_prova.png" %}"
+        alt="Logo UFERSA"
+        class="logo"
+      />
+      <div class="header-info">
+        <h1>Universidade Federal Rural do Semi-Árido</h1>
+        <h2>Centro Multidisciplinar de Pau dos Ferros</h2>
+        <h2>Departamento de Engenharias e Tecnologia</h2>
+        <h2>{{activity.discipline.code}} - {{activity.discipline.name}}</h2>
+        <h2>Docente: {{activity.owner.name|title}}</h2>
+      </div>
+    </div>
+
+    <div class="exam-title">{{activity.name| title}} - Unidade {{activity.unit}}</div>
+
+    <div class="student-info">
+      <strong>Nome:</strong><span class="line"></span> <strong> Data:</strong
+      ><span class="date-line"></span>
+    </div>
+
+    <div class="questions">
+      <ol>
+        {% for question in questions %}
+          <li>
+            <div class="statement">{{question.statement|safe}}</div>
+
+            {% if question.type == 'O' %}
+              <ol class="alternatives">
+                {% for alternative in question.objectivequestion.alternatives.all %}
+                  <li>{{alternative.description}}</li>
+                {% endfor %}
+              </ol>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </body>
+</html>

@@ -23,7 +23,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         blank=True,
         null=True,
-        validators=[validators.personal_email_validator]
+        validators=[validators.personal_email_validator],
+        unique=True
     )
     institutional_email = models.CharField(
         verbose_name=_('Institutional Email'),
@@ -56,6 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'institutional_email'
     REQUIRED_FIELDS = ['name', 'campus', 'department']
+    EMAIL_FIELD = 'institutional_email'
     objects = CustomUserManagers()
 
     def __str__(self):

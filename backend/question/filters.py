@@ -6,7 +6,7 @@ from user.models import User
 
 VISIBILITY_FILTER_CHOICES = (
     (False, 'Privada'),
-    (True, 'Compartilhada')
+    (True, 'Pública')
 )
 
 

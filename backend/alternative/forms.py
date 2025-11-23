@@ -22,7 +22,7 @@ class AlternativeForm(forms.ModelForm):
             'description': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'rows': 1
+                    'required': True
                 }
             ),
             'is_correct': forms.CheckboxInput(

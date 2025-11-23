@@ -1,0 +1,17 @@
+<form hx-post="{% url 'activity:delete' pk=activity.id %}"
+      hx-target="#activity-card-{{ activity.id }}"
+      hx-swap="outerHTML">
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <h5 class="modal-title fw-bold">Deletar Atividade Avaliativa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+    </div>
+    <div class="modal-body">
+        <p>Deseja mesmo deletar a atividade avaliativa? <strong class="text-danger">Esta operação é irreversível!</strong></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirmar</button>
+    </div>
+</form>
