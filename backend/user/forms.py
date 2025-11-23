@@ -41,7 +41,7 @@ class UserPasswordResetForm(PasswordResetForm):
             attrs={
                 'placeholder': 'Exemplo@ufersa.edu.br',
                 'class': 'form-control',
-                'id': 'email_id_here',
+                'id': 'email_reset',
                 'required': True
             }
         )
