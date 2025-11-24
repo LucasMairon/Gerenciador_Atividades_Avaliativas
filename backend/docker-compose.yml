@@ -11,6 +11,19 @@ services:
         - ./dotenv_files/.env
     depends_on:
         - psql
+    
+  nginx: 
+    image: nginx:1.25-alpine
+    restart: always
+    ports:
+        - 8080:80
+    volumes:
+        - .:/app:ro
+        - static_data:/data/web/static:ro
+        - media_data:/data/web/media:ro
+        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+        - web
 
   psql:
     container_name: psql
