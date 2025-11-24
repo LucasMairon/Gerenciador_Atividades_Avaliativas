@@ -5,21 +5,31 @@
 ```bash
 git clone https://github.com/LucasMairon/Gerenciador_Atividades_Avaliativas.git
 ```
-### entre na pasta do projeto
+### Entre na pasta do projeto
 ```bash
 cd backend
 ```
-### crie o ambiente virtual com o seguinte comando
+### Crie o ambiente virtual com o seguinte comando
 ```bash
-python -m venv venv
+python3 -m venv venv
 ```
-### ative seu ambiente virtual(linux)
+### Ative seu ambiente virtual
 ```bash
 source venv/bin/activate
 ```
-## 2. Criando arquivo .env e instalando dependencias
-### va na pasta dotenv_files e duplique o arquivo .env-example, trocando o seu nome por .env
-### substitua as variaveis pelos seus valores reais
+## Instale as dependências
+### Do Back-End
+```bash
+pip install -r requirements.txt
+```
+### Do Front-End
+```bash
+npm install
+```
+
+## 2. Criando arquivo .env
+### Va na pasta dotenv_files e duplique o arquivo .env-example, trocando o seu nome por .env
+### Substitua as variaveis pelos seus valores reais
 ```bash
 # Secret Key configuration
 SECRET_KEY = 'CHANGE_HERE'
@@ -38,13 +48,19 @@ POSTGRES_PASSWORD = 'CHANGE_HERE'
 POSTGRES_HOST = 'localhost'
 POSTGRES_PORT = '5432'
 ```
-### instale as dependencias
+## 3. Prepare o Banco
 ```bash
-pip install -r requirements.txt
+python manage.py migrate
 ```
+
+## 4. Crie um SuperUser
+```bash
+python manage.py createsuperuser
+```
+
 
 ## 3. Execute o programa
 ```bash
 python manage.py runserver
 ```
-### após esse passo deve aparecer um link sobre o seu terminal, essa é a rota raiz e o sistema já está executando corretamente
+### Após esse passo deve aparecer um link sobre o seu terminal, essa é a rota raiz e o sistema já está executando corretamente

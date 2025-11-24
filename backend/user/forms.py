@@ -13,7 +13,7 @@ class UserLoginForm(AuthenticationForm):
             attrs={
                 'class': 'form-control',
                 'id': 'email',
-                'placeholder': 'institucional@ufersa.edu.br',
+                'placeholder': 'Exemplo@ufersa.edu.br',
                 'required': True
             }
         )
@@ -39,9 +39,10 @@ class UserPasswordResetForm(PasswordResetForm):
         label='Email Institucional',
         widget=forms.EmailInput(
             attrs={
-                'placeholder': 'email_placeholder_here',
-                'class': 'email_class_here',
-                'id': 'email_id_here'
+                'placeholder': 'Exemplo@ufersa.edu.br',
+                'class': 'form-control',
+                'id': 'email_reset',
+                'required': True
             }
         )
     )
@@ -53,20 +54,22 @@ class UserSetPasswordForm(SetPasswordForm):
         validators=[password_validator],
         widget=forms.PasswordInput(
             attrs={
-                'placeholder': 'password_placeholder_here',
-                'class': 'password_class_here',
-                'id': 'password_id_here'
+                'class': 'form-control',
+                'id': 'password1',
+                'placeholder': 'D@cente10',
+                'required': True
             }
         )
     )
     new_password2 = forms.CharField(
-        label='Confirmação da nova senha',
+        label='Confirme a Senha',
         validators=[password_validator],
         widget=forms.PasswordInput(
             attrs={
-                'placeholder': 'password2_confirm_placeholder_here',
-                'class': 'password2_confirm_class_here',
-                'id': 'password2_confirm_id_here'
+                'class': 'form-control',
+                'id': 'password2',
+                'placeholder': 'D@cente10',
+                'required': True
             }
         )
     )

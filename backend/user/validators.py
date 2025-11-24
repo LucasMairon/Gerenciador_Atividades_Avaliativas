@@ -8,7 +8,7 @@ personal_email_validator = RegexValidator(
 
 institutional_email_validator = RegexValidator(
     r"(^[\w.%+-]+@(?!gmail\.com|hotmail\.com|outlook\.com|yahoo\.com)[\w.-]+\.[a-zA-Z]{2,}$)",
-    _('Invalid institutional email, make sure you have spelled it correctly')
+    _('Use um email institucional!')
 )
 
 name_validator = RegexValidator(
@@ -18,5 +18,5 @@ name_validator = RegexValidator(
 
 password_validator = RegexValidator(
     r"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$)",
-    _('Invalid password. Please ensure you use a password with 8 characters, at least one uppercase letter, at least one lowercase letter, at least one number, and at least one special character')
+    _('Senha incorreta. Verifique se a senha informada segue todos os requisitos de segurança.')
 )
