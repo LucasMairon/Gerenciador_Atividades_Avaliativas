@@ -1,5 +1,6 @@
 {% load static %}
 {% load nav_tag %}
+{% load base_template_utils %}
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm main-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -30,7 +31,7 @@
             <div class="navbar-nav">
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle me-1"></i> Prof. {{user.name|title}}
+                        <i class="bi bi-person-circle me-1"></i> Prof. {{user.name|get_first_name|title}}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
