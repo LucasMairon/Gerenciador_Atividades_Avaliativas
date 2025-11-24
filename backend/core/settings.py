@@ -27,6 +27,11 @@ ALLOWED_HOSTS = [
     if h.strip()
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    url.strip() for url in env_config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8080').split(',')
+    if url.strip()
+]
+
 
 # Application definition
 
@@ -152,19 +157,15 @@ LOCALE_PATHS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static',),
     os.path.join(BASE_DIR, 'node_modules'),
 ]
-if DEBUG:
-    STATIC_ROOT = BASE_DIR / 'static_files/'
-    MEDIA_ROOT = BASE_DIR / 'media/'
 
-else:
-    STATIC_ROOT = os.path.join(DATA_DIR, 'static')
-    MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
@@ -221,3 +222,8 @@ EMAIL_HOST_USER = env_config('EMAIL_HOST_USER')
 
 EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL')
+
+# Password reset configuration
+PASSWORD_RESET_TIMEOUT = 1800
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
