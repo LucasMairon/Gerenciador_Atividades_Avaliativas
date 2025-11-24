@@ -52,9 +52,10 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
 
-        self.object.save()
+        
         list_of_ids = self.request.POST.get('questions_ids')
         if list_of_ids:
+            self.object.save()
             ordered_list_ids = list_of_ids.split(',')
 
             for index, question_id in enumerate(ordered_list_ids):
