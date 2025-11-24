@@ -185,11 +185,20 @@ MESSAGE_TAGS = {
 SUMMERNOTE_THEME = 'bs4'
 
 SUMMERNOTE_CONFIG = {
+    'css': (
+        '//cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css',
+    ),
+
+    'js': (
+        '//cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js',
+        '//cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js',
+        '//cdn.jsdelivr.net/gh/tylerecouture/summernote-math@master/summernote-math.js',
+    ),
     'lang': 'pt-BR',
     'summernote': {
         'placeholder': 'Digite o enunciado da questão...',
         'width': '100%',
-        'height': '280px',
+        'height': '300px',
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline',
@@ -197,7 +206,7 @@ SUMMERNOTE_CONFIG = {
             ['fontnames', ['fontname']],
             ['fontsize', ['fontsize']],
             ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph', 'lineHeight', 'height']],
+            ['para', ['ul', 'ol', 'paragraph', 'height']],
             ['table', ['table']],
             ['insert', ['picture', 'hr', 'math']],
             ['view', ['fullscreen', 'codeview', 'help', 'undo']],
