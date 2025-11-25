@@ -196,12 +196,23 @@ class QuestionDeleteView(LoginRequiredMixin, QuestionOwnerCheckMixin, DeleteView
     context_object_name = 'question'
 
     def form_valid(self, form):
+        success_url = self.get_success_url()
+        
         if self.object.activities.all():
             self.object.is_active = False
             self.object.save()
-            return redirect(self.get_success_url())
+            messages.success(self.request, 'Questão deletada com sucesso!')
+            response = redirect(success_url)
         else:
-            return super().form_valid(form)
+            messages.success(self.request, 'Questão deletada com sucesso!')
+            response = super().form_valid(form)
+
+        if is_htmx_request(self.request):
+            htmx_response = HttpResponse(status=200)
+            htmx_response['HX-Redirect'] = success_url
+            return htmx_response
+            
+        return response
 
 
 class QuestionDetailView(LoginRequiredMixin, DetailView):
