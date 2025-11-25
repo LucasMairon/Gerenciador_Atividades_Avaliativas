@@ -155,7 +155,7 @@ class QuestionUpdateView(LoginRequiredMixin, QuestionOwnerCheckMixin, UpdateView
         return context
 
     def form_valid(self, form):
-        form.save()
+        self.object = form.save()
         if self.object.type == 'O':
             alternatives = QuestionAlternativesFormSet(
                 self.request.POST, instance=self.object, prefix='alternatives')
@@ -163,13 +163,25 @@ class QuestionUpdateView(LoginRequiredMixin, QuestionOwnerCheckMixin, UpdateView
                 alternatives.save()
             else:
                 return self.form_invalid(form)
-        messages.success(
-            self.request, 'Questão editada com sucesso!')
+        messages.success(self.request, 'Questão editada com sucesso!')
+
+        if is_htmx_request(self.request):
+            response = HttpResponse(status=200)
+            response['HX-Redirect'] = self.get_success_url()
+            return response
         return redirect(self.get_success_url())
+    
+    def form_invalid(self, form):
+        if is_htmx_request(self.request):
+            context = self.get_context_data(form=form)
+            response = self.render_to_response(context)
+            response.status_code = 422 
+            return response
+        return super().form_invalid(form)
 
     def get_template_names(self):
         if self.kwargs.get('type') == 'objective':
-            if is_htmx_request(self.request):
+            if is_htmx_request(self.request) and self.request.htmx.target == 'alternatives-container':
                 return ['question/partials/alternatives_form.html']
             else:
                 return [self.template_name]
