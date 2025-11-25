@@ -206,7 +206,7 @@ SUMMERNOTE_CONFIG = {
             ['fontnames', ['fontname']],
             ['fontsize', ['fontsize']],
             ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph', 'height']],
+            ['para', ['ul', 'ol', 'paragraph', 'lineHeight','height']],
             ['table', ['table']],
             ['insert', ['picture', 'hr', 'math']],
             ['view', ['fullscreen', 'codeview', 'help', 'undo']],
