@@ -21,11 +21,11 @@
             </div>
             <div class="col-md-3">
               <label class="form-label fw-medium">Assunto</label>
-              <input type="text" class="form-control" value="{{question.subject}}" readonly>
+              <input type="text" class="form-control" value="{% if question.subject %}{{question.subject}}{% endif %}" readonly>
             </div>
             <div class="col-md-2">
               <label class="form-label fw-medium">Tópico</label>
-              <input type="text" class="form-control" value="{{question.topic}}" readonly>
+              <input type="text" class="form-control" value="{% if question.topic %}{{question.topic}}{% endif %}" readonly>
             </div>
             
         </div>
@@ -59,7 +59,7 @@
 
         <div>
             <label class="form-label fw-semibold">Objetivo da questão</label>
-            <textarea class="form-control" rows="3" readonly>{{question.objective}}</textarea>
+            <textarea class="form-control" rows="3" readonly>{% if question.objective %}{{question.objective}}{% endif %}</textarea>
         </div>
     {% elif question.type == 'S' %}
         <div class="mb-3">
@@ -68,7 +68,7 @@
         </div>
         <div>
           <label class="form-label fw-semibold">Palavras-chaves esperadas</label>
-          <input type="text" class="form-control" value="{{question.key_answers}}" readonly>
+          <input type="text" class="form-control" value="{% if question.key_answers %}{{question.key_answers}}{% endif %}" readonly>
         </div>
     {% endif %}
 </div>
