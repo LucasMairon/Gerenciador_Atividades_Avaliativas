@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Criar atividade avaliativa{% endblock title %}
 
 {% block content %}
@@ -118,81 +119,5 @@
 
 {% block scripts %}
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-
-    <script>
-        function initAvailableList() {
-            var availableList = document.getElementById("available-questions");
-            if (!availableList) return;
-
-            new Sortable(availableList, {
-                group: "shared-questions",
-                animation: 150,
-                onEnd: function (evt) {
-                    checkPlaceholders();
-                },
-            });
-        }
-
-        function initSelectedList() {
-            var selectedList = document.getElementById("selected-questions");
-            if (!selectedList) return;
-
-            new Sortable(selectedList, {
-                group: "shared-questions",
-                animation: 150,
-                
-                onEnd: function (evt) {
-                    updateHiddenInput();
-                    checkPlaceholders();
-                },
-                onAdd: function (evt) {
-                    updateHiddenInput();
-                    checkPlaceholders();
-                },
-            });
-        }
-
-        function updateHiddenInput() {
-            var selectedList = document.getElementById("selected-questions");
-            var hiddenInput = document.getElementById("questions_ids_input");
-            var questionCards = selectedList.querySelectorAll(".question-card");
-
-            var ids = [];
-            questionCards.forEach(function (card) {
-                ids.push(card.dataset.questionId);
-            });
-            hiddenInput.value = ids.join(",");
-        }
-
-        function checkPlaceholders() {
-            var selectedList = document.getElementById("selected-questions");
-            var emptySelectedPlaceholder = document.getElementById(
-                "empty-selected-placeholder"
-            );
-
-            if (selectedList && emptySelectedPlaceholder) {
-                var selectedItems = selectedList.querySelectorAll(".question-card");
-
-                if (selectedItems.length > 0) {
-                    emptySelectedPlaceholder.classList.add("d-none");
-                } else {
-                    emptySelectedPlaceholder.classList.remove("d-none");
-                    emptySelectedPlaceholder.classList.add("d-flex");
-                }
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            initAvailableList();
-            initSelectedList();
-            checkPlaceholders();
-        });
-
-        document.body.addEventListener("htmx:afterSwap", function (event) {
-            if (event.detail.target.id === "available-questions-wrapper") {
-                initAvailableList();
-                checkPlaceholders();
-            }
-        });
-    </script>
+    <script src="{% static 'assets/js/drag_and_drop.js' %}"></script>
 {% endblock scripts %}

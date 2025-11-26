@@ -19,3 +19,11 @@ def get_message_icon(tag):
         return "bi bi-check-circle-fill"
     elif tag == 'danger':
         return "bi bi-exclamation-triangle-fill"
+
+
+@register.filter
+def get_first_name(value):
+    if not value:
+        return ""
+
+    return value.split(' ')[0]

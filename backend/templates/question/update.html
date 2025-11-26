@@ -9,7 +9,10 @@
 {% block content %}
         <h1 class="h2 mb-4 fw-bold">Editar Questão {% if question.type == 'S' %}Subjetiva {% elif question.type == 'O' %}Objetiva{% endif %}</h1>
 
-        <form class="needs-validation" novalidate id="main-form" method="POST" action="{% url "question:update" type=question_type pk=question.id %}" hx-indicator=".htmx-indicator" > {% csrf_token %}
+        <form class="needs-validation" novalidate id="main-form"
+              hx-post="{% url "question:update" type=question_type pk=question.id %}"
+              hx-swap="outerHTML"
+              hx-indicator=".htmx-indicator"> {% csrf_token %}
 
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
