@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django import forms
 from .models import User
-from .forms import CustomUserCreationAdminForm, CustomUserChangeAdminForm
+from .forms import CustomUserCreationAdminForm, CustomUserChangeAdminForm, CustomPasswordChangeAdminForm
 
 
 @admin.register(User)
@@ -27,6 +27,8 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('name', 'institutional_email', 'campus', 'department', 'password1', 'password2')
         }),
     )
+
+    change_password_form = CustomPasswordChangeAdminForm
 
     list_filter = ['is_superuser']
     search_fields = ('institutional_email', 'name')

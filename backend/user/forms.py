@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, UserCreationForm, UserChangeForm, ReadOnlyPasswordHashField
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, UserCreationForm, UserChangeForm, AdminPasswordChangeForm
 from .models import User
 from .validators import institutional_email_validator, password_validator
 
@@ -21,7 +21,6 @@ class UserLoginForm(AuthenticationForm):
 
     password = forms.CharField(
         label='Senha',
-        validators=[password_validator],
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -91,6 +90,28 @@ class CustomUserCreationAdminForm(UserCreationForm):
 
 
 class CustomUserChangeAdminForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('institutional_email',)
+
+
+class CustomPasswordChangeAdminForm(AdminPasswordChangeForm):
+    password1 = forms.CharField(
+        label='Senha',
+        validators=[password_validator],
+        help_text=('''
+            <p>Sua senha deve conter:</p>
+            <p>Entre 8 e 20 caracteres</p>
+            <p>Uma letra maiuscula</p>
+            <p>Uma letra minuscula</p>
+            <p>Um caracter especial</p>
+            <p>Um número</p>
+        ''')
+    )
+    password2 = forms.CharField(
+        label='Confirme a Senha',
+        validators=[password_validator],
+    )
 
     class Meta:
         model = User
