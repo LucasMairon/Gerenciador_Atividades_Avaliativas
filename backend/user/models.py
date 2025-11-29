@@ -35,7 +35,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(
         verbose_name=_('Password'),
         max_length=255,
-        validators=[validators.password_validator]
     )
     campus = models.CharField(
         verbose_name=_('Campus'),
